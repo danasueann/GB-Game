@@ -2,16 +2,10 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
+            "label": "run make.bat",
             "type": "shell",
-            "command": "..\\..\\..\\..\\gbdk\\bin\\lcc",
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-        },
+            "command": "${workspaceFolder}\\make.bat",
+            "problemMatcher": []
+        }
     ]
 }

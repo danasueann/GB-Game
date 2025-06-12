@@ -24,14 +24,14 @@ AREA .  .ABS.
 		l__HEADER	01EB
 		s__CODE	0200
 		l__HOME	04AF
-		l__CODE	07A7
-		s__HOME	09A7
-		s__BASE	0E56
+		l__CODE	07A8
+		s__HOME	09A8
+		s__BASE	0E57
 		l__BASE	0F8D
-		s__LIT	1DE3
-		s__GSINIT	1DE3
-		s__GSINITTAIL	1E43
-		s__GSFINAL	1E44
+		s__LIT	1DE4
+		s__GSINIT	1DE4
+		s__GSINITTAIL	1E44
+		s__GSFINAL	1E45
 		.OAM	C000
 		s__DATA	C0A0
 		s__BSS	C0B0
@@ -46,37 +46,37 @@ AREA .  .ABS.
 AREA _CODE
 	RADIX HEX
 	BASE 0200
-	SIZE 07A7
+	SIZE 07A8
 	ATTRIB REL CON
 	GLOBALS
 		_main	0200
-		_putchar	0236
-		_setchar	023F
-		_gotoxy	0248
-		_posx	0253
-		_posy	0264
-		.adv_gcurs	0275
-		.circle	0292
-		.horlin	0335
-		.verlin	036D
-		.circplot	03C9
-		.box	0447
-		.line	051D
-		.xonly	063E
-		.yonly	078D
-		.plot	07AE
-		.wrbyte	07CB
-		.getpix	084D
-		.wrtchr	0882
-		_gotogxy	08E6
-		_wrtchr	08F1
-		_getpix	0906
-		_color	0912
-		_circle	0921
-		_box	093B
-		_line	095F
-		_plot_point	0977
-		_plot	098B
+		_putchar	0237
+		_setchar	0240
+		_gotoxy	0249
+		_posx	0254
+		_posy	0265
+		.adv_gcurs	0276
+		.circle	0293
+		.horlin	0336
+		.verlin	036E
+		.circplot	03CA
+		.box	0448
+		.line	051E
+		.xonly	063F
+		.yonly	078E
+		.plot	07AF
+		.wrbyte	07CC
+		.getpix	084E
+		.wrtchr	0883
+		_gotogxy	08E7
+		_wrtchr	08F2
+		_getpix	0907
+		_color	0913
+		_circle	0922
+		_box	093C
+		_line	0960
+		_plot_point	0978
+		_plot	098C
 AREA _HEADER
 	RADIX HEX
 	BASE 0000
@@ -86,134 +86,134 @@ AREA _HEADER
 		_exit	01D2
 AREA _HOME
 	RADIX HEX
-	BASE 09A7
+	BASE 09A8
 	SIZE 04AF
 	ATTRIB REL CON
 	GLOBALS
-		.set_mode	09A7
-		.remove_VBL	09B7
-		.remove_LCD	09BD
-		.remove_TIM	09C3
-		.remove_SIO	09C9
-		.remove_JOY	09CF
-		.add_VBL	09D5
-		.add_LCD	09DB
-		.add_TIM	09E1
-		.add_SIO	09E7
-		.add_JOY	09ED
-		.remove_int	09F3
-		.add_int	0A13
-		.wait_vbl_done	0A2F
-		_wait_vbl_done	0A2F
-		_display_off	0A46
-		.display_off	0A46
-		.serial_IO	0A67
-		_mode	0A96
-		_get_mode	0A9F
-		_enable_interrupts	0AA4
-		_disable_interrupts	0AA6
-		_reset	0AA8
-		.reset	0AA8
-		_set_interrupts	0AAE
-		_remove_VBL	0AB9
-		_remove_LCD	0AC4
-		_remove_TIM	0ACF
-		_remove_SIO	0ADA
-		_remove_JOY	0AE5
-		_add_VBL	0AF0
-		_add_LCD	0AFB
-		_add_TIM	0B06
-		_add_SIO	0B11
-		_add_JOY	0B1C
-		_clock	0B27
-		__printTStates	0B30
-		banked_call	0B31
-		banked_ret	0B4A
-		_printf	0B53
-		_sprintf	0B82
+		.set_mode	09A8
+		.remove_VBL	09B8
+		.remove_LCD	09BE
+		.remove_TIM	09C4
+		.remove_SIO	09CA
+		.remove_JOY	09D0
+		.add_VBL	09D6
+		.add_LCD	09DC
+		.add_TIM	09E2
+		.add_SIO	09E8
+		.add_JOY	09EE
+		.remove_int	09F4
+		.add_int	0A14
+		.wait_vbl_done	0A30
+		_wait_vbl_done	0A30
+		_display_off	0A47
+		.display_off	0A47
+		.serial_IO	0A68
+		_mode	0A97
+		_get_mode	0AA0
+		_enable_interrupts	0AA5
+		_disable_interrupts	0AA7
+		_reset	0AA9
+		.reset	0AA9
+		_set_interrupts	0AAF
+		_remove_VBL	0ABA
+		_remove_LCD	0AC5
+		_remove_TIM	0AD0
+		_remove_SIO	0ADB
+		_remove_JOY	0AE6
+		_add_VBL	0AF1
+		_add_LCD	0AFC
+		_add_TIM	0B07
+		_add_SIO	0B12
+		_add_JOY	0B1D
+		_clock	0B28
+		__printTStates	0B31
+		banked_call	0B32
+		banked_ret	0B4B
+		_printf	0B54
+		_sprintf	0B83
 AREA _BASE
 	RADIX HEX
-	BASE 0E56
+	BASE 0E57
 	SIZE 0F8D
 	ATTRIB REL CON
 	GLOBALS
-		_set_win_data	0E56
-		_set_bkg_data	0E56
-		_set_sprite_data	0EA3
-		.copy_vram	0ED2
-		_get_data	0EE1
-		_set_data	0EE1
-		__modslong	0EF4
-		__divslong	0EF4
-		__mulslong	0EF4
-		__divschar	0EF5
-		__modschar	0F01
-		__divsint	0F0C
-		__modsint	0F1D
-		__divuchar	0F2C
-		__moduchar	0F38
-		__divuint	0F43
-		__moduint	0F54
-		.mod8	0F63
-		.div8	0F63
-		.mod16	0F6B
-		.div16	0F6B
-		.modu8	0FA1
-		.divu8	0FA1
-		.modu16	0FA4
-		.divu16	0FA4
-		font_copy_uncompressed	0FE1
-		font_copy_compressed	1017
-		font_load	106C
-		font_copy_current	10B4
-		font_set	10FC
-		.put_char	1109
-		.out_char	1122
-		.del_char	1129
-		_font_load	1184
-		_font_set	1192
-		_font_init	11A1
-		_cls	11C3
-		.cls	11C3
-		.cr_curs	11F5
-		.adv_curs	120A
-		.tmode	1266
-		.tmode_out	128F
-		_font_load_ibm_fixed	129F
-		_font_ibm_fixed	12A6
-		_font_ibm_fixed_tiles	13A8
-		.gmode	1BA8
-		.vbl	1C0A
-		.lcd	1C15
-		.draw_image	1C22
-		.switch_data	1C2C
-		_switch_data	1C63
-		_draw_image	1C7E
-		.y_table	1C91
-		.init_vram	1DB1
-		.init_wtt	1DBF
-		.init_btt	1DCF
-		.init_tt	1DDD
+		_set_win_data	0E57
+		_set_bkg_data	0E57
+		_set_sprite_data	0EA4
+		.copy_vram	0ED3
+		_get_data	0EE2
+		_set_data	0EE2
+		__modslong	0EF5
+		__divslong	0EF5
+		__mulslong	0EF5
+		__divschar	0EF6
+		__modschar	0F02
+		__divsint	0F0D
+		__modsint	0F1E
+		__divuchar	0F2D
+		__moduchar	0F39
+		__divuint	0F44
+		__moduint	0F55
+		.mod8	0F64
+		.div8	0F64
+		.mod16	0F6C
+		.div16	0F6C
+		.modu8	0FA2
+		.divu8	0FA2
+		.modu16	0FA5
+		.divu16	0FA5
+		font_copy_uncompressed	0FE2
+		font_copy_compressed	1018
+		font_load	106D
+		font_copy_current	10B5
+		font_set	10FD
+		.put_char	110A
+		.out_char	1123
+		.del_char	112A
+		_font_load	1185
+		_font_set	1193
+		_font_init	11A2
+		_cls	11C4
+		.cls	11C4
+		.cr_curs	11F6
+		.adv_curs	120B
+		.tmode	1267
+		.tmode_out	1290
+		_font_load_ibm_fixed	12A0
+		_font_ibm_fixed	12A7
+		_font_ibm_fixed_tiles	13A9
+		.gmode	1BA9
+		.vbl	1C0B
+		.lcd	1C16
+		.draw_image	1C23
+		.switch_data	1C2D
+		_switch_data	1C64
+		_draw_image	1C7F
+		.y_table	1C92
+		.init_vram	1DB2
+		.init_wtt	1DC0
+		.init_btt	1DD0
+		.init_tt	1DDE
 AREA _LIT
 	RADIX HEX
-	BASE 1DE3
+	BASE 1DE4
 	SIZE 0000
 	ATTRIB REL CON
 AREA _GSINIT
 	RADIX HEX
-	BASE 1DE3
+	BASE 1DE4
 	SIZE 0060
 	ATTRIB REL CON
 	GLOBALS
-		gsinit	1DE3
+		gsinit	1DE4
 AREA _GSINITTAIL
 	RADIX HEX
-	BASE 1E43
+	BASE 1E44
 	SIZE 0001
 	ATTRIB REL CON
 AREA _GSFINAL
 	RADIX HEX
-	BASE 1E44
+	BASE 1E45
 	SIZE 0000
 	ATTRIB REL CON
 AREA _DATA
@@ -341,8 +341,8 @@ AREA _SFR
 MODULES
 	FILE c:\gbdk\lib/small/asxxxx/gb/crt0.o
 		NAME Runtime
-	FILE main.o
-		NAME lcc206920
+	FILE build\main.o
+		NAME lcc241160
 LIBRARIES
 	LIBRARY c:\gbdk\lib/small/asxxxx/gb/gb.lib
 		MODULE sfr.o
@@ -372,4 +372,4 @@ USERGLOBALDEF
 	.refresh_OAM=0xFF80
 	.init=0x0000
 
-?ASlink-Warning-Undefined Global init_bkg referenced by module lcc206920
+?ASlink-Warning-Undefined Global init_bkg referenced by module lcc241160

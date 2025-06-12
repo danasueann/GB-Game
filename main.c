@@ -7,7 +7,7 @@ void main()
 {
     // Initialize the Game
     
-    printf("TEST\n");
+    printf("TEST3\n");
     set_bkg_data(0, 1, Test); // Clear background data
 
 
