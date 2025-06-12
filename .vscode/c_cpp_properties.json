@@ -1,0 +1,13 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C:\\gbdk\\include\\gb\\**",
+                "${workspaceFolder}\\..\\..\\..\\..\\gbdk\\include\\gb\\**"
+            ]
+        }
+    ],
+    "version": 4
+}
