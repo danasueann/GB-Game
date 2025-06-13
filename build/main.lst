@@ -1,368 +1,1516 @@
-                              1 ;--------------------------------------------------------
-                              2 ; File Created by SDCC : FreeWare ANSI-C Compiler
-                              3 ; Version 2.2.1 Thu Jun 12 20:45:47 2025
-                              4 
-                              5 ;--------------------------------------------------------
-                              6 	.module lcc241160
-                              7 	
-                              8 ;--------------------------------------------------------
-                              9 ; Public variables in this module
-                             10 ;--------------------------------------------------------
-                             11 	.globl _main
-                             12 	.globl _printf
-                             13 	.globl _set_bkg_data
-                             14 	.globl _Test
-                             15 	.globl _main
-                             16 ;--------------------------------------------------------
-                             17 ; Externals used
-                             18 ;--------------------------------------------------------
-                             19 	.globl _IE_REG
-                             20 	.globl _SVBK_REG
-                             21 	.globl _OCPD_REG
-                             22 	.globl _OCPS_REG
-                             23 	.globl _BCPD_REG
-                             24 	.globl _BCPS_REG
-                             25 	.globl _RP_REG
-                             26 	.globl _HDMA5_REG
-                             27 	.globl _HDMA4_REG
-                             28 	.globl _HDMA3_REG
-                             29 	.globl _HDMA2_REG
-                             30 	.globl _HDMA1_REG
-                             31 	.globl _VBK_REG
-                             32 	.globl _KEY1_REG
-                             33 	.globl _WX_REG
-                             34 	.globl _WY_REG
-                             35 	.globl _OBP1_REG
-                             36 	.globl _OBP0_REG
-                             37 	.globl _BGP_REG
-                             38 	.globl _DMA_REG
-                             39 	.globl _LYC_REG
-                             40 	.globl _LY_REG
-                             41 	.globl _SCX_REG
-                             42 	.globl _SCY_REG
-                             43 	.globl _STAT_REG
-                             44 	.globl _LCDC_REG
-                             45 	.globl _NR52_REG
-                             46 	.globl _NR51_REG
-                             47 	.globl _NR50_REG
-                             48 	.globl _NR44_REG
-                             49 	.globl _NR43_REG
-                             50 	.globl _NR42_REG
-                             51 	.globl _NR41_REG
-                             52 	.globl _NR34_REG
-                             53 	.globl _NR33_REG
-                             54 	.globl _NR32_REG
-                             55 	.globl _NR31_REG
-                             56 	.globl _NR30_REG
-                             57 	.globl _NR24_REG
-                             58 	.globl _NR23_REG
-                             59 	.globl _NR22_REG
-                             60 	.globl _NR21_REG
-                             61 	.globl _NR14_REG
-                             62 	.globl _NR13_REG
-                             63 	.globl _NR12_REG
-                             64 	.globl _NR11_REG
-                             65 	.globl _NR10_REG
-                             66 	.globl _IF_REG
-                             67 	.globl _TAC_REG
-                             68 	.globl _TMA_REG
-                             69 	.globl _TIMA_REG
-                             70 	.globl _DIV_REG
-                             71 	.globl _SC_REG
-                             72 	.globl _SB_REG
-                             73 	.globl _P1_REG
-                             74 	.globl __io_out
-                             75 	.globl __io_in
-                             76 	.globl __io_status
-                             77 	.globl _sys_time
-                             78 	.globl __cpu
-                             79 ;--------------------------------------------------------
-                             80 ; special function registers
-                             81 ;--------------------------------------------------------
-                             82 ;--------------------------------------------------------
-                             83 ; special function bits 
-                             84 ;--------------------------------------------------------
-                             85 ;--------------------------------------------------------
-                             86 ; internal ram data
-                             87 ;--------------------------------------------------------
-                             88 	.area _DATA
-   0000                      89 _Test::
-   0000                      90 	.ds 16
-                             91 ;--------------------------------------------------------
-                             92 ; overlayable items in internal ram 
-                             93 ;--------------------------------------------------------
-                             94 	.area _OVERLAY
-                             95 ;--------------------------------------------------------
-                             96 ; indirectly addressable internal ram data
-                             97 ;--------------------------------------------------------
-                             98 	.area _ISEG
-                             99 ;--------------------------------------------------------
-                            100 ; bit data
-                            101 ;--------------------------------------------------------
-                            102 	.area _BSEG
-                            103 ;--------------------------------------------------------
-                            104 ; external ram data
-                            105 ;--------------------------------------------------------
-                            106 	.area _XSEG
-                            107 ;--------------------------------------------------------
-                            108 ; global & static initialisations
-                            109 ;--------------------------------------------------------
-                            110 	.area _GSINIT
-                            111 	.area _GSFINAL
-                            112 	.area _GSINIT
-                            113 ;	main.c 22
-                            114 ; genAssign (pointer)
-   0000 11 00 00            115 	ld	de,#_Test + 0
-   0003 3E 00               116 	ld	a,#0x00
-   0005 12                  117 	ld	(de),a
-                            118 ; genPlus
-                            119 ; genPlusIncr
-   0006 11 01 00            120 	ld	de,#_Test + 0 + 1
-                            121 ; genAssign (pointer)
-   0009 3E 00               122 	ld	a,#0x00
-   000B 12                  123 	ld	(de),a
-                            124 ; genPlus
-                            125 ; genPlusIncr
-   000C 11 02 00            126 	ld	de,#_Test + 0 + 2
-                            127 ; genAssign (pointer)
-   000F 3E 38               128 	ld	a,#0x38
-   0011 12                  129 	ld	(de),a
-                            130 ; genPlus
-                            131 ; genPlusIncr
-   0012 11 03 00            132 	ld	de,#_Test + 0 + 3
-                            133 ; genAssign (pointer)
-   0015 3E 38               134 	ld	a,#0x38
-   0017 12                  135 	ld	(de),a
-                            136 ; genPlus
-                            137 ; genPlusIncr
-   0018 11 04 00            138 	ld	de,#_Test + 0 + 4
-                            139 ; genAssign (pointer)
-   001B 3E 5C               140 	ld	a,#0x5C
-   001D 12                  141 	ld	(de),a
-                            142 ; genPlus
-                            143 ; genPlusIncr
-   001E 11 05 00            144 	ld	de,#_Test + 0 + 5
-                            145 ; genAssign (pointer)
-   0021 3E 5C               146 	ld	a,#0x5C
-   0023 12                  147 	ld	(de),a
-                            148 ; genPlus
-                            149 ; genPlusIncr
-   0024 11 06 00            150 	ld	de,#_Test + 0 + 6
-                            151 ; genAssign (pointer)
-   0027 3E 7C               152 	ld	a,#0x7C
-   0029 12                  153 	ld	(de),a
-                            154 ; genPlus
-                            155 ; genPlusIncr
-   002A 11 07 00            156 	ld	de,#_Test + 0 + 7
-                            157 ; genAssign (pointer)
-   002D 3E 7C               158 	ld	a,#0x7C
-   002F 12                  159 	ld	(de),a
-                            160 ; genPlus
-                            161 ; genPlusIncr
-   0030 11 08 00            162 	ld	de,#_Test + 0 + 8
-                            163 ; genAssign (pointer)
-   0033 3E 74               164 	ld	a,#0x74
-   0035 12                  165 	ld	(de),a
-                            166 ; genPlus
-                            167 ; genPlusIncr
-   0036 11 09 00            168 	ld	de,#_Test + 0 + 9
-                            169 ; genAssign (pointer)
-   0039 3E 74               170 	ld	a,#0x74
-   003B 12                  171 	ld	(de),a
-                            172 ; genPlus
-                            173 ; genPlusIncr
-   003C 11 0A 00            174 	ld	de,#_Test + 0 + 10
-                            175 ; genAssign (pointer)
-   003F 3E 38               176 	ld	a,#0x38
-   0041 12                  177 	ld	(de),a
-                            178 ; genPlus
-                            179 ; genPlusIncr
-   0042 11 0B 00            180 	ld	de,#_Test + 0 + 11
-                            181 ; genAssign (pointer)
-   0045 3E 38               182 	ld	a,#0x38
-   0047 12                  183 	ld	(de),a
-                            184 ; genPlus
-                            185 ; genPlusIncr
-   0048 11 0C 00            186 	ld	de,#_Test + 0 + 12
-                            187 ; genAssign (pointer)
-   004B 3E 00               188 	ld	a,#0x00
-   004D 12                  189 	ld	(de),a
-                            190 ; genPlus
-                            191 ; genPlusIncr
-   004E 11 0D 00            192 	ld	de,#_Test + 0 + 13
-                            193 ; genAssign (pointer)
-   0051 3E 00               194 	ld	a,#0x00
-   0053 12                  195 	ld	(de),a
-                            196 ; genPlus
-                            197 ; genPlusIncr
-   0054 11 0E 00            198 	ld	de,#_Test + 0 + 14
-                            199 ; genAssign (pointer)
-   0057 3E 00               200 	ld	a,#0x00
-   0059 12                  201 	ld	(de),a
-                            202 ; genPlus
-                            203 ; genPlusIncr
-   005A 11 0F 00            204 	ld	de,#_Test + 0 + 15
-                            205 ; genAssign (pointer)
-   005D 3E 00               206 	ld	a,#0x00
-   005F 12                  207 	ld	(de),a
-                            208 ;--------------------------------------------------------
-                            209 ; Home
-                            210 ;--------------------------------------------------------
-                            211 	.area _HOME
-                            212 	.area _CODE
-                            213 ;--------------------------------------------------------
-                            214 ; code
-                            215 ;--------------------------------------------------------
-                            216 	.area _CODE
-                            217 ;	main.c 6
-                            218 ; genLabel
-                            219 ; genFunction
-                            220 ;	---------------------------------
-                            221 ; Function main
-                            222 ; ---------------------------------
-   0000                     223 ___main_start:
-   0000                     224 _main:
-                            225 	
-                            226 ;	main.c 10
-                            227 ; genIpush
-   0000 21 30 00            228 	ld	hl,#__str_0 + 0
-   0003 E5                  229 	push	hl
-                            230 ; genCall
-   0004 CD 00 00            231 	call	_printf
-   0007 E8 02               232 	lda	sp,2(sp)
-                            233 ;	main.c 11
-                            234 ; genIpush
-   0009 21 00 00            235 	ld	hl,#_Test + 0
-   000C E5                  236 	push	hl
-                            237 ; genIpush
-   000D 3E 01               238 	ld	a,#0x01
-   000F F5                  239 	push	af
-   0010 33                  240 	inc	sp
-                            241 ; genIpush
-   0011 3E 00               242 	ld	a,#0x00
-   0013 F5                  243 	push	af
-   0014 33                  244 	inc	sp
-                            245 ; genCall
-   0015 CD 00 00            246 	call	_set_bkg_data
-   0018 E8 04               247 	lda	sp,4(sp)
-                            248 ;	main.c 15
-                            249 ; genIpush
-   001A 3E 00               250 	ld	a,#0x00
-   001C F5                  251 	push	af
-   001D 33                  252 	inc	sp
-                            253 ; genCall
-   001E CD 00 00            254 	call	init_bkg
-   0021 E8 01               255 	lda	sp,1(sp)
-                            256 ;	main.c 18
-                            257 ; genOr
-                            258 ; AOP_SFR for _LCDC_REG
-                            259 ; Type res[4] = l[4]&r[1]
-                            260 ; Size res[1] = l[1]&r[1]
-   0023 F0 00               261 	ldh	a,(_LCDC_REG+0) ; x
-   0025 F6 01               262 	or	a,#0x01
-   0027 E0 00               263 	ldh	(_LCDC_REG+0),a
-                            264 ;	main.c 19
-                            265 ; genOr
-                            266 ; AOP_SFR for _LCDC_REG
-                            267 ; Type res[4] = l[4]&r[1]
-                            268 ; Size res[1] = l[1]&r[1]
-   0029 F0 00               269 	ldh	a,(_LCDC_REG+0) ; x
-   002B F6 80               270 	or	a,#0x80
-   002D E0 00               271 	ldh	(_LCDC_REG+0),a
-                            272 ; genLabel
-   002F                     273 00101$:
-                            274 ; genEndFunction
-                            275 	
-   002F C9                  276 	ret
-   0030                     277 ___main_end:
-   0030                     278 __str_0:
-   0030 54 45 53 54 33      279 	.ascii "TEST3"
-   0035 0A                  280 	.db 0x0A
-   0036 00                  281 	.db 0x00
-                            282 	.area _CODE
-ASxxxx Assembler V01.75  (GameBoy Z80-like CPU), page 1.
-
-Symbol Table
-
-    _BCPD_REG                          **** GX
-    _BCPS_REG                          **** GX
-    _BGP_REG                           **** GX
-    _DIV_REG                           **** GX
-    _DMA_REG                           **** GX
-    _HDMA1_REG                         **** GX
-    _HDMA2_REG                         **** GX
-    _HDMA3_REG                         **** GX
-    _HDMA4_REG                         **** GX
-    _HDMA5_REG                         **** GX
-    _IE_REG                            **** GX
-    _IF_REG                            **** GX
-    _KEY1_REG                          **** GX
-    _LCDC_REG                          **** GX
-    _LYC_REG                           **** GX
-    _LY_REG                            **** GX
-    _NR10_REG                          **** GX
-    _NR11_REG                          **** GX
-    _NR12_REG                          **** GX
-    _NR13_REG                          **** GX
-    _NR14_REG                          **** GX
-    _NR21_REG                          **** GX
-    _NR22_REG                          **** GX
-    _NR23_REG                          **** GX
-    _NR24_REG                          **** GX
-    _NR30_REG                          **** GX
-    _NR31_REG                          **** GX
-    _NR32_REG                          **** GX
-    _NR33_REG                          **** GX
-    _NR34_REG                          **** GX
-    _NR41_REG                          **** GX
-    _NR42_REG                          **** GX
-    _NR43_REG                          **** GX
-    _NR44_REG                          **** GX
-    _NR50_REG                          **** GX
-    _NR51_REG                          **** GX
-    _NR52_REG                          **** GX
-    _OBP0_REG                          **** GX
-    _OBP1_REG                          **** GX
-    _OCPD_REG                          **** GX
-    _OCPS_REG                          **** GX
-    _P1_REG                            **** GX
-    _RP_REG                            **** GX
-    _SB_REG                            **** GX
-    _SCX_REG                           **** GX
-    _SCY_REG                           **** GX
-    _SC_REG                            **** GX
-    _STAT_REG                          **** GX
-    _SVBK_REG                          **** GX
-    _TAC_REG                           **** GX
-    _TIMA_REG                          **** GX
-    _TMA_REG                           **** GX
-  1 _Test                              0000 GR
-    _VBK_REG                           **** GX
-    _WX_REG                            **** GX
-    _WY_REG                            **** GX
-  0 ___main_end                        0030 R
-  0 ___main_start                      0000 R
-    __cpu                              **** GX
-    __io_in                            **** GX
-    __io_out                           **** GX
-    __io_status                        **** GX
-  0 __str_0                            0030 R
-  0 _main                              0000 GR
-    _printf                            **** GX
-    _set_bkg_data                      **** GX
-    _sys_time                          **** GX
-    init_bkg                           **** GX
-
-ASxxxx Assembler V01.75  (GameBoy Z80-like CPU), page 2.
-
-Area Table
-
-   0 _CODE                              size   37   flags 0
-   1 _DATA                              size   10   flags 0
-   2 _OVERLAY                           size    0   flags 0
-   3 _ISEG                              size    0   flags 0
-   4 _BSEG                              size    0   flags 0
-   5 _XSEG                              size    0   flags 0
-   6 _GSINIT                            size   60   flags 0
-   7 _GSFINAL                           size    0   flags 0
-   8 _HOME                              size    0   flags 0
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module main
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _main
+                                     11 	.globl _get_right_message
+                                     12 	.globl _get_left_message
+                                     13 	.globl _get_down_message
+                                     14 	.globl _get_up_message
+                                     15 	.globl _get_play_message
+                                     16 	.globl _get_feed_message
+                                     17 	.globl _get_pet_name
+                                     18 	.globl _setup_pet_sprite
+                                     19 	.globl _show_selection_menu
+                                     20 	.globl _puts
+                                     21 	.globl _printf
+                                     22 	.globl _set_sprite_data
+                                     23 	.globl _wait_vbl_done
+                                     24 	.globl _joypad
+                                     25 	.globl _selected_pet
+                                     26 	.globl _CatSprite
+                                     27 	.globl _PoodleSprite
+                                     28 ;--------------------------------------------------------
+                                     29 ; special function registers
+                                     30 ;--------------------------------------------------------
+                                     31 ;--------------------------------------------------------
+                                     32 ; ram data
+                                     33 ;--------------------------------------------------------
+                                     34 	.area _DATA
+    00000000                         35 _main_time_counter_20003_376:
+    00000000                         36 	.ds 1
+                                     37 ;--------------------------------------------------------
+                                     38 ; ram data
+                                     39 ;--------------------------------------------------------
+                                     40 	.area _INITIALIZED
+    00000000                         41 _PoodleSprite::
+    00000000                         42 	.ds 96
+    00000060                         43 _CatSprite::
+    00000060                         44 	.ds 144
+    000000F0                         45 _selected_pet::
+    000000F0                         46 	.ds 1
+                                     47 ;--------------------------------------------------------
+                                     48 ; absolute external ram data
+                                     49 ;--------------------------------------------------------
+                                     50 	.area _DABS (ABS)
+                                     51 ;--------------------------------------------------------
+                                     52 ; global & static initialisations
+                                     53 ;--------------------------------------------------------
+                                     54 	.area _HOME
+                                     55 	.area _GSINIT
+                                     56 	.area _GSFINAL
+                                     57 	.area _GSINIT
+                                     58 ;main.c:334: static UBYTE time_counter = 0;
+    00000000 AF               [ 4]   59 	xor	a, a
+    00000001 21r00r00         [12]   60 	ld	hl, #_main_time_counter_20003_376
+    00000004 77               [ 8]   61 	ld	(hl), a
+                                     62 ;--------------------------------------------------------
+                                     63 ; Home
+                                     64 ;--------------------------------------------------------
+                                     65 	.area _HOME
+                                     66 	.area _HOME
+                                     67 ;--------------------------------------------------------
+                                     68 ; code
+                                     69 ;--------------------------------------------------------
+                                     70 	.area _CODE
+                                     71 ;main.c:9: void show_selection_menu()
+                                     72 ;	---------------------------------
+                                     73 ; Function show_selection_menu
+                                     74 ; ---------------------------------
+    00000000                         75 _show_selection_menu::
+                                     76 ;main.c:14: set_sprite_data(0, 6, PoodleSprite);
+    00000000 11r00r00         [12]   77 	ld	de, #_PoodleSprite
+    00000003 D5               [16]   78 	push	de
+    00000004 21 00 06         [12]   79 	ld	hl, #0x600
+    00000007 E5               [16]   80 	push	hl
+    00000008 CDr00r00         [24]   81 	call	_set_sprite_data
+    0000000B E8 04            [16]   82 	add	sp, #4
+                                     83 ;c:\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    0000000D 21r02r00         [12]   84 	ld	hl, #(_shadow_OAM + 2)
+    00000010 36 00            [12]   85 	ld	(hl), #0x00
+    00000012 21r06r00         [12]   86 	ld	hl, #(_shadow_OAM + 6)
+    00000015 36 01            [12]   87 	ld	(hl), #0x01
+    00000017 21r0Ar00         [12]   88 	ld	hl, #(_shadow_OAM + 10)
+    0000001A 36 02            [12]   89 	ld	(hl), #0x02
+    0000001C 21r0Er00         [12]   90 	ld	hl, #(_shadow_OAM + 14)
+    0000001F 36 03            [12]   91 	ld	(hl), #0x03
+    00000021 21r12r00         [12]   92 	ld	hl, #(_shadow_OAM + 18)
+    00000024 36 04            [12]   93 	ld	(hl), #0x04
+    00000026 21r16r00         [12]   94 	ld	hl, #(_shadow_OAM + 22)
+    00000029 36 05            [12]   95 	ld	(hl), #0x05
+                                     96 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000002B 21r00r00         [12]   97 	ld	hl, #_shadow_OAM
+                                     98 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    0000002E 3E 28            [ 8]   99 	ld	a, #0x28
+    00000030 22               [ 8]  100 	ld	(hl+), a
+    00000031 36 30            [12]  101 	ld	(hl), #0x30
+                                    102 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000033 21r04r00         [12]  103 	ld	hl, #(_shadow_OAM + 4)
+                                    104 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000036 3E 28            [ 8]  105 	ld	a, #0x28
+    00000038 22               [ 8]  106 	ld	(hl+), a
+    00000039 36 38            [12]  107 	ld	(hl), #0x38
+                                    108 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000003B 21r08r00         [12]  109 	ld	hl, #(_shadow_OAM + 8)
+                                    110 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    0000003E 3E 30            [ 8]  111 	ld	a, #0x30
+    00000040 22               [ 8]  112 	ld	(hl+), a
+    00000041 36 30            [12]  113 	ld	(hl), #0x30
+                                    114 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000043 21r0Cr00         [12]  115 	ld	hl, #(_shadow_OAM + 12)
+                                    116 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000046 3E 30            [ 8]  117 	ld	a, #0x30
+    00000048 22               [ 8]  118 	ld	(hl+), a
+    00000049 36 38            [12]  119 	ld	(hl), #0x38
+                                    120 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000004B 21r10r00         [12]  121 	ld	hl, #(_shadow_OAM + 16)
+                                    122 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    0000004E 3E 38            [ 8]  123 	ld	a, #0x38
+    00000050 22               [ 8]  124 	ld	(hl+), a
+    00000051 36 30            [12]  125 	ld	(hl), #0x30
+                                    126 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000053 21r14r00         [12]  127 	ld	hl, #(_shadow_OAM + 20)
+                                    128 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000056 3E 38            [ 8]  129 	ld	a, #0x38
+    00000058 22               [ 8]  130 	ld	(hl+), a
+    00000059 36 38            [12]  131 	ld	(hl), #0x38
+                                    132 ;main.c:31: set_sprite_data(6, 9, CatSprite);
+    0000005B 11r60r00         [12]  133 	ld	de, #_CatSprite
+    0000005E D5               [16]  134 	push	de
+    0000005F 21 06 09         [12]  135 	ld	hl, #0x906
+    00000062 E5               [16]  136 	push	hl
+    00000063 CDr00r00         [24]  137 	call	_set_sprite_data
+    00000066 E8 04            [16]  138 	add	sp, #4
+                                    139 ;c:\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000068 21r1Ar00         [12]  140 	ld	hl, #(_shadow_OAM + 26)
+    0000006B 36 06            [12]  141 	ld	(hl), #0x06
+    0000006D 21r1Er00         [12]  142 	ld	hl, #(_shadow_OAM + 30)
+    00000070 36 07            [12]  143 	ld	(hl), #0x07
+    00000072 21r22r00         [12]  144 	ld	hl, #(_shadow_OAM + 34)
+    00000075 36 08            [12]  145 	ld	(hl), #0x08
+    00000077 21r26r00         [12]  146 	ld	hl, #(_shadow_OAM + 38)
+    0000007A 36 09            [12]  147 	ld	(hl), #0x09
+    0000007C 21r2Ar00         [12]  148 	ld	hl, #(_shadow_OAM + 42)
+    0000007F 36 0A            [12]  149 	ld	(hl), #0x0a
+    00000081 21r2Er00         [12]  150 	ld	hl, #(_shadow_OAM + 46)
+    00000084 36 0B            [12]  151 	ld	(hl), #0x0b
+    00000086 21r32r00         [12]  152 	ld	hl, #(_shadow_OAM + 50)
+    00000089 36 0C            [12]  153 	ld	(hl), #0x0c
+    0000008B 21r36r00         [12]  154 	ld	hl, #(_shadow_OAM + 54)
+    0000008E 36 0D            [12]  155 	ld	(hl), #0x0d
+    00000090 21r3Ar00         [12]  156 	ld	hl, #(_shadow_OAM + 58)
+    00000093 36 0E            [12]  157 	ld	(hl), #0x0e
+                                    158 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000095 21r18r00         [12]  159 	ld	hl, #(_shadow_OAM + 24)
+                                    160 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000098 3E 24            [ 8]  161 	ld	a, #0x24
+    0000009A 22               [ 8]  162 	ld	(hl+), a
+    0000009B 36 60            [12]  163 	ld	(hl), #0x60
+                                    164 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000009D 21r1Cr00         [12]  165 	ld	hl, #(_shadow_OAM + 28)
+                                    166 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000000A0 3E 24            [ 8]  167 	ld	a, #0x24
+    000000A2 22               [ 8]  168 	ld	(hl+), a
+    000000A3 36 68            [12]  169 	ld	(hl), #0x68
+                                    170 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000000A5 21r20r00         [12]  171 	ld	hl, #(_shadow_OAM + 32)
+                                    172 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000000A8 3E 24            [ 8]  173 	ld	a, #0x24
+    000000AA 22               [ 8]  174 	ld	(hl+), a
+    000000AB 36 70            [12]  175 	ld	(hl), #0x70
+                                    176 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000000AD 21r24r00         [12]  177 	ld	hl, #(_shadow_OAM + 36)
+                                    178 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000000B0 3E 2C            [ 8]  179 	ld	a, #0x2c
+    000000B2 22               [ 8]  180 	ld	(hl+), a
+    000000B3 36 60            [12]  181 	ld	(hl), #0x60
+                                    182 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000000B5 21r28r00         [12]  183 	ld	hl, #(_shadow_OAM + 40)
+                                    184 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000000B8 3E 2C            [ 8]  185 	ld	a, #0x2c
+    000000BA 22               [ 8]  186 	ld	(hl+), a
+    000000BB 36 68            [12]  187 	ld	(hl), #0x68
+                                    188 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000000BD 21r2Cr00         [12]  189 	ld	hl, #(_shadow_OAM + 44)
+                                    190 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000000C0 3E 2C            [ 8]  191 	ld	a, #0x2c
+    000000C2 22               [ 8]  192 	ld	(hl+), a
+    000000C3 36 70            [12]  193 	ld	(hl), #0x70
+                                    194 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000000C5 21r30r00         [12]  195 	ld	hl, #(_shadow_OAM + 48)
+                                    196 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000000C8 3E 34            [ 8]  197 	ld	a, #0x34
+    000000CA 22               [ 8]  198 	ld	(hl+), a
+    000000CB 36 60            [12]  199 	ld	(hl), #0x60
+                                    200 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000000CD 21r34r00         [12]  201 	ld	hl, #(_shadow_OAM + 52)
+                                    202 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000000D0 3E 34            [ 8]  203 	ld	a, #0x34
+    000000D2 22               [ 8]  204 	ld	(hl+), a
+    000000D3 36 68            [12]  205 	ld	(hl), #0x68
+                                    206 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000000D5 21r38r00         [12]  207 	ld	hl, #(_shadow_OAM + 56)
+                                    208 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000000D8 3E 34            [ 8]  209 	ld	a, #0x34
+    000000DA 22               [ 8]  210 	ld	(hl+), a
+    000000DB 36 70            [12]  211 	ld	(hl), #0x70
+                                    212 ;main.c:53: SHOW_SPRITES;
+    000000DD F0r00            [12]  213 	ldh	a, (_LCDC_REG + 0)
+    000000DF F6 02            [ 8]  214 	or	a, #0x02
+    000000E1 E0r00            [12]  215 	ldh	(_LCDC_REG + 0), a
+                                    216 ;main.c:55: cls();
+    000000E3 CDr00r00         [24]  217 	call	_cls
+                                    218 ;main.c:61: printf("Press A or B\n to select!\n");
+    000000E6 11rECr00         [12]  219 	ld	de, #___str_15
+                                    220 ;main.c:62: }
+    000000E9 C3r00r00         [16]  221 	jp	_puts
+    000000EC                        222 ___str_15:
+    000000EC 0A                     223 	.db 0x0a
+    000000ED 3D 3D 20 50 45 54 20   224 	.ascii "== PET SELECTION =="
+             53 45 4C 45 43 54 49
+             4F 4E 20 3D 3D
+    00000100 0A                     225 	.db 0x0a
+    00000101 0A                     226 	.db 0x0a
+    00000102 0A                     227 	.db 0x0a
+    00000103 0A                     228 	.db 0x0a
+    00000104 0A                     229 	.db 0x0a
+    00000105 0A                     230 	.db 0x0a
+    00000106 0A                     231 	.db 0x0a
+    00000107 0A                     232 	.db 0x0a
+    00000108 20 20 20 50 4F 4F 44   233 	.ascii "   POODLE      CAT"
+             4C 45 20 20 20 20 20
+             20 43 41 54
+    0000011A 0A                     234 	.db 0x0a
+    0000011B 0A                     235 	.db 0x0a
+    0000011C 50 72 65 73 73 20 41   236 	.ascii "Press A or B"
+             20 6F 72 20 42
+    00000128 0A                     237 	.db 0x0a
+    00000129 20 74 6F 20 73 65 6C   238 	.ascii " to select!"
+             65 63 74 21
+    00000134 00                     239 	.db 0x00
+                                    240 ;main.c:64: void setup_pet_sprite()
+                                    241 ;	---------------------------------
+                                    242 ; Function setup_pet_sprite
+                                    243 ; ---------------------------------
+    00000135                        244 _setup_pet_sprite::
+                                    245 ;main.c:67: for (UBYTE i = 0; i < 15; i++)
+    00000135 0E 00            [ 8]  246 	ld	c, #0x00
+    00000137                        247 00137$:
+    00000137 79               [ 4]  248 	ld	a, c
+    00000138 D6 0F            [ 8]  249 	sub	a, #0x0f
+    0000013A 30 0F            [12]  250 	jr	NC, 00101$
+                                    251 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000013C 11r00r00         [12]  252 	ld	de, #_shadow_OAM+0
+    0000013F 69               [ 4]  253 	ld	l, c
+    00000140 AF               [ 4]  254 	xor	a, a
+    00000141 67               [ 4]  255 	ld	h, a
+    00000142 29               [ 8]  256 	add	hl, hl
+    00000143 29               [ 8]  257 	add	hl, hl
+    00000144 19               [ 8]  258 	add	hl, de
+                                    259 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000145 AF               [ 4]  260 	xor	a, a
+    00000146 22               [ 8]  261 	ld	(hl+), a
+    00000147 77               [ 8]  262 	ld	(hl), a
+                                    263 ;main.c:67: for (UBYTE i = 0; i < 15; i++)
+    00000148 0C               [ 4]  264 	inc	c
+    00000149 18 EC            [12]  265 	jr	00137$
+    0000014B                        266 00101$:
+                                    267 ;main.c:72: if (selected_pet == 0)
+    0000014B FArF0r00         [16]  268 	ld	a, (#_selected_pet)
+    0000014E B7               [ 4]  269 	or	a, a
+    0000014F 20 5C            [12]  270 	jr	NZ, 00103$
+                                    271 ;main.c:75: set_sprite_data(0, 6, PoodleSprite);
+    00000151 11r00r00         [12]  272 	ld	de, #_PoodleSprite
+    00000154 D5               [16]  273 	push	de
+    00000155 21 00 06         [12]  274 	ld	hl, #0x600
+    00000158 E5               [16]  275 	push	hl
+    00000159 CDr00r00         [24]  276 	call	_set_sprite_data
+    0000015C E8 04            [16]  277 	add	sp, #4
+                                    278 ;c:\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    0000015E 21r02r00         [12]  279 	ld	hl, #(_shadow_OAM + 2)
+    00000161 36 00            [12]  280 	ld	(hl), #0x00
+    00000163 21r06r00         [12]  281 	ld	hl, #(_shadow_OAM + 6)
+    00000166 36 01            [12]  282 	ld	(hl), #0x01
+    00000168 21r0Ar00         [12]  283 	ld	hl, #(_shadow_OAM + 10)
+    0000016B 36 02            [12]  284 	ld	(hl), #0x02
+    0000016D 21r0Er00         [12]  285 	ld	hl, #(_shadow_OAM + 14)
+    00000170 36 03            [12]  286 	ld	(hl), #0x03
+    00000172 21r12r00         [12]  287 	ld	hl, #(_shadow_OAM + 18)
+    00000175 36 04            [12]  288 	ld	(hl), #0x04
+    00000177 21r16r00         [12]  289 	ld	hl, #(_shadow_OAM + 22)
+    0000017A 36 05            [12]  290 	ld	(hl), #0x05
+                                    291 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000017C 21r00r00         [12]  292 	ld	hl, #_shadow_OAM
+                                    293 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    0000017F 3E 28            [ 8]  294 	ld	a, #0x28
+    00000181 22               [ 8]  295 	ld	(hl+), a
+    00000182 36 48            [12]  296 	ld	(hl), #0x48
+                                    297 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000184 21r04r00         [12]  298 	ld	hl, #(_shadow_OAM + 4)
+                                    299 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000187 3E 28            [ 8]  300 	ld	a, #0x28
+    00000189 22               [ 8]  301 	ld	(hl+), a
+    0000018A 36 50            [12]  302 	ld	(hl), #0x50
+                                    303 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000018C 21r08r00         [12]  304 	ld	hl, #(_shadow_OAM + 8)
+                                    305 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    0000018F 3E 30            [ 8]  306 	ld	a, #0x30
+    00000191 22               [ 8]  307 	ld	(hl+), a
+    00000192 36 48            [12]  308 	ld	(hl), #0x48
+                                    309 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000194 21r0Cr00         [12]  310 	ld	hl, #(_shadow_OAM + 12)
+                                    311 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000197 3E 30            [ 8]  312 	ld	a, #0x30
+    00000199 22               [ 8]  313 	ld	(hl+), a
+    0000019A 36 50            [12]  314 	ld	(hl), #0x50
+                                    315 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000019C 21r10r00         [12]  316 	ld	hl, #(_shadow_OAM + 16)
+                                    317 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    0000019F 3E 38            [ 8]  318 	ld	a, #0x38
+    000001A1 22               [ 8]  319 	ld	(hl+), a
+    000001A2 36 48            [12]  320 	ld	(hl), #0x48
+                                    321 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000001A4 21r14r00         [12]  322 	ld	hl, #(_shadow_OAM + 20)
+                                    323 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000001A7 3E 38            [ 8]  324 	ld	a, #0x38
+    000001A9 22               [ 8]  325 	ld	(hl+), a
+    000001AA 36 50            [12]  326 	ld	(hl), #0x50
+                                    327 ;main.c:91: move_sprite(5, 80, 56); // unten rechts
+    000001AC C9               [16]  328 	ret
+    000001AD                        329 00103$:
+                                    330 ;main.c:96: set_sprite_data(0, 9, CatSprite);
+    000001AD 11r60r00         [12]  331 	ld	de, #_CatSprite
+    000001B0 D5               [16]  332 	push	de
+    000001B1 21 00 09         [12]  333 	ld	hl, #0x900
+    000001B4 E5               [16]  334 	push	hl
+    000001B5 CDr00r00         [24]  335 	call	_set_sprite_data
+    000001B8 E8 04            [16]  336 	add	sp, #4
+                                    337 ;c:\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    000001BA 21r02r00         [12]  338 	ld	hl, #(_shadow_OAM + 2)
+    000001BD 36 00            [12]  339 	ld	(hl), #0x00
+    000001BF 21r06r00         [12]  340 	ld	hl, #(_shadow_OAM + 6)
+    000001C2 36 01            [12]  341 	ld	(hl), #0x01
+    000001C4 21r0Ar00         [12]  342 	ld	hl, #(_shadow_OAM + 10)
+    000001C7 36 02            [12]  343 	ld	(hl), #0x02
+    000001C9 21r0Er00         [12]  344 	ld	hl, #(_shadow_OAM + 14)
+    000001CC 36 03            [12]  345 	ld	(hl), #0x03
+    000001CE 21r12r00         [12]  346 	ld	hl, #(_shadow_OAM + 18)
+    000001D1 36 04            [12]  347 	ld	(hl), #0x04
+    000001D3 21r16r00         [12]  348 	ld	hl, #(_shadow_OAM + 22)
+    000001D6 36 05            [12]  349 	ld	(hl), #0x05
+    000001D8 21r1Ar00         [12]  350 	ld	hl, #(_shadow_OAM + 26)
+    000001DB 36 06            [12]  351 	ld	(hl), #0x06
+    000001DD 21r1Er00         [12]  352 	ld	hl, #(_shadow_OAM + 30)
+    000001E0 36 07            [12]  353 	ld	(hl), #0x07
+    000001E2 21r22r00         [12]  354 	ld	hl, #(_shadow_OAM + 34)
+    000001E5 36 08            [12]  355 	ld	(hl), #0x08
+                                    356 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000001E7 21r00r00         [12]  357 	ld	hl, #_shadow_OAM
+                                    358 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000001EA 3E 24            [ 8]  359 	ld	a, #0x24
+    000001EC 22               [ 8]  360 	ld	(hl+), a
+    000001ED 36 44            [12]  361 	ld	(hl), #0x44
+                                    362 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000001EF 21r04r00         [12]  363 	ld	hl, #(_shadow_OAM + 4)
+                                    364 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000001F2 3E 24            [ 8]  365 	ld	a, #0x24
+    000001F4 22               [ 8]  366 	ld	(hl+), a
+    000001F5 36 4C            [12]  367 	ld	(hl), #0x4c
+                                    368 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000001F7 21r08r00         [12]  369 	ld	hl, #(_shadow_OAM + 8)
+                                    370 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000001FA 3E 24            [ 8]  371 	ld	a, #0x24
+    000001FC 22               [ 8]  372 	ld	(hl+), a
+    000001FD 36 54            [12]  373 	ld	(hl), #0x54
+                                    374 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000001FF 21r0Cr00         [12]  375 	ld	hl, #(_shadow_OAM + 12)
+                                    376 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000202 3E 2C            [ 8]  377 	ld	a, #0x2c
+    00000204 22               [ 8]  378 	ld	(hl+), a
+    00000205 36 44            [12]  379 	ld	(hl), #0x44
+                                    380 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000207 21r10r00         [12]  381 	ld	hl, #(_shadow_OAM + 16)
+                                    382 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    0000020A 3E 2C            [ 8]  383 	ld	a, #0x2c
+    0000020C 22               [ 8]  384 	ld	(hl+), a
+    0000020D 36 4C            [12]  385 	ld	(hl), #0x4c
+                                    386 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000020F 21r14r00         [12]  387 	ld	hl, #(_shadow_OAM + 20)
+                                    388 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000212 3E 2C            [ 8]  389 	ld	a, #0x2c
+    00000214 22               [ 8]  390 	ld	(hl+), a
+    00000215 36 54            [12]  391 	ld	(hl), #0x54
+                                    392 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000217 21r18r00         [12]  393 	ld	hl, #(_shadow_OAM + 24)
+                                    394 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    0000021A 3E 34            [ 8]  395 	ld	a, #0x34
+    0000021C 22               [ 8]  396 	ld	(hl+), a
+    0000021D 36 44            [12]  397 	ld	(hl), #0x44
+                                    398 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000021F 21r1Cr00         [12]  399 	ld	hl, #(_shadow_OAM + 28)
+                                    400 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000222 3E 34            [ 8]  401 	ld	a, #0x34
+    00000224 22               [ 8]  402 	ld	(hl+), a
+    00000225 36 4C            [12]  403 	ld	(hl), #0x4c
+                                    404 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000227 21r20r00         [12]  405 	ld	hl, #(_shadow_OAM + 32)
+                                    406 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    0000022A 3E 34            [ 8]  407 	ld	a, #0x34
+    0000022C 22               [ 8]  408 	ld	(hl+), a
+    0000022D 36 54            [12]  409 	ld	(hl), #0x54
+                                    410 ;main.c:118: move_sprite(8, 84, 52); // unten rechts
+                                    411 ;main.c:120: }
+    0000022F C9               [16]  412 	ret
+                                    413 ;main.c:122: const char *get_pet_name()
+                                    414 ;	---------------------------------
+                                    415 ; Function get_pet_name
+                                    416 ; ---------------------------------
+    00000230                        417 _get_pet_name::
+                                    418 ;main.c:124: return (selected_pet == 0) ? "POODLE" : "KITTY";
+    00000230 FArF0r00         [16]  419 	ld	a, (#_selected_pet)
+    00000233 B7               [ 4]  420 	or	a, a
+    00000234 20 04            [12]  421 	jr	NZ, 00103$
+    00000236 01r3Er02         [12]  422 	ld	bc, #___str_16+0
+    00000239 C9               [16]  423 	ret
+    0000023A                        424 00103$:
+    0000023A 01r45r02         [12]  425 	ld	bc, #___str_17+0
+                                    426 ;main.c:125: }
+    0000023D C9               [16]  427 	ret
+    0000023E                        428 ___str_16:
+    0000023E 50 4F 4F 44 4C 45      429 	.ascii "POODLE"
+    00000244 00                     430 	.db 0x00
+    00000245                        431 ___str_17:
+    00000245 4B 49 54 54 59         432 	.ascii "KITTY"
+    0000024A 00                     433 	.db 0x00
+                                    434 ;main.c:127: const char *get_feed_message()
+                                    435 ;	---------------------------------
+                                    436 ; Function get_feed_message
+                                    437 ; ---------------------------------
+    0000024B                        438 _get_feed_message::
+                                    439 ;main.c:129: return (selected_pet == 0) ? "*munch munch* Woof!" : "*purr purr* Meow!";
+    0000024B FArF0r00         [16]  440 	ld	a, (#_selected_pet)
+    0000024E B7               [ 4]  441 	or	a, a
+    0000024F 20 04            [12]  442 	jr	NZ, 00103$
+    00000251 01r59r02         [12]  443 	ld	bc, #___str_18+0
+    00000254 C9               [16]  444 	ret
+    00000255                        445 00103$:
+    00000255 01r6Dr02         [12]  446 	ld	bc, #___str_19+0
+                                    447 ;main.c:130: }
+    00000258 C9               [16]  448 	ret
+    00000259                        449 ___str_18:
+    00000259 2A 6D 75 6E 63 68 20   450 	.ascii "*munch munch* Woof!"
+             6D 75 6E 63 68 2A 20
+             57 6F 6F 66 21
+    0000026C 00                     451 	.db 0x00
+    0000026D                        452 ___str_19:
+    0000026D 2A 70 75 72 72 20 70   453 	.ascii "*purr purr* Meow!"
+             75 72 72 2A 20 4D 65
+             6F 77 21
+    0000027E 00                     454 	.db 0x00
+                                    455 ;main.c:132: const char *get_play_message()
+                                    456 ;	---------------------------------
+                                    457 ; Function get_play_message
+                                    458 ; ---------------------------------
+    0000027F                        459 _get_play_message::
+                                    460 ;main.c:134: return (selected_pet == 0) ? "*woof woof* Fun!" : "*meow* Playful!";
+    0000027F FArF0r00         [16]  461 	ld	a, (#_selected_pet)
+    00000282 B7               [ 4]  462 	or	a, a
+    00000283 20 04            [12]  463 	jr	NZ, 00103$
+    00000285 01r8Dr02         [12]  464 	ld	bc, #___str_20+0
+    00000288 C9               [16]  465 	ret
+    00000289                        466 00103$:
+    00000289 01r9Er02         [12]  467 	ld	bc, #___str_21+0
+                                    468 ;main.c:135: }
+    0000028C C9               [16]  469 	ret
+    0000028D                        470 ___str_20:
+    0000028D 2A 77 6F 6F 66 20 77   471 	.ascii "*woof woof* Fun!"
+             6F 6F 66 2A 20 46 75
+             6E 21
+    0000029D 00                     472 	.db 0x00
+    0000029E                        473 ___str_21:
+    0000029E 2A 6D 65 6F 77 2A 20   474 	.ascii "*meow* Playful!"
+             50 6C 61 79 66 75 6C
+             21
+    000002AD 00                     475 	.db 0x00
+                                    476 ;main.c:137: const char *get_up_message()
+                                    477 ;	---------------------------------
+                                    478 ; Function get_up_message
+                                    479 ; ---------------------------------
+    000002AE                        480 _get_up_message::
+                                    481 ;main.c:139: return (selected_pet == 0) ? "*looks up curiously*" : "*ears perk up*";
+    000002AE FArF0r00         [16]  482 	ld	a, (#_selected_pet)
+    000002B1 B7               [ 4]  483 	or	a, a
+    000002B2 20 04            [12]  484 	jr	NZ, 00103$
+    000002B4 01rBCr02         [12]  485 	ld	bc, #___str_22+0
+    000002B7 C9               [16]  486 	ret
+    000002B8                        487 00103$:
+    000002B8 01rD1r02         [12]  488 	ld	bc, #___str_23+0
+                                    489 ;main.c:140: }
+    000002BB C9               [16]  490 	ret
+    000002BC                        491 ___str_22:
+    000002BC 2A 6C 6F 6F 6B 73 20   492 	.ascii "*looks up curiously*"
+             75 70 20 63 75 72 69
+             6F 75 73 6C 79 2A
+    000002D0 00                     493 	.db 0x00
+    000002D1                        494 ___str_23:
+    000002D1 2A 65 61 72 73 20 70   495 	.ascii "*ears perk up*"
+             65 72 6B 20 75 70 2A
+    000002DF 00                     496 	.db 0x00
+                                    497 ;main.c:142: const char *get_down_message()
+                                    498 ;	---------------------------------
+                                    499 ; Function get_down_message
+                                    500 ; ---------------------------------
+    000002E0                        501 _get_down_message::
+                                    502 ;main.c:144: return (selected_pet == 0) ? "*sniffs the ground*" : "*sniffs around*";
+    000002E0 FArF0r00         [16]  503 	ld	a, (#_selected_pet)
+    000002E3 B7               [ 4]  504 	or	a, a
+    000002E4 20 04            [12]  505 	jr	NZ, 00103$
+    000002E6 01rEEr02         [12]  506 	ld	bc, #___str_24+0
+    000002E9 C9               [16]  507 	ret
+    000002EA                        508 00103$:
+    000002EA 01r02r03         [12]  509 	ld	bc, #___str_25+0
+                                    510 ;main.c:145: }
+    000002ED C9               [16]  511 	ret
+    000002EE                        512 ___str_24:
+    000002EE 2A 73 6E 69 66 66 73   513 	.ascii "*sniffs the ground*"
+             20 74 68 65 20 67 72
+             6F 75 6E 64 2A
+    00000301 00                     514 	.db 0x00
+    00000302                        515 ___str_25:
+    00000302 2A 73 6E 69 66 66 73   516 	.ascii "*sniffs around*"
+             20 61 72 6F 75 6E 64
+             2A
+    00000311 00                     517 	.db 0x00
+                                    518 ;main.c:147: const char *get_left_message()
+                                    519 ;	---------------------------------
+                                    520 ; Function get_left_message
+                                    521 ; ---------------------------------
+    00000312                        522 _get_left_message::
+                                    523 ;main.c:149: return (selected_pet == 0) ? "*turns left*" : "*stretches left*";
+    00000312 FArF0r00         [16]  524 	ld	a, (#_selected_pet)
+    00000315 B7               [ 4]  525 	or	a, a
+    00000316 20 04            [12]  526 	jr	NZ, 00103$
+    00000318 01r20r03         [12]  527 	ld	bc, #___str_26+0
+    0000031B C9               [16]  528 	ret
+    0000031C                        529 00103$:
+    0000031C 01r2Dr03         [12]  530 	ld	bc, #___str_27+0
+                                    531 ;main.c:150: }
+    0000031F C9               [16]  532 	ret
+    00000320                        533 ___str_26:
+    00000320 2A 74 75 72 6E 73 20   534 	.ascii "*turns left*"
+             6C 65 66 74 2A
+    0000032C 00                     535 	.db 0x00
+    0000032D                        536 ___str_27:
+    0000032D 2A 73 74 72 65 74 63   537 	.ascii "*stretches left*"
+             68 65 73 20 6C 65 66
+             74 2A
+    0000033D 00                     538 	.db 0x00
+                                    539 ;main.c:152: const char *get_right_message()
+                                    540 ;	---------------------------------
+                                    541 ; Function get_right_message
+                                    542 ; ---------------------------------
+    0000033E                        543 _get_right_message::
+                                    544 ;main.c:154: return (selected_pet == 0) ? "*turns right*" : "*stretches right*";
+    0000033E FArF0r00         [16]  545 	ld	a, (#_selected_pet)
+    00000341 B7               [ 4]  546 	or	a, a
+    00000342 20 04            [12]  547 	jr	NZ, 00103$
+    00000344 01r4Cr03         [12]  548 	ld	bc, #___str_28+0
+    00000347 C9               [16]  549 	ret
+    00000348                        550 00103$:
+    00000348 01r5Ar03         [12]  551 	ld	bc, #___str_29+0
+                                    552 ;main.c:155: }
+    0000034B C9               [16]  553 	ret
+    0000034C                        554 ___str_28:
+    0000034C 2A 74 75 72 6E 73 20   555 	.ascii "*turns right*"
+             72 69 67 68 74 2A
+    00000359 00                     556 	.db 0x00
+    0000035A                        557 ___str_29:
+    0000035A 2A 73 74 72 65 74 63   558 	.ascii "*stretches right*"
+             68 65 73 20 72 69 67
+             68 74 2A
+    0000036B 00                     559 	.db 0x00
+                                    560 ;main.c:157: void main()
+                                    561 ;	---------------------------------
+                                    562 ; Function main
+                                    563 ; ---------------------------------
+    0000036C                        564 _main::
+    0000036C E8 FB            [16]  565 	add	sp, #-5
+                                    566 ;main.c:159: DISPLAY_ON;
+    0000036E F0r00            [12]  567 	ldh	a, (_LCDC_REG + 0)
+    00000370 F6 80            [ 8]  568 	or	a, #0x80
+    00000372 E0r00            [12]  569 	ldh	(_LCDC_REG + 0), a
+                                    570 ;main.c:162: show_selection_menu();
+    00000374 CDr00r00         [24]  571 	call	_show_selection_menu
+                                    572 ;main.c:167: while (1)
+    00000377                        573 00106$:
+                                    574 ;main.c:169: mButtons = joypad();
+    00000377 CDr00r00         [24]  575 	call	_joypad
+                                    576 ;main.c:171: if (mButtons & J_A)
+    0000037A CB 67            [ 8]  577 	bit	4, a
+    0000037C 28 06            [12]  578 	jr	Z, 00102$
+                                    579 ;main.c:173: selected_pet = 0; // Pudel
+    0000037E AF               [ 4]  580 	xor	a, a
+    0000037F EArF0r00         [16]  581 	ld	(#_selected_pet),a
+                                    582 ;main.c:174: break;
+    00000382 18 10            [12]  583 	jr	00108$
+    00000384                        584 00102$:
+                                    585 ;main.c:177: if (mButtons & J_B)
+    00000384 CB 6F            [ 8]  586 	bit	5, a
+    00000386 28 07            [12]  587 	jr	Z, 00104$
+                                    588 ;main.c:179: selected_pet = 1; // Katze
+    00000388 21rF0r00         [12]  589 	ld	hl, #_selected_pet
+    0000038B 36 01            [12]  590 	ld	(hl), #0x01
+                                    591 ;main.c:180: break;
+    0000038D 18 05            [12]  592 	jr	00108$
+    0000038F                        593 00104$:
+                                    594 ;main.c:183: wait_vbl_done();
+    0000038F CDr00r00         [24]  595 	call	_wait_vbl_done
+    00000392 18 E3            [12]  596 	jr	00106$
+                                    597 ;main.c:187: while (joypad())
+    00000394                        598 00108$:
+    00000394 CDr00r00         [24]  599 	call	_joypad
+    00000397 B7               [ 4]  600 	or	a, a
+    00000398 20 FA            [12]  601 	jr	NZ, 00108$
+                                    602 ;main.c:191: setup_pet_sprite();
+    0000039A CDr35r01         [24]  603 	call	_setup_pet_sprite
+                                    604 ;main.c:192: SHOW_SPRITES;
+    0000039D F0r00            [12]  605 	ldh	a, (_LCDC_REG + 0)
+    0000039F F6 02            [ 8]  606 	or	a, #0x02
+    000003A1 E0r00            [12]  607 	ldh	(_LCDC_REG + 0), a
+                                    608 ;main.c:195: cls();
+    000003A3 CDr00r00         [24]  609 	call	_cls
+                                    610 ;main.c:198: UBYTE happiness = 50;
+    000003A6 F8 02            [12]  611 	ldhl	sp,	#2
+                                    612 ;main.c:199: UBYTE hunger = 30;
+    000003A8 3E 32            [ 8]  613 	ld	a, #0x32
+    000003AA 22               [ 8]  614 	ld	(hl+), a
+                                    615 ;main.c:200: UBYTE energy = 70;
+    000003AB 3E 1E            [ 8]  616 	ld	a, #0x1e
+    000003AD 22               [ 8]  617 	ld	(hl+), a
+    000003AE 36 46            [12]  618 	ld	(hl), #0x46
+                                    619 ;main.c:204: printf("=== TAMAGOTCHI ===\n");
+    000003B0 11r2Fr08         [12]  620 	ld	de, #___str_79
+    000003B3 CDr00r00         [24]  621 	call	_puts
+                                    622 ;main.c:205: printf("Your %s is ready!\n", get_pet_name());
+    000003B6 CDr30r02         [24]  623 	call	_get_pet_name
+    000003B9 C5               [16]  624 	push	bc
+    000003BA 11r51r06         [12]  625 	ld	de, #___str_34
+    000003BD D5               [16]  626 	push	de
+    000003BE CDr00r00         [24]  627 	call	_printf
+    000003C1 E8 04            [16]  628 	add	sp, #4
+                                    629 ;main.c:206: printf("\n\n\n\n\n\n");
+    000003C3 11r64r06         [12]  630 	ld	de, #___str_36
+    000003C6 CDr00r00         [24]  631 	call	_puts
+                                    632 ;main.c:207: printf("Happiness: %d\n", happiness);
+    000003C9 11 32 00         [12]  633 	ld	de, #0x0032
+    000003CC D5               [16]  634 	push	de
+    000003CD 11r6Ar06         [12]  635 	ld	de, #___str_37
+    000003D0 D5               [16]  636 	push	de
+    000003D1 CDr00r00         [24]  637 	call	_printf
+    000003D4 E8 04            [16]  638 	add	sp, #4
+                                    639 ;main.c:208: printf("Hunger: %d\n", hunger);
+    000003D6 11 1E 00         [12]  640 	ld	de, #0x001e
+    000003D9 D5               [16]  641 	push	de
+    000003DA 11r79r06         [12]  642 	ld	de, #___str_38
+    000003DD D5               [16]  643 	push	de
+    000003DE CDr00r00         [24]  644 	call	_printf
+    000003E1 E8 04            [16]  645 	add	sp, #4
+                                    646 ;main.c:209: printf("Energy: %d\n", energy);
+    000003E3 11 46 00         [12]  647 	ld	de, #0x0046
+    000003E6 D5               [16]  648 	push	de
+    000003E7 11r85r06         [12]  649 	ld	de, #___str_39
+    000003EA D5               [16]  650 	push	de
+    000003EB CDr00r00         [24]  651 	call	_printf
+    000003EE E8 04            [16]  652 	add	sp, #4
+                                    653 ;main.c:211: while (1)
+    000003F0                        654 00191$:
+                                    655 ;main.c:213: mButtons = joypad();
+    000003F0 CDr00r00         [24]  656 	call	_joypad
+    000003F3 F8 01            [12]  657 	ldhl	sp,	#1
+    000003F5 77               [ 8]  658 	ld	(hl), a
+                                    659 ;main.c:215: if (mButtons & J_A)
+    000003F6 E5               [16]  660 	push	hl
+    000003F7 CB 66            [12]  661 	bit	4, (hl)
+    000003F9 E1               [12]  662 	pop	hl
+    000003FA 28 3E            [12]  663 	jr	Z, 00119$
+                                    664 ;main.c:218: if (hunger > 0)
+    000003FC F8 03            [12]  665 	ldhl	sp,	#3
+    000003FE 7E               [ 8]  666 	ld	a, (hl)
+    000003FF B7               [ 4]  667 	or	a, a
+    00000400 28 32            [12]  668 	jr	Z, 00116$
+                                    669 ;main.c:220: hunger -= 15;
+    00000402 7E               [ 8]  670 	ld	a, (hl)
+    00000403 C6 F1            [ 8]  671 	add	a, #0xf1
+                                    672 ;main.c:223: happiness += 5;
+    00000405 32               [ 8]  673 	ld	(hl-), a
+    00000406 7E               [ 8]  674 	ld	a, (hl)
+    00000407 C6 05            [ 8]  675 	add	a, #0x05
+    00000409 77               [ 8]  676 	ld	(hl), a
+                                    677 ;main.c:224: if (happiness > 100)
+    0000040A 3E 64            [ 8]  678 	ld	a, #0x64
+    0000040C 96               [ 8]  679 	sub	a, (hl)
+    0000040D 30 02            [12]  680 	jr	NC, 00114$
+                                    681 ;main.c:225: happiness = 100;
+    0000040F 36 64            [12]  682 	ld	(hl), #0x64
+    00000411                        683 00114$:
+                                    684 ;main.c:227: printf("%s\n", get_feed_message());
+    00000411 CDr4Br02         [24]  685 	call	_get_feed_message
+    00000414 C5               [16]  686 	push	bc
+    00000415 11r91r06         [12]  687 	ld	de, #___str_40
+    00000418 D5               [16]  688 	push	de
+    00000419 CDr00r00         [24]  689 	call	_printf
+    0000041C E8 04            [16]  690 	add	sp, #4
+                                    691 ;main.c:228: printf("Hunger: %d Happiness: %d\n", hunger, happiness);
+    0000041E F8 02            [12]  692 	ldhl	sp,	#2
+    00000420 2A               [ 8]  693 	ld	a, (hl+)
+    00000421 5F               [ 4]  694 	ld	e, a
+    00000422 16 00            [ 8]  695 	ld	d, #0x00
+    00000424 4E               [ 8]  696 	ld	c, (hl)
+    00000425 06 00            [ 8]  697 	ld	b, #0x00
+    00000427 21r95r06         [12]  698 	ld	hl, #___str_41
+    0000042A D5               [16]  699 	push	de
+    0000042B C5               [16]  700 	push	bc
+    0000042C E5               [16]  701 	push	hl
+    0000042D CDr00r00         [24]  702 	call	_printf
+    00000430 E8 06            [16]  703 	add	sp, #6
+    00000432 18 06            [12]  704 	jr	00119$
+    00000434                        705 00116$:
+                                    706 ;main.c:232: printf("Not hungry right now!\n");
+    00000434 11rAFr06         [12]  707 	ld	de, #___str_43
+    00000437 CDr00r00         [24]  708 	call	_puts
+    0000043A                        709 00119$:
+                                    710 ;main.c:236: if (mButtons & J_B)
+    0000043A E5               [16]  711 	push	hl
+    0000043B F8 03            [12]  712 	ldhl	sp,	#3
+    0000043D CB 6E            [12]  713 	bit	5, (hl)
+    0000043F E1               [12]  714 	pop	hl
+    00000440 28 4F            [12]  715 	jr	Z, 00128$
+                                    716 ;main.c:239: if (energy > 10)
+    00000442 3E 0A            [ 8]  717 	ld	a, #0x0a
+    00000444 F8 04            [12]  718 	ldhl	sp,	#4
+    00000446 96               [ 8]  719 	sub	a, (hl)
+    00000447 30 42            [12]  720 	jr	NC, 00125$
+                                    721 ;main.c:241: happiness += 10;
+    00000449 2B               [ 8]  722 	dec	hl
+    0000044A 2B               [ 8]  723 	dec	hl
+    0000044B 7E               [ 8]  724 	ld	a, (hl)
+    0000044C C6 0A            [ 8]  725 	add	a, #0x0a
+    0000044E 77               [ 8]  726 	ld	(hl), a
+                                    727 ;main.c:242: if (happiness > 100)
+    0000044F 3E 64            [ 8]  728 	ld	a, #0x64
+    00000451 96               [ 8]  729 	sub	a, (hl)
+    00000452 30 02            [12]  730 	jr	NC, 00121$
+                                    731 ;main.c:243: happiness = 100;
+    00000454 36 64            [12]  732 	ld	(hl), #0x64
+    00000456                        733 00121$:
+                                    734 ;main.c:244: energy -= 10;
+    00000456 F8 04            [12]  735 	ldhl	sp,	#4
+    00000458 7E               [ 8]  736 	ld	a, (hl)
+    00000459 C6 F6            [ 8]  737 	add	a, #0xf6
+                                    738 ;main.c:245: hunger += 5;
+    0000045B 32               [ 8]  739 	ld	(hl-), a
+    0000045C 7E               [ 8]  740 	ld	a, (hl)
+    0000045D C6 05            [ 8]  741 	add	a, #0x05
+    0000045F 77               [ 8]  742 	ld	(hl), a
+                                    743 ;main.c:246: if (hunger > 100)
+    00000460 3E 64            [ 8]  744 	ld	a, #0x64
+    00000462 96               [ 8]  745 	sub	a, (hl)
+    00000463 30 02            [12]  746 	jr	NC, 00123$
+                                    747 ;main.c:247: hunger = 100;
+    00000465 36 64            [12]  748 	ld	(hl), #0x64
+    00000467                        749 00123$:
+                                    750 ;main.c:249: printf("%s\n", get_play_message());
+    00000467 CDr7Fr02         [24]  751 	call	_get_play_message
+    0000046A 11r91r06         [12]  752 	ld	de, #___str_40+0
+    0000046D C5               [16]  753 	push	bc
+    0000046E D5               [16]  754 	push	de
+    0000046F CDr00r00         [24]  755 	call	_printf
+    00000472 E8 04            [16]  756 	add	sp, #4
+                                    757 ;main.c:250: printf("Energy: %d Happiness: %d\n", energy, happiness);
+    00000474 F8 02            [12]  758 	ldhl	sp,	#2
+    00000476 2A               [ 8]  759 	ld	a, (hl+)
+    00000477 23               [ 8]  760 	inc	hl
+    00000478 5F               [ 4]  761 	ld	e, a
+    00000479 16 00            [ 8]  762 	ld	d, #0x00
+    0000047B 4E               [ 8]  763 	ld	c, (hl)
+    0000047C 06 00            [ 8]  764 	ld	b, #0x00
+    0000047E D5               [16]  765 	push	de
+    0000047F C5               [16]  766 	push	bc
+    00000480 11rC5r06         [12]  767 	ld	de, #___str_44
+    00000483 D5               [16]  768 	push	de
+    00000484 CDr00r00         [24]  769 	call	_printf
+    00000487 E8 06            [16]  770 	add	sp, #6
+    00000489 18 06            [12]  771 	jr	00128$
+    0000048B                        772 00125$:
+                                    773 ;main.c:254: printf("Too tired to play...\n");
+    0000048B 11rDFr06         [12]  774 	ld	de, #___str_46
+    0000048E CDr00r00         [24]  775 	call	_puts
+    00000491                        776 00128$:
+                                    777 ;main.c:258: if (mButtons & J_SELECT)
+    00000491 E5               [16]  778 	push	hl
+    00000492 F8 03            [12]  779 	ldhl	sp,	#3
+    00000494 CB 76            [12]  780 	bit	6, (hl)
+    00000496 E1               [12]  781 	pop	hl
+    00000497 28 2F            [12]  782 	jr	Z, 00134$
+                                    783 ;main.c:261: energy += 20;
+    00000499 F8 04            [12]  784 	ldhl	sp,	#4
+    0000049B 7E               [ 8]  785 	ld	a, (hl)
+    0000049C C6 14            [ 8]  786 	add	a, #0x14
+    0000049E 77               [ 8]  787 	ld	(hl), a
+                                    788 ;main.c:262: if (energy > 100)
+    0000049F 3E 64            [ 8]  789 	ld	a, #0x64
+    000004A1 96               [ 8]  790 	sub	a, (hl)
+    000004A2 30 02            [12]  791 	jr	NC, 00130$
+                                    792 ;main.c:263: energy = 100;
+    000004A4 36 64            [12]  793 	ld	(hl), #0x64
+    000004A6                        794 00130$:
+                                    795 ;main.c:264: hunger += 3;
+    000004A6 F8 03            [12]  796 	ldhl	sp,	#3
+    000004A8 7E               [ 8]  797 	ld	a, (hl)
+    000004A9 C6 03            [ 8]  798 	add	a, #0x03
+    000004AB 77               [ 8]  799 	ld	(hl), a
+                                    800 ;main.c:265: if (hunger > 100)
+    000004AC 3E 64            [ 8]  801 	ld	a, #0x64
+    000004AE 96               [ 8]  802 	sub	a, (hl)
+    000004AF 30 02            [12]  803 	jr	NC, 00132$
+                                    804 ;main.c:266: hunger = 100;
+    000004B1 36 64            [12]  805 	ld	(hl), #0x64
+    000004B3                        806 00132$:
+                                    807 ;main.c:268: printf("*zzz* Good rest!\n");
+    000004B3 11rF4r06         [12]  808 	ld	de, #___str_48
+    000004B6 CDr00r00         [24]  809 	call	_puts
+                                    810 ;main.c:269: printf("Energy: %d\n", energy);
+    000004B9 F8 04            [12]  811 	ldhl	sp,	#4
+    000004BB 4E               [ 8]  812 	ld	c, (hl)
+    000004BC AF               [ 4]  813 	xor	a, a
+    000004BD 47               [ 4]  814 	ld	b, a
+    000004BE C5               [16]  815 	push	bc
+    000004BF 11r85r06         [12]  816 	ld	de, #___str_39
+    000004C2 D5               [16]  817 	push	de
+    000004C3 CDr00r00         [24]  818 	call	_printf
+    000004C6 E8 04            [16]  819 	add	sp, #4
+    000004C8                        820 00134$:
+                                    821 ;main.c:272: if (mButtons & J_START)
+    000004C8 E5               [16]  822 	push	hl
+    000004C9 F8 03            [12]  823 	ldhl	sp,	#3
+    000004CB CB 7E            [12]  824 	bit	7, (hl)
+    000004CD E1               [12]  825 	pop	hl
+    000004CE CArB3r05         [16]  826 	jp	Z, 00166$
+                                    827 ;main.c:275: printf("\n=== %s STATUS ===\n", get_pet_name());
+    000004D1 CDr30r02         [24]  828 	call	_get_pet_name
+    000004D4 C5               [16]  829 	push	bc
+    000004D5 11r05r07         [12]  830 	ld	de, #___str_49
+    000004D8 D5               [16]  831 	push	de
+    000004D9 CDr00r00         [24]  832 	call	_printf
+    000004DC E8 04            [16]  833 	add	sp, #4
+                                    834 ;main.c:276: printf("Happiness: %d/100\n", happiness);
+    000004DE F8 02            [12]  835 	ldhl	sp,	#2
+    000004E0 4E               [ 8]  836 	ld	c, (hl)
+    000004E1 06 00            [ 8]  837 	ld	b, #0x00
+    000004E3 C5               [16]  838 	push	bc
+    000004E4 11r19r07         [12]  839 	ld	de, #___str_50
+    000004E7 D5               [16]  840 	push	de
+    000004E8 CDr00r00         [24]  841 	call	_printf
+    000004EB E8 04            [16]  842 	add	sp, #4
+                                    843 ;main.c:277: printf("Hunger: %d/100\n", hunger);
+    000004ED F8 03            [12]  844 	ldhl	sp,	#3
+    000004EF 4E               [ 8]  845 	ld	c, (hl)
+    000004F0 06 00            [ 8]  846 	ld	b, #0x00
+    000004F2 C5               [16]  847 	push	bc
+    000004F3 11r2Cr07         [12]  848 	ld	de, #___str_51
+    000004F6 D5               [16]  849 	push	de
+    000004F7 CDr00r00         [24]  850 	call	_printf
+    000004FA E8 04            [16]  851 	add	sp, #4
+                                    852 ;main.c:278: printf("Energy: %d/100\n", energy);
+    000004FC F8 04            [12]  853 	ldhl	sp,	#4
+    000004FE 4E               [ 8]  854 	ld	c, (hl)
+    000004FF 06 00            [ 8]  855 	ld	b, #0x00
+    00000501 C5               [16]  856 	push	bc
+    00000502 11r3Cr07         [12]  857 	ld	de, #___str_52
+    00000505 D5               [16]  858 	push	de
+    00000506 CDr00r00         [24]  859 	call	_printf
+    00000509 E8 04            [16]  860 	add	sp, #4
+                                    861 ;main.c:281: if (happiness > 80)
+    0000050B 3E 50            [ 8]  862 	ld	a, #0x50
+    0000050D F8 02            [12]  863 	ldhl	sp,	#2
+    0000050F 96               [ 8]  864 	sub	a, (hl)
+    00000510 30 08            [12]  865 	jr	NC, 00145$
+                                    866 ;main.c:282: printf("Mood: Very Happy! :D\n");
+    00000512 11r4Cr07         [12]  867 	ld	de, #___str_54
+    00000515 CDr00r00         [24]  868 	call	_puts
+    00000518 18 33            [12]  869 	jr	00146$
+    0000051A                        870 00145$:
+                                    871 ;main.c:283: else if (happiness > 60)
+    0000051A 3E 3C            [ 8]  872 	ld	a, #0x3c
+    0000051C F8 02            [12]  873 	ldhl	sp,	#2
+    0000051E 96               [ 8]  874 	sub	a, (hl)
+    0000051F 30 08            [12]  875 	jr	NC, 00142$
+                                    876 ;main.c:284: printf("Mood: Happy :)\n");
+    00000521 11r61r07         [12]  877 	ld	de, #___str_56
+    00000524 CDr00r00         [24]  878 	call	_puts
+    00000527 18 24            [12]  879 	jr	00146$
+    00000529                        880 00142$:
+                                    881 ;main.c:285: else if (happiness > 40)
+    00000529 3E 28            [ 8]  882 	ld	a, #0x28
+    0000052B F8 02            [12]  883 	ldhl	sp,	#2
+    0000052D 96               [ 8]  884 	sub	a, (hl)
+    0000052E 30 08            [12]  885 	jr	NC, 00139$
+                                    886 ;main.c:286: printf("Mood: Okay :/\n");
+    00000530 11r70r07         [12]  887 	ld	de, #___str_58
+    00000533 CDr00r00         [24]  888 	call	_puts
+    00000536 18 15            [12]  889 	jr	00146$
+    00000538                        890 00139$:
+                                    891 ;main.c:287: else if (happiness > 20)
+    00000538 3E 14            [ 8]  892 	ld	a, #0x14
+    0000053A F8 02            [12]  893 	ldhl	sp,	#2
+    0000053C 96               [ 8]  894 	sub	a, (hl)
+    0000053D 30 08            [12]  895 	jr	NC, 00136$
+                                    896 ;main.c:288: printf("Mood: Sad :(\n");
+    0000053F 11r7Er07         [12]  897 	ld	de, #___str_60
+    00000542 CDr00r00         [24]  898 	call	_puts
+    00000545 18 06            [12]  899 	jr	00146$
+    00000547                        900 00136$:
+                                    901 ;main.c:290: printf("Mood: Very Sad T_T\n");
+    00000547 11r8Br07         [12]  902 	ld	de, #___str_62
+    0000054A CDr00r00         [24]  903 	call	_puts
+    0000054D                        904 00146$:
+                                    905 ;main.c:293: if (hunger > 80)
+    0000054D 3E 50            [ 8]  906 	ld	a, #0x50
+    0000054F F8 03            [12]  907 	ldhl	sp,	#3
+    00000551 96               [ 8]  908 	sub	a, (hl)
+    00000552 30 08            [12]  909 	jr	NC, 00154$
+                                    910 ;main.c:294: printf("Status: Very Hungry!\n");
+    00000554 11r9Er07         [12]  911 	ld	de, #___str_64
+    00000557 CDr00r00         [24]  912 	call	_puts
+    0000055A 18 24            [12]  913 	jr	00155$
+    0000055C                        914 00154$:
+                                    915 ;main.c:295: else if (hunger > 50)
+    0000055C 3E 32            [ 8]  916 	ld	a, #0x32
+    0000055E F8 03            [12]  917 	ldhl	sp,	#3
+    00000560 96               [ 8]  918 	sub	a, (hl)
+    00000561 30 08            [12]  919 	jr	NC, 00151$
+                                    920 ;main.c:296: printf("Status: Hungry\n");
+    00000563 11rB3r07         [12]  921 	ld	de, #___str_66
+    00000566 CDr00r00         [24]  922 	call	_puts
+    00000569 18 15            [12]  923 	jr	00155$
+    0000056B                        924 00151$:
+                                    925 ;main.c:297: else if (hunger > 20)
+    0000056B 3E 14            [ 8]  926 	ld	a, #0x14
+    0000056D F8 03            [12]  927 	ldhl	sp,	#3
+    0000056F 96               [ 8]  928 	sub	a, (hl)
+    00000570 30 08            [12]  929 	jr	NC, 00148$
+                                    930 ;main.c:298: printf("Status: A bit hungry\n");
+    00000572 11rC2r07         [12]  931 	ld	de, #___str_68
+    00000575 CDr00r00         [24]  932 	call	_puts
+    00000578 18 06            [12]  933 	jr	00155$
+    0000057A                        934 00148$:
+                                    935 ;main.c:300: printf("Status: Well fed\n");
+    0000057A 11rD7r07         [12]  936 	ld	de, #___str_70
+    0000057D CDr00r00         [24]  937 	call	_puts
+    00000580                        938 00155$:
+                                    939 ;main.c:303: if (energy < 20)
+    00000580 F8 04            [12]  940 	ldhl	sp,	#4
+    00000582 7E               [ 8]  941 	ld	a, (hl)
+    00000583 D6 14            [ 8]  942 	sub	a, #0x14
+    00000585 30 08            [12]  943 	jr	NC, 00163$
+                                    944 ;main.c:304: printf("Energy: Exhausted\n");
+    00000587 11rE8r07         [12]  945 	ld	de, #___str_72
+    0000058A CDr00r00         [24]  946 	call	_puts
+    0000058D 18 24            [12]  947 	jr	00166$
+    0000058F                        948 00163$:
+                                    949 ;main.c:305: else if (energy < 50)
+    0000058F F8 04            [12]  950 	ldhl	sp,	#4
+    00000591 7E               [ 8]  951 	ld	a, (hl)
+    00000592 D6 32            [ 8]  952 	sub	a, #0x32
+    00000594 30 08            [12]  953 	jr	NC, 00160$
+                                    954 ;main.c:306: printf("Energy: Tired\n");
+    00000596 11rFAr07         [12]  955 	ld	de, #___str_74
+    00000599 CDr00r00         [24]  956 	call	_puts
+    0000059C 18 15            [12]  957 	jr	00166$
+    0000059E                        958 00160$:
+                                    959 ;main.c:307: else if (energy < 80)
+    0000059E F8 04            [12]  960 	ldhl	sp,	#4
+    000005A0 7E               [ 8]  961 	ld	a, (hl)
+    000005A1 D6 50            [ 8]  962 	sub	a, #0x50
+    000005A3 30 08            [12]  963 	jr	NC, 00157$
+                                    964 ;main.c:308: printf("Energy: Normal\n");
+    000005A5 11r08r08         [12]  965 	ld	de, #___str_76
+    000005A8 CDr00r00         [24]  966 	call	_puts
+    000005AB 18 06            [12]  967 	jr	00166$
+    000005AD                        968 00157$:
+                                    969 ;main.c:310: printf("Energy: Full of energy!\n");
+    000005AD 11r17r08         [12]  970 	ld	de, #___str_78
+    000005B0 CDr00r00         [24]  971 	call	_puts
+    000005B3                        972 00166$:
+                                    973 ;main.c:313: if (mButtons & J_UP)
+    000005B3 E5               [16]  974 	push	hl
+    000005B4 F8 03            [12]  975 	ldhl	sp,	#3
+    000005B6 CB 56            [12]  976 	bit	2, (hl)
+    000005B8 E1               [12]  977 	pop	hl
+    000005B9 28 0D            [12]  978 	jr	Z, 00168$
+                                    979 ;main.c:315: printf("%s\n", get_up_message());
+    000005BB CDrAEr02         [24]  980 	call	_get_up_message
+    000005BE C5               [16]  981 	push	bc
+    000005BF 11r91r06         [12]  982 	ld	de, #___str_40
+    000005C2 D5               [16]  983 	push	de
+    000005C3 CDr00r00         [24]  984 	call	_printf
+    000005C6 E8 04            [16]  985 	add	sp, #4
+    000005C8                        986 00168$:
+                                    987 ;main.c:318: if (mButtons & J_DOWN)
+    000005C8 E5               [16]  988 	push	hl
+    000005C9 F8 03            [12]  989 	ldhl	sp,	#3
+    000005CB CB 5E            [12]  990 	bit	3, (hl)
+    000005CD E1               [12]  991 	pop	hl
+    000005CE 28 0D            [12]  992 	jr	Z, 00170$
+                                    993 ;main.c:320: printf("%s\n", get_down_message());
+    000005D0 CDrE0r02         [24]  994 	call	_get_down_message
+    000005D3 C5               [16]  995 	push	bc
+    000005D4 11r91r06         [12]  996 	ld	de, #___str_40
+    000005D7 D5               [16]  997 	push	de
+    000005D8 CDr00r00         [24]  998 	call	_printf
+    000005DB E8 04            [16]  999 	add	sp, #4
+    000005DD                       1000 00170$:
+                                   1001 ;main.c:323: if (mButtons & J_LEFT)
+    000005DD E5               [16] 1002 	push	hl
+    000005DE F8 03            [12] 1003 	ldhl	sp,	#3
+    000005E0 CB 4E            [12] 1004 	bit	1, (hl)
+    000005E2 E1               [12] 1005 	pop	hl
+    000005E3 28 0D            [12] 1006 	jr	Z, 00172$
+                                   1007 ;main.c:325: printf("%s\n", get_left_message());
+    000005E5 CDr12r03         [24] 1008 	call	_get_left_message
+    000005E8 C5               [16] 1009 	push	bc
+    000005E9 11r91r06         [12] 1010 	ld	de, #___str_40
+    000005EC D5               [16] 1011 	push	de
+    000005ED CDr00r00         [24] 1012 	call	_printf
+    000005F0 E8 04            [16] 1013 	add	sp, #4
+    000005F2                       1014 00172$:
+                                   1015 ;main.c:328: if (mButtons & J_RIGHT)
+    000005F2 E5               [16] 1016 	push	hl
+    000005F3 F8 03            [12] 1017 	ldhl	sp,	#3
+    000005F5 CB 46            [12] 1018 	bit	0, (hl)
+    000005F7 E1               [12] 1019 	pop	hl
+    000005F8 28 11            [12] 1020 	jr	Z, 00174$
+                                   1021 ;main.c:330: printf("%s\n", get_right_message());
+    000005FA CDr3Er03         [24] 1022 	call	_get_right_message
+    000005FD E1               [12] 1023 	pop	hl
+    000005FE 59               [ 4] 1024 	ld	e, c
+    000005FF 50               [ 4] 1025 	ld	d, b
+    00000600 D5               [16] 1026 	push	de
+    00000601 D5               [16] 1027 	push	de
+    00000602 11r91r06         [12] 1028 	ld	de, #___str_40
+    00000605 D5               [16] 1029 	push	de
+    00000606 CDr00r00         [24] 1030 	call	_printf
+    00000609 E8 04            [16] 1031 	add	sp, #4
+    0000060B                       1032 00174$:
+                                   1033 ;main.c:335: time_counter++;
+    0000060B 21r00r00         [12] 1034 	ld	hl, #_main_time_counter_20003_376
+    0000060E 34               [12] 1035 	inc	(hl)
+                                   1036 ;main.c:336: if (time_counter > 200)
+    0000060F 3E C8            [ 8] 1037 	ld	a, #0xc8
+    00000611 96               [ 8] 1038 	sub	a, (hl)
+    00000612 30 2E            [12] 1039 	jr	NC, 00187$
+                                   1040 ;main.c:338: time_counter = 0;
+    00000614 36 00            [12] 1041 	ld	(hl), #0x00
+                                   1042 ;main.c:341: if (hunger < 100)
+    00000616 F8 03            [12] 1043 	ldhl	sp,	#3
+    00000618 7E               [ 8] 1044 	ld	a, (hl)
+    00000619 D6 64            [ 8] 1045 	sub	a, #0x64
+    0000061B 30 01            [12] 1046 	jr	NC, 00176$
+                                   1047 ;main.c:342: hunger++;
+    0000061D 34               [12] 1048 	inc	(hl)
+    0000061E                       1049 00176$:
+                                   1050 ;main.c:343: if (energy > 0 && happiness > 30)
+    0000061E F8 04            [12] 1051 	ldhl	sp,	#4
+    00000620 7E               [ 8] 1052 	ld	a, (hl)
+    00000621 B7               [ 4] 1053 	or	a, a
+    00000622 28 0A            [12] 1054 	jr	Z, 00178$
+    00000624 2B               [ 8] 1055 	dec	hl
+    00000625 2B               [ 8] 1056 	dec	hl
+    00000626 3E 1E            [ 8] 1057 	ld	a, #0x1e
+    00000628 96               [ 8] 1058 	sub	a, (hl)
+    00000629 30 03            [12] 1059 	jr	NC, 00178$
+                                   1060 ;main.c:344: energy--;
+    0000062B 23               [ 8] 1061 	inc	hl
+    0000062C 23               [ 8] 1062 	inc	hl
+    0000062D 35               [12] 1063 	dec	(hl)
+    0000062E                       1064 00178$:
+                                   1065 ;main.c:347: if (hunger > 90 || energy < 10)
+    0000062E 3E 5A            [ 8] 1066 	ld	a, #0x5a
+    00000630 F8 03            [12] 1067 	ldhl	sp,	#3
+    00000632 96               [ 8] 1068 	sub	a, (hl)
+    00000633 38 06            [12] 1069 	jr	C, 00182$
+    00000635 23               [ 8] 1070 	inc	hl
+    00000636 7E               [ 8] 1071 	ld	a, (hl)
+    00000637 D6 0A            [ 8] 1072 	sub	a, #0x0a
+    00000639 30 07            [12] 1073 	jr	NC, 00187$
+    0000063B                       1074 00182$:
+                                   1075 ;main.c:349: if (happiness > 0)
+    0000063B F8 02            [12] 1076 	ldhl	sp,	#2
+    0000063D 7E               [ 8] 1077 	ld	a, (hl)
+    0000063E B7               [ 4] 1078 	or	a, a
+    0000063F 28 01            [12] 1079 	jr	Z, 00187$
+                                   1080 ;main.c:350: happiness--;
+    00000641 35               [12] 1081 	dec	(hl)
+                                   1082 ;main.c:355: while (mButtons = joypad())
+    00000642                       1083 00187$:
+    00000642 CDr00r00         [24] 1084 	call	_joypad
+    00000645 B7               [ 4] 1085 	or	a, a
+    00000646 20 FA            [12] 1086 	jr	NZ, 00187$
+                                   1087 ;main.c:357: wait_vbl_done();
+    00000648 CDr00r00         [24] 1088 	call	_wait_vbl_done
+    0000064B C3rF0r03         [16] 1089 	jp	00191$
+                                   1090 ;main.c:359: }
+    0000064E E8 05            [16] 1091 	add	sp, #5
+    00000650 C9               [16] 1092 	ret
+    00000651                       1093 ___str_34:
+    00000651 59 6F 75 72 20 25 73  1094 	.ascii "Your %s is ready!"
+             20 69 73 20 72 65 61
+             64 79 21
+    00000662 0A                    1095 	.db 0x0a
+    00000663 00                    1096 	.db 0x00
+    00000664                       1097 ___str_36:
+    00000664 0A                    1098 	.db 0x0a
+    00000665 0A                    1099 	.db 0x0a
+    00000666 0A                    1100 	.db 0x0a
+    00000667 0A                    1101 	.db 0x0a
+    00000668 0A                    1102 	.db 0x0a
+    00000669 00                    1103 	.db 0x00
+    0000066A                       1104 ___str_37:
+    0000066A 48 61 70 70 69 6E 65  1105 	.ascii "Happiness: %d"
+             73 73 3A 20 25 64
+    00000677 0A                    1106 	.db 0x0a
+    00000678 00                    1107 	.db 0x00
+    00000679                       1108 ___str_38:
+    00000679 48 75 6E 67 65 72 3A  1109 	.ascii "Hunger: %d"
+             20 25 64
+    00000683 0A                    1110 	.db 0x0a
+    00000684 00                    1111 	.db 0x00
+    00000685                       1112 ___str_39:
+    00000685 45 6E 65 72 67 79 3A  1113 	.ascii "Energy: %d"
+             20 25 64
+    0000068F 0A                    1114 	.db 0x0a
+    00000690 00                    1115 	.db 0x00
+    00000691                       1116 ___str_40:
+    00000691 25 73                 1117 	.ascii "%s"
+    00000693 0A                    1118 	.db 0x0a
+    00000694 00                    1119 	.db 0x00
+    00000695                       1120 ___str_41:
+    00000695 48 75 6E 67 65 72 3A  1121 	.ascii "Hunger: %d Happiness: %d"
+             20 25 64 20 48 61 70
+             70 69 6E 65 73 73 3A
+             20 25 64
+    000006AD 0A                    1122 	.db 0x0a
+    000006AE 00                    1123 	.db 0x00
+    000006AF                       1124 ___str_43:
+    000006AF 4E 6F 74 20 68 75 6E  1125 	.ascii "Not hungry right now!"
+             67 72 79 20 72 69 67
+             68 74 20 6E 6F 77 21
+    000006C4 00                    1126 	.db 0x00
+    000006C5                       1127 ___str_44:
+    000006C5 45 6E 65 72 67 79 3A  1128 	.ascii "Energy: %d Happiness: %d"
+             20 25 64 20 48 61 70
+             70 69 6E 65 73 73 3A
+             20 25 64
+    000006DD 0A                    1129 	.db 0x0a
+    000006DE 00                    1130 	.db 0x00
+    000006DF                       1131 ___str_46:
+    000006DF 54 6F 6F 20 74 69 72  1132 	.ascii "Too tired to play..."
+             65 64 20 74 6F 20 70
+             6C 61 79 2E 2E 2E
+    000006F3 00                    1133 	.db 0x00
+    000006F4                       1134 ___str_48:
+    000006F4 2A 7A 7A 7A 2A 20 47  1135 	.ascii "*zzz* Good rest!"
+             6F 6F 64 20 72 65 73
+             74 21
+    00000704 00                    1136 	.db 0x00
+    00000705                       1137 ___str_49:
+    00000705 0A                    1138 	.db 0x0a
+    00000706 3D 3D 3D 20 25 73 20  1139 	.ascii "=== %s STATUS ==="
+             53 54 41 54 55 53 20
+             3D 3D 3D
+    00000717 0A                    1140 	.db 0x0a
+    00000718 00                    1141 	.db 0x00
+    00000719                       1142 ___str_50:
+    00000719 48 61 70 70 69 6E 65  1143 	.ascii "Happiness: %d/100"
+             73 73 3A 20 25 64 2F
+             31 30 30
+    0000072A 0A                    1144 	.db 0x0a
+    0000072B 00                    1145 	.db 0x00
+    0000072C                       1146 ___str_51:
+    0000072C 48 75 6E 67 65 72 3A  1147 	.ascii "Hunger: %d/100"
+             20 25 64 2F 31 30 30
+    0000073A 0A                    1148 	.db 0x0a
+    0000073B 00                    1149 	.db 0x00
+    0000073C                       1150 ___str_52:
+    0000073C 45 6E 65 72 67 79 3A  1151 	.ascii "Energy: %d/100"
+             20 25 64 2F 31 30 30
+    0000074A 0A                    1152 	.db 0x0a
+    0000074B 00                    1153 	.db 0x00
+    0000074C                       1154 ___str_54:
+    0000074C 4D 6F 6F 64 3A 20 56  1155 	.ascii "Mood: Very Happy! :D"
+             65 72 79 20 48 61 70
+             70 79 21 20 3A 44
+    00000760 00                    1156 	.db 0x00
+    00000761                       1157 ___str_56:
+    00000761 4D 6F 6F 64 3A 20 48  1158 	.ascii "Mood: Happy :)"
+             61 70 70 79 20 3A 29
+    0000076F 00                    1159 	.db 0x00
+    00000770                       1160 ___str_58:
+    00000770 4D 6F 6F 64 3A 20 4F  1161 	.ascii "Mood: Okay :/"
+             6B 61 79 20 3A 2F
+    0000077D 00                    1162 	.db 0x00
+    0000077E                       1163 ___str_60:
+    0000077E 4D 6F 6F 64 3A 20 53  1164 	.ascii "Mood: Sad :("
+             61 64 20 3A 28
+    0000078A 00                    1165 	.db 0x00
+    0000078B                       1166 ___str_62:
+    0000078B 4D 6F 6F 64 3A 20 56  1167 	.ascii "Mood: Very Sad T_T"
+             65 72 79 20 53 61 64
+             20 54 5F 54
+    0000079D 00                    1168 	.db 0x00
+    0000079E                       1169 ___str_64:
+    0000079E 53 74 61 74 75 73 3A  1170 	.ascii "Status: Very Hungry!"
+             20 56 65 72 79 20 48
+             75 6E 67 72 79 21
+    000007B2 00                    1171 	.db 0x00
+    000007B3                       1172 ___str_66:
+    000007B3 53 74 61 74 75 73 3A  1173 	.ascii "Status: Hungry"
+             20 48 75 6E 67 72 79
+    000007C1 00                    1174 	.db 0x00
+    000007C2                       1175 ___str_68:
+    000007C2 53 74 61 74 75 73 3A  1176 	.ascii "Status: A bit hungry"
+             20 41 20 62 69 74 20
+             68 75 6E 67 72 79
+    000007D6 00                    1177 	.db 0x00
+    000007D7                       1178 ___str_70:
+    000007D7 53 74 61 74 75 73 3A  1179 	.ascii "Status: Well fed"
+             20 57 65 6C 6C 20 66
+             65 64
+    000007E7 00                    1180 	.db 0x00
+    000007E8                       1181 ___str_72:
+    000007E8 45 6E 65 72 67 79 3A  1182 	.ascii "Energy: Exhausted"
+             20 45 78 68 61 75 73
+             74 65 64
+    000007F9 00                    1183 	.db 0x00
+    000007FA                       1184 ___str_74:
+    000007FA 45 6E 65 72 67 79 3A  1185 	.ascii "Energy: Tired"
+             20 54 69 72 65 64
+    00000807 00                    1186 	.db 0x00
+    00000808                       1187 ___str_76:
+    00000808 45 6E 65 72 67 79 3A  1188 	.ascii "Energy: Normal"
+             20 4E 6F 72 6D 61 6C
+    00000816 00                    1189 	.db 0x00
+    00000817                       1190 ___str_78:
+    00000817 45 6E 65 72 67 79 3A  1191 	.ascii "Energy: Full of energy!"
+             20 46 75 6C 6C 20 6F
+             66 20 65 6E 65 72 67
+             79 21
+    0000082E 00                    1192 	.db 0x00
+    0000082F                       1193 ___str_79:
+    0000082F 0A                    1194 	.db 0x0a
+    00000830 3D 3D 3D 20 54 41 4D  1195 	.ascii "=== TAMAGOTCHI ==="
+             41 47 4F 54 43 48 49
+             20 3D 3D 3D
+    00000842 00                    1196 	.db 0x00
+                                   1197 	.area _CODE
+                                   1198 	.area _INITIALIZER
+    00000000                       1199 __xinit__PoodleSprite:
+    00000000 00                    1200 	.db #0x00	; 0
+    00000001 00                    1201 	.db #0x00	; 0
+    00000002 07                    1202 	.db #0x07	; 7
+    00000003 07                    1203 	.db #0x07	; 7
+    00000004 18                    1204 	.db #0x18	; 24
+    00000005 1F                    1205 	.db #0x1f	; 31
+    00000006 3C                    1206 	.db #0x3c	; 60
+    00000007 23                    1207 	.db #0x23	; 35
+    00000008 7B                    1208 	.db #0x7b	; 123
+    00000009 54                    1209 	.db #0x54	; 84	'T'
+    0000000A F7                    1210 	.db #0xf7	; 247
+    0000000B 9C                    1211 	.db #0x9c	; 156
+    0000000C F7                    1212 	.db #0xf7	; 247
+    0000000D 98                    1213 	.db #0x98	; 152
+    0000000E 6F                    1214 	.db #0x6f	; 111	'o'
+    0000000F 70                    1215 	.db #0x70	; 112	'p'
+    00000010 00                    1216 	.db #0x00	; 0
+    00000011 00                    1217 	.db #0x00	; 0
+    00000012 E0                    1218 	.db #0xe0	; 224
+    00000013 E0                    1219 	.db #0xe0	; 224
+    00000014 18                    1220 	.db #0x18	; 24
+    00000015 F8                    1221 	.db #0xf8	; 248
+    00000016 3C                    1222 	.db #0x3c	; 60
+    00000017 C4                    1223 	.db #0xc4	; 196
+    00000018 DE                    1224 	.db #0xde	; 222
+    00000019 2A                    1225 	.db #0x2a	; 42
+    0000001A EF                    1226 	.db #0xef	; 239
+    0000001B 39                    1227 	.db #0x39	; 57	'9'
+    0000001C EF                    1228 	.db #0xef	; 239
+    0000001D 19                    1229 	.db #0x19	; 25
+    0000001E F6                    1230 	.db #0xf6	; 246
+    0000001F 0E                    1231 	.db #0x0e	; 14
+    00000020 2F                    1232 	.db #0x2f	; 47
+    00000021 35                    1233 	.db #0x35	; 53	'5'
+    00000022 17                    1234 	.db #0x17	; 23
+    00000023 1A                    1235 	.db #0x1a	; 26
+    00000024 2B                    1236 	.db #0x2b	; 43
+    00000025 34                    1237 	.db #0x34	; 52	'4'
+    00000026 2C                    1238 	.db #0x2c	; 44
+    00000027 33                    1239 	.db #0x33	; 51	'3'
+    00000028 5F                    1240 	.db #0x5f	; 95
+    00000029 60                    1241 	.db #0x60	; 96
+    0000002A 5F                    1242 	.db #0x5f	; 95
+    0000002B 60                    1243 	.db #0x60	; 96
+    0000002C 5F                    1244 	.db #0x5f	; 95
+    0000002D 61                    1245 	.db #0x61	; 97	'a'
+    0000002E 2F                    1246 	.db #0x2f	; 47
+    0000002F 31                    1247 	.db #0x31	; 49	'1'
+    00000030 F4                    1248 	.db #0xf4	; 244
+    00000031 AC                    1249 	.db #0xac	; 172
+    00000032 E8                    1250 	.db #0xe8	; 232
+    00000033 58                    1251 	.db #0x58	; 88	'X'
+    00000034 D4                    1252 	.db #0xd4	; 212
+    00000035 2C                    1253 	.db #0x2c	; 44
+    00000036 34                    1254 	.db #0x34	; 52	'4'
+    00000037 CC                    1255 	.db #0xcc	; 204
+    00000038 F2                    1256 	.db #0xf2	; 242
+    00000039 0E                    1257 	.db #0x0e	; 14
+    0000003A FA                    1258 	.db #0xfa	; 250
+    0000003B 06                    1259 	.db #0x06	; 6
+    0000003C FA                    1260 	.db #0xfa	; 250
+    0000003D 86                    1261 	.db #0x86	; 134
+    0000003E F5                    1262 	.db #0xf5	; 245
+    0000003F 8F                    1263 	.db #0x8f	; 143
+    00000040 F9                    1264 	.db #0xf9	; 249
+    00000041 8F                    1265 	.db #0x8f	; 143
+    00000042 72                    1266 	.db #0x72	; 114	'r'
+    00000043 7E                    1267 	.db #0x7e	; 126
+    00000044 0C                    1268 	.db #0x0c	; 12
+    00000045 0C                    1269 	.db #0x0c	; 12
+    00000046 00                    1270 	.db #0x00	; 0
+    00000047 00                    1271 	.db #0x00	; 0
+    00000048 00                    1272 	.db #0x00	; 0
+    00000049 00                    1273 	.db #0x00	; 0
+    0000004A 00                    1274 	.db #0x00	; 0
+    0000004B 00                    1275 	.db #0x00	; 0
+    0000004C 00                    1276 	.db #0x00	; 0
+    0000004D 00                    1277 	.db #0x00	; 0
+    0000004E 00                    1278 	.db #0x00	; 0
+    0000004F 00                    1279 	.db #0x00	; 0
+    00000050 11                    1280 	.db #0x11	; 17
+    00000051 1F                    1281 	.db #0x1f	; 31
+    00000052 0E                    1282 	.db #0x0e	; 14
+    00000053 0E                    1283 	.db #0x0e	; 14
+    00000054 00                    1284 	.db #0x00	; 0
+    00000055 00                    1285 	.db #0x00	; 0
+    00000056 00                    1286 	.db #0x00	; 0
+    00000057 00                    1287 	.db #0x00	; 0
+    00000058 00                    1288 	.db #0x00	; 0
+    00000059 00                    1289 	.db #0x00	; 0
+    0000005A 00                    1290 	.db #0x00	; 0
+    0000005B 00                    1291 	.db #0x00	; 0
+    0000005C 00                    1292 	.db #0x00	; 0
+    0000005D 00                    1293 	.db #0x00	; 0
+    0000005E 00                    1294 	.db #0x00	; 0
+    0000005F 00                    1295 	.db #0x00	; 0
+    00000060                       1296 __xinit__CatSprite:
+    00000060 30                    1297 	.db #0x30	; 48	'0'
+    00000061 30                    1298 	.db #0x30	; 48	'0'
+    00000062 4B                    1299 	.db #0x4b	; 75	'K'
+    00000063 7B                    1300 	.db #0x7b	; 123
+    00000064 54                    1301 	.db #0x54	; 84	'T'
+    00000065 6F                    1302 	.db #0x6f	; 111	'o'
+    00000066 50                    1303 	.db #0x50	; 80	'P'
+    00000067 6F                    1304 	.db #0x6f	; 111	'o'
+    00000068 40                    1305 	.db #0x40	; 64
+    00000069 7F                    1306 	.db #0x7f	; 127
+    0000006A 40                    1307 	.db #0x40	; 64
+    0000006B 7F                    1308 	.db #0x7f	; 127
+    0000006C 20                    1309 	.db #0x20	; 32
+    0000006D 3F                    1310 	.db #0x3f	; 63
+    0000006E 46                    1311 	.db #0x46	; 70	'F'
+    0000006F 7F                    1312 	.db #0x7f	; 127
+    00000070 01                    1313 	.db #0x01	; 1
+    00000071 01                    1314 	.db #0x01	; 1
+    00000072 FA                    1315 	.db #0xfa	; 250
+    00000073 FB                    1316 	.db #0xfb	; 251
+    00000074 05                    1317 	.db #0x05	; 5
+    00000075 FE                    1318 	.db #0xfe	; 254
+    00000076 41                    1319 	.db #0x41	; 65	'A'
+    00000077 BE                    1320 	.db #0xbe	; 190
+    00000078 40                    1321 	.db #0x40	; 64
+    00000079 BF                    1322 	.db #0xbf	; 191
+    0000007A 40                    1323 	.db #0x40	; 64
+    0000007B BF                    1324 	.db #0xbf	; 191
+    0000007C E0                    1325 	.db #0xe0	; 224
+    0000007D 1F                    1326 	.db #0x1f	; 31
+    0000007E EC                    1327 	.db #0xec	; 236
+    0000007F 1F                    1328 	.db #0x1f	; 31
+    00000080 80                    1329 	.db #0x80	; 128
+    00000081 80                    1330 	.db #0x80	; 128
+    00000082 40                    1331 	.db #0x40	; 64
+    00000083 C0                    1332 	.db #0xc0	; 192
+    00000084 40                    1333 	.db #0x40	; 64
+    00000085 C0                    1334 	.db #0xc0	; 192
+    00000086 40                    1335 	.db #0x40	; 64
+    00000087 C0                    1336 	.db #0xc0	; 192
+    00000088 40                    1337 	.db #0x40	; 64
+    00000089 C0                    1338 	.db #0xc0	; 192
+    0000008A 80                    1339 	.db #0x80	; 128
+    0000008B 80                    1340 	.db #0x80	; 128
+    0000008C 40                    1341 	.db #0x40	; 64
+    0000008D C0                    1342 	.db #0xc0	; 192
+    0000008E 40                    1343 	.db #0x40	; 64
+    0000008F C0                    1344 	.db #0xc0	; 192
+    00000090 E6                    1345 	.db #0xe6	; 230
+    00000091 FF                    1346 	.db #0xff	; 255
+    00000092 59                    1347 	.db #0x59	; 89	'Y'
+    00000093 66                    1348 	.db #0x66	; 102	'f'
+    00000094 E3                    1349 	.db #0xe3	; 227
+    00000095 FC                    1350 	.db #0xfc	; 252
+    00000096 43                    1351 	.db #0x43	; 67	'C'
+    00000097 7C                    1352 	.db #0x7c	; 124
+    00000098 21                    1353 	.db #0x21	; 33
+    00000099 3E                    1354 	.db #0x3e	; 62
+    0000009A 4F                    1355 	.db #0x4f	; 79	'O'
+    0000009B 7E                    1356 	.db #0x7e	; 126
+    0000009C 5F                    1357 	.db #0x5f	; 95
+    0000009D 71                    1358 	.db #0x71	; 113	'q'
+    0000009E 5F                    1359 	.db #0x5f	; 95
+    0000009F 71                    1360 	.db #0x71	; 113	'q'
+    000000A0 EC                    1361 	.db #0xec	; 236
+    000000A1 1F                    1362 	.db #0x1f	; 31
+    000000A2 F3                    1363 	.db #0xf3	; 243
+    000000A3 EC                    1364 	.db #0xec	; 236
+    000000A4 F8                    1365 	.db #0xf8	; 248
+    000000A5 47                    1366 	.db #0x47	; 71	'G'
+    000000A6 F8                    1367 	.db #0xf8	; 248
+    000000A7 07                    1368 	.db #0x07	; 7
+    000000A8 F0                    1369 	.db #0xf0	; 240
+    000000A9 0F                    1370 	.db #0x0f	; 15
+    000000AA FE                    1371 	.db #0xfe	; 254
+    000000AB 0F                    1372 	.db #0x0f	; 15
+    000000AC FF                    1373 	.db #0xff	; 255
+    000000AD 11                    1374 	.db #0x11	; 17
+    000000AE FF                    1375 	.db #0xff	; 255
+    000000AF 11                    1376 	.db #0x11	; 17
+    000000B0 E0                    1377 	.db #0xe0	; 224
+    000000B1 E0                    1378 	.db #0xe0	; 224
+    000000B2 40                    1379 	.db #0x40	; 64
+    000000B3 C0                    1380 	.db #0xc0	; 192
+    000000B4 E0                    1381 	.db #0xe0	; 224
+    000000B5 E0                    1382 	.db #0xe0	; 224
+    000000B6 40                    1383 	.db #0x40	; 64
+    000000B7 C0                    1384 	.db #0xc0	; 192
+    000000B8 80                    1385 	.db #0x80	; 128
+    000000B9 80                    1386 	.db #0x80	; 128
+    000000BA 40                    1387 	.db #0x40	; 64
+    000000BB C0                    1388 	.db #0xc0	; 192
+    000000BC 40                    1389 	.db #0x40	; 64
+    000000BD C0                    1390 	.db #0xc0	; 192
+    000000BE 40                    1391 	.db #0x40	; 64
+    000000BF C0                    1392 	.db #0xc0	; 192
+    000000C0 8F                    1393 	.db #0x8f	; 143
+    000000C1 FE                    1394 	.db #0xfe	; 254
+    000000C2 87                    1395 	.db #0x87	; 135
+    000000C3 F8                    1396 	.db #0xf8	; 248
+    000000C4 87                    1397 	.db #0x87	; 135
+    000000C5 F8                    1398 	.db #0xf8	; 248
+    000000C6 83                    1399 	.db #0x83	; 131
+    000000C7 FC                    1400 	.db #0xfc	; 252
+    000000C8 8F                    1401 	.db #0x8f	; 143
+    000000C9 FE                    1402 	.db #0xfe	; 254
+    000000CA 5F                    1403 	.db #0x5f	; 95
+    000000CB 71                    1404 	.db #0x71	; 113	'q'
+    000000CC 3F                    1405 	.db #0x3f	; 63
+    000000CD 31                    1406 	.db #0x31	; 49	'1'
+    000000CE 0E                    1407 	.db #0x0e	; 14
+    000000CF 0E                    1408 	.db #0x0e	; 14
+    000000D0 FE                    1409 	.db #0xfe	; 254
+    000000D1 0F                    1410 	.db #0x0f	; 15
+    000000D2 FC                    1411 	.db #0xfc	; 252
+    000000D3 03                    1412 	.db #0x03	; 3
+    000000D4 FC                    1413 	.db #0xfc	; 252
+    000000D5 03                    1414 	.db #0x03	; 3
+    000000D6 F8                    1415 	.db #0xf8	; 248
+    000000D7 07                    1416 	.db #0x07	; 7
+    000000D8 FE                    1417 	.db #0xfe	; 254
+    000000D9 0F                    1418 	.db #0x0f	; 15
+    000000DA FF                    1419 	.db #0xff	; 255
+    000000DB 11                    1420 	.db #0x11	; 17
+    000000DC FF                    1421 	.db #0xff	; 255
+    000000DD F1                    1422 	.db #0xf1	; 241
+    000000DE 0E                    1423 	.db #0x0e	; 14
+    000000DF 0E                    1424 	.db #0x0e	; 14
+    000000E0 26                    1425 	.db #0x26	; 38
+    000000E1 E6                    1426 	.db #0xe6	; 230
+    000000E2 2F                    1427 	.db #0x2f	; 47
+    000000E3 E9                    1428 	.db #0xe9	; 233
+    000000E4 2E                    1429 	.db #0x2e	; 46
+    000000E5 EA                    1430 	.db #0xea	; 234
+    000000E6 34                    1431 	.db #0x34	; 52	'4'
+    000000E7 FC                    1432 	.db #0xfc	; 252
+    000000E8 24                    1433 	.db #0x24	; 36
+    000000E9 FC                    1434 	.db #0xfc	; 252
+    000000EA 78                    1435 	.db #0x78	; 120	'x'
+    000000EB C8                    1436 	.db #0xc8	; 200
+    000000EC B0                    1437 	.db #0xb0	; 176
+    000000ED B0                    1438 	.db #0xb0	; 176
+    000000EE 00                    1439 	.db #0x00	; 0
+    000000EF 00                    1440 	.db #0x00	; 0
+    000000F0                       1441 __xinit__selected_pet:
+    000000F0 00                    1442 	.db #0x00	; 0
+                                   1443 	.area _CABS (ABS)

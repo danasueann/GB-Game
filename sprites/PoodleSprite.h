@@ -1,8 +1,8 @@
 /*
 
- TEST.C
+ POODLESPRITE.H
 
- Tile Source File.
+ Include File.
 
  Info:
   Form                 : All tiles as one unit.
@@ -10,7 +10,7 @@
   Compression          : None.
   Counter              : None.
   Tile size            : 8 x 8
-  Tiles                : 0 to 0
+  Tiles                : 0 to 5
 
   Palette colors       : None.
   SGB Palette          : None.
@@ -22,11 +22,10 @@
 
 */
 
-/* Start of tile array. */
-unsigned char Test[] =
-{
-  0x00,0x00,0x38,0x38,0x5C,0x5C,0x7C,0x7C,
-  0x74,0x74,0x38,0x38,0x00,0x00,0x00,0x00
-};
 
-/* End of TEST.C */
+/* Bank of tiles. */
+#define PoodleSpriteBank 0
+/* Start of tile array. */
+extern unsigned char PoodleSprite[];
+
+/* End of POODLESPRITE.H */
