@@ -4,9 +4,16 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "C:\\gbdk\\include\\gb\\**",
-                "${workspaceFolder}\\..\\..\\..\\..\\gbdk\\include\\gb\\**"
-            ]
+                "C:\\gbdk\\include\\**",
+                "${workspaceFolder}\\sprites\\**"
+            ],
+            "defines": [
+                "__PORT_sm83",
+                "__TARGET_gb"
+            ],
+            "compilerPath": "",
+            "cStandard": "c11",
+            "intelliSenseMode": "windows-msvc-x64"
         }
     ],
     "version": 4

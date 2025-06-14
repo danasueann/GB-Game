@@ -17,6 +17,8 @@
 	.globl _get_pet_name
 	.globl _setup_pet_sprite
 	.globl _show_selection_menu
+	.globl _setup_dog_sprite_main
+	.globl _setup_dog_sprite_selection
 	.globl _puts
 	.globl _printf
 	.globl _set_sprite_data
@@ -25,6 +27,8 @@
 	.globl _selected_pet
 	.globl _CatSprite
 	.globl _PoodleSprite
+	.globl _setup_cat_sprite_selection
+	.globl _setup_cat_sprite_main
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -32,7 +36,7 @@
 ; ram data
 ;--------------------------------------------------------
 	.area _DATA
-_main_time_counter_20003_376:
+_main_time_counter_20003_369:
 	.ds 1
 ;--------------------------------------------------------
 ; ram data
@@ -55,9 +59,9 @@ _selected_pet::
 	.area _GSINIT
 	.area _GSFINAL
 	.area _GSINIT
-;main.c:334: static UBYTE time_counter = 0;
+;main.c:254: static UBYTE time_counter = 0;
 	xor	a, a
-	ld	hl, #_main_time_counter_20003_376
+	ld	hl, #_main_time_counter_20003_369
 	ld	(hl), a
 ;--------------------------------------------------------
 ; Home
@@ -68,68 +72,12 @@ _selected_pet::
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;main.c:9: void show_selection_menu()
+;cat_sprite.h:12: void setup_cat_sprite_selection(void)
 ;	---------------------------------
-; Function show_selection_menu
+; Function setup_cat_sprite_selection
 ; ---------------------------------
-_show_selection_menu::
-;main.c:14: set_sprite_data(0, 6, PoodleSprite);
-	ld	de, #_PoodleSprite
-	push	de
-	ld	hl, #0x600
-	push	hl
-	call	_set_sprite_data
-	add	sp, #4
-;c:\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-	ld	hl, #(_shadow_OAM + 2)
-	ld	(hl), #0x00
-	ld	hl, #(_shadow_OAM + 6)
-	ld	(hl), #0x01
-	ld	hl, #(_shadow_OAM + 10)
-	ld	(hl), #0x02
-	ld	hl, #(_shadow_OAM + 14)
-	ld	(hl), #0x03
-	ld	hl, #(_shadow_OAM + 18)
-	ld	(hl), #0x04
-	ld	hl, #(_shadow_OAM + 22)
-	ld	(hl), #0x05
-;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-	ld	hl, #_shadow_OAM
-;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, #0x28
-	ld	(hl+), a
-	ld	(hl), #0x30
-;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-	ld	hl, #(_shadow_OAM + 4)
-;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, #0x28
-	ld	(hl+), a
-	ld	(hl), #0x38
-;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-	ld	hl, #(_shadow_OAM + 8)
-;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, #0x30
-	ld	(hl+), a
-	ld	(hl), #0x30
-;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-	ld	hl, #(_shadow_OAM + 12)
-;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, #0x30
-	ld	(hl+), a
-	ld	(hl), #0x38
-;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-	ld	hl, #(_shadow_OAM + 16)
-;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, #0x38
-	ld	(hl+), a
-	ld	(hl), #0x30
-;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-	ld	hl, #(_shadow_OAM + 20)
-;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, #0x38
-	ld	(hl+), a
-	ld	(hl), #0x38
-;main.c:31: set_sprite_data(6, 9, CatSprite);
+_setup_cat_sprite_selection::
+;cat_sprite.h:15: set_sprite_data(6, 9, CatSprite);
 	ld	de, #_CatSprite
 	push	de
 	ld	hl, #0x906
@@ -209,125 +157,15 @@ _show_selection_menu::
 	ld	a, #0x34
 	ld	(hl+), a
 	ld	(hl), #0x70
-;main.c:53: SHOW_SPRITES;
-	ldh	a, (_LCDC_REG + 0)
-	or	a, #0x02
-	ldh	(_LCDC_REG + 0), a
-;main.c:55: cls();
-	call	_cls
-;main.c:61: printf("Press A or B\n to select!\n");
-	ld	de, #___str_15
-;main.c:62: }
-	jp	_puts
-___str_15:
-	.db 0x0a
-	.ascii "== PET SELECTION =="
-	.db 0x0a
-	.db 0x0a
-	.db 0x0a
-	.db 0x0a
-	.db 0x0a
-	.db 0x0a
-	.db 0x0a
-	.db 0x0a
-	.ascii "   POODLE      CAT"
-	.db 0x0a
-	.db 0x0a
-	.ascii "Press A or B"
-	.db 0x0a
-	.ascii " to select!"
-	.db 0x00
-;main.c:64: void setup_pet_sprite()
-;	---------------------------------
-; Function setup_pet_sprite
-; ---------------------------------
-_setup_pet_sprite::
-;main.c:67: for (UBYTE i = 0; i < 15; i++)
-	ld	c, #0x00
-00137$:
-	ld	a, c
-	sub	a, #0x0f
-	jr	NC, 00101$
-;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-	ld	de, #_shadow_OAM+0
-	ld	l, c
-	xor	a, a
-	ld	h, a
-	add	hl, hl
-	add	hl, hl
-	add	hl, de
-;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	xor	a, a
-	ld	(hl+), a
-	ld	(hl), a
-;main.c:67: for (UBYTE i = 0; i < 15; i++)
-	inc	c
-	jr	00137$
-00101$:
-;main.c:72: if (selected_pet == 0)
-	ld	a, (#_selected_pet)
-	or	a, a
-	jr	NZ, 00103$
-;main.c:75: set_sprite_data(0, 6, PoodleSprite);
-	ld	de, #_PoodleSprite
-	push	de
-	ld	hl, #0x600
-	push	hl
-	call	_set_sprite_data
-	add	sp, #4
-;c:\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-	ld	hl, #(_shadow_OAM + 2)
-	ld	(hl), #0x00
-	ld	hl, #(_shadow_OAM + 6)
-	ld	(hl), #0x01
-	ld	hl, #(_shadow_OAM + 10)
-	ld	(hl), #0x02
-	ld	hl, #(_shadow_OAM + 14)
-	ld	(hl), #0x03
-	ld	hl, #(_shadow_OAM + 18)
-	ld	(hl), #0x04
-	ld	hl, #(_shadow_OAM + 22)
-	ld	(hl), #0x05
-;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-	ld	hl, #_shadow_OAM
-;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, #0x28
-	ld	(hl+), a
-	ld	(hl), #0x48
-;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-	ld	hl, #(_shadow_OAM + 4)
-;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, #0x28
-	ld	(hl+), a
-	ld	(hl), #0x50
-;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-	ld	hl, #(_shadow_OAM + 8)
-;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, #0x30
-	ld	(hl+), a
-	ld	(hl), #0x48
-;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-	ld	hl, #(_shadow_OAM + 12)
-;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, #0x30
-	ld	(hl+), a
-	ld	(hl), #0x50
-;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-	ld	hl, #(_shadow_OAM + 16)
-;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, #0x38
-	ld	(hl+), a
-	ld	(hl), #0x48
-;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-	ld	hl, #(_shadow_OAM + 20)
-;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, #0x38
-	ld	(hl+), a
-	ld	(hl), #0x50
-;main.c:91: move_sprite(5, 80, 56); // unten rechts
+;cat_sprite.h:34: move_sprite(14, 112, 52); // down right
+;cat_sprite.h:35: }
 	ret
-00103$:
-;main.c:96: set_sprite_data(0, 9, CatSprite);
+;cat_sprite.h:37: void setup_cat_sprite_main(void)
+;	---------------------------------
+; Function setup_cat_sprite_main
+; ---------------------------------
+_setup_cat_sprite_main::
+;cat_sprite.h:40: set_sprite_data(0, 9, CatSprite);
 	ld	de, #_CatSprite
 	push	de
 	ld	hl, #0x900
@@ -407,15 +245,269 @@ _setup_pet_sprite::
 	ld	a, #0x34
 	ld	(hl+), a
 	ld	(hl), #0x54
-;main.c:118: move_sprite(8, 84, 52); // unten rechts
-;main.c:120: }
+;cat_sprite.h:62: move_sprite(8, 84, 52);
+;cat_sprite.h:63: }
 	ret
-;main.c:122: const char *get_pet_name()
+;dog_sprite2.h:3: void setup_dog_sprite_selection(void) {
+;	---------------------------------
+; Function setup_dog_sprite_selection
+; ---------------------------------
+_setup_dog_sprite_selection::
+;dog_sprite2.h:7: set_sprite_data(0, 19, Poodle2_tiles); // 304 bytes / 16 bytes per tile = 19 tiles
+	ld	de, #_Poodle2_tiles
+	push	de
+	ld	hl, #0x1300
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;dog_sprite2.h:10: SHOW_SPRITES;
+	ldh	a, (_LCDC_REG + 0)
+	or	a, #0x02
+	ldh	(_LCDC_REG + 0), a
+;c:\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+	ld	hl, #(_shadow_OAM + 2)
+;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+	ld	a, #0x01
+	ld	(hl-), a
+	dec	hl
+;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+	ld	a, #0x50
+	ld	(hl+), a
+	ld	(hl), #0x50
+;dog_sprite2.h:14: move_sprite(0, 80, 80); // Position auf dem Bildschirm
+;dog_sprite2.h:15: }
+	ret
+;dog_sprite2.h:17: void setup_dog_sprite_main(void) {
+;	---------------------------------
+; Function setup_dog_sprite_main
+; ---------------------------------
+_setup_dog_sprite_main::
+	add	sp, #-9
+;dog_sprite2.h:21: uint8_t sprite_index = 0;
+	ld	c, #0x00
+;dog_sprite2.h:25: set_sprite_data(0, 19, Poodle2_tiles);
+	ld	de, #_Poodle2_tiles
+	push	de
+	ld	hl, #0x1300
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;dog_sprite2.h:29: for (uint8_t row = 0; row < 5; row++) {
+	ldhl	sp,	#6
+	ld	(hl), #0x00
+00113$:
+	ldhl	sp,	#6
+	ld	a, (hl)
+	sub	a, #0x05
+	jp	NC, 00106$
+;dog_sprite2.h:30: for (uint8_t col = 0; col < 5; col++) {
+	inc	hl
+	ld	a, c
+	ld	(hl+), a
+	ld	(hl), #0x00
+00110$:
+	ldhl	sp,	#8
+	ld	a, (hl)
+	sub	a, #0x05
+	jr	NC, 00123$
+;dog_sprite2.h:31: uint8_t tile_id = Poodle2_map[row * 5 + col];
+	dec	hl
+	dec	hl
+	ld	a, (hl+)
+	inc	hl
+	ld	c, a
+	add	a, a
+	add	a, a
+	add	a, c
+	ld	b, (hl)
+	add	a, b
+	ld	l, a
+	ld	h, #0x00
+	ld	de, #_Poodle2_map
+	add	hl, de
+	ld	b, (hl)
+;dog_sprite2.h:32: uint8_t sprite_x = dog_x + (col * 8); // 8 Pixel pro Tile
+	ldhl	sp,	#8
+	ld	a, (hl)
+	add	a, a
+	add	a, a
+	add	a, a
+	add	a, #0x50
+	ldhl	sp,	#2
+;dog_sprite2.h:33: uint8_t sprite_y = dog_y + (row * 8);
+	ld	(hl+), a
+	ld	a, c
+	add	a, a
+	add	a, a
+	add	a, a
+	add	a, #0x48
+	ld	(hl), a
+;c:\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+	ldhl	sp,	#7
+	ld	c, (hl)
+	xor	a, a
+	sla	c
+	adc	a, a
+	sla	c
+	adc	a, a
+	ldhl	sp,	#0
+	ld	(hl), c
+	inc	hl
+	ld	(hl), a
+	ld	de, #_shadow_OAM
+	pop	hl
+	push	hl
+	add	hl, de
+	inc	hl
+	inc	hl
+	ld	e, l
+	ld	d, h
+	ld	a, b
+	ld	(de), a
+;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+	ld	de, #_shadow_OAM
+	pop	hl
+	push	hl
+	add	hl, de
+	push	hl
+	ld	a, l
+	ldhl	sp,	#6
+	ld	(hl), a
+	pop	hl
+	ld	a, h
+	ldhl	sp,	#5
+;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+	ld	(hl-), a
+	ld	a, (hl+)
+	ld	e, a
+	ld	a, (hl-)
+	dec	hl
+	ld	d, a
+	ld	a, (hl+)
+	ld	(de), a
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	inc	hl
+	inc	sp
+	inc	sp
+	ld	e, l
+	ld	d, h
+	push	de
+	ldhl	sp,	#2
+	ld	a, (hl)
+	ld	(de), a
+;dog_sprite2.h:39: sprite_index++;
+	ldhl	sp,	#7
+	inc	(hl)
+;dog_sprite2.h:42: if (sprite_index >= 40) break; // Game Boy hat maximal 40 Sprites
+	ld	a, (hl)
+	sub	a, #0x28
+	jr	NC, 00123$
+;dog_sprite2.h:30: for (uint8_t col = 0; col < 5; col++) {
+	inc	hl
+	inc	(hl)
+	jr	00110$
+00123$:
+	ldhl	sp,	#7
+	ld	c, (hl)
+;dog_sprite2.h:44: if (sprite_index >= 40) break;
+	ld	a, (hl)
+	sub	a, #0x28
+	jr	NC, 00106$
+;dog_sprite2.h:29: for (uint8_t row = 0; row < 5; row++) {
+	dec	hl
+	inc	(hl)
+	jp	00113$
+00106$:
+;dog_sprite2.h:48: SHOW_SPRITES;
+	ldh	a, (_LCDC_REG + 0)
+	or	a, #0x02
+	ldh	(_LCDC_REG + 0), a
+;dog_sprite2.h:49: }
+	add	sp, #9
+	ret
+;main.c:11: void show_selection_menu()
+;	---------------------------------
+; Function show_selection_menu
+; ---------------------------------
+_show_selection_menu::
+;main.c:16: setup_dog2_sprite_selection();
+	call	_setup_dog2_sprite_selection
+;main.c:19: setup_cat_sprite_selection();
+	call	_setup_cat_sprite_selection
+;main.c:22: SHOW_SPRITES;
+	ldh	a, (_LCDC_REG + 0)
+	or	a, #0x02
+	ldh	(_LCDC_REG + 0), a
+;main.c:24: cls();
+	call	_cls
+;main.c:30: printf("Press A or B\n to select!\n");
+	ld	de, #___str_15
+;main.c:31: }
+	jp	_puts
+___str_15:
+	.db 0x0a
+	.ascii "== PET SELECTION =="
+	.db 0x0a
+	.db 0x0a
+	.db 0x0a
+	.db 0x0a
+	.db 0x0a
+	.db 0x0a
+	.db 0x0a
+	.db 0x0a
+	.ascii "   POODLE      CAT"
+	.db 0x0a
+	.db 0x0a
+	.ascii "Press A or B"
+	.db 0x0a
+	.ascii " to select!"
+	.db 0x00
+;main.c:33: void setup_pet_sprite()
+;	---------------------------------
+; Function setup_pet_sprite
+; ---------------------------------
+_setup_pet_sprite::
+;main.c:36: for (UBYTE i = 0; i < 15; i++)
+	ld	c, #0x00
+00107$:
+	ld	a, c
+	sub	a, #0x0f
+	jr	NC, 00101$
+;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+	ld	de, #_shadow_OAM+0
+	ld	l, c
+	xor	a, a
+	ld	h, a
+	add	hl, hl
+	add	hl, hl
+	add	hl, de
+;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+	xor	a, a
+	ld	(hl+), a
+	ld	(hl), a
+;main.c:36: for (UBYTE i = 0; i < 15; i++)
+	inc	c
+	jr	00107$
+00101$:
+;main.c:41: if (selected_pet == 0)
+	ld	hl, #_selected_pet
+	ld	a, (hl)
+	or	a, a
+	jp	NZ, _setup_cat_sprite_main
+;main.c:44: setup_dog2_sprite_main();
+;main.c:50: setup_cat_sprite_main();
+;main.c:52: }
+	jp	_setup_dog2_sprite_main
+;main.c:54: const char *get_pet_name()
 ;	---------------------------------
 ; Function get_pet_name
 ; ---------------------------------
 _get_pet_name::
-;main.c:124: return (selected_pet == 0) ? "POODLE" : "KITTY";
+;main.c:56: return (selected_pet == 0) ? "POODLE" : "KITTY";
 	ld	a, (#_selected_pet)
 	or	a, a
 	jr	NZ, 00103$
@@ -423,7 +515,7 @@ _get_pet_name::
 	ret
 00103$:
 	ld	bc, #___str_17+0
-;main.c:125: }
+;main.c:57: }
 	ret
 ___str_16:
 	.ascii "POODLE"
@@ -431,12 +523,12 @@ ___str_16:
 ___str_17:
 	.ascii "KITTY"
 	.db 0x00
-;main.c:127: const char *get_feed_message()
+;main.c:59: const char *get_feed_message()
 ;	---------------------------------
 ; Function get_feed_message
 ; ---------------------------------
 _get_feed_message::
-;main.c:129: return (selected_pet == 0) ? "*munch munch* Woof!" : "*purr purr* Meow!";
+;main.c:61: return (selected_pet == 0) ? "*munch munch* Woof!" : "*purr purr* Meow!";
 	ld	a, (#_selected_pet)
 	or	a, a
 	jr	NZ, 00103$
@@ -444,7 +536,7 @@ _get_feed_message::
 	ret
 00103$:
 	ld	bc, #___str_19+0
-;main.c:130: }
+;main.c:62: }
 	ret
 ___str_18:
 	.ascii "*munch munch* Woof!"
@@ -452,12 +544,12 @@ ___str_18:
 ___str_19:
 	.ascii "*purr purr* Meow!"
 	.db 0x00
-;main.c:132: const char *get_play_message()
+;main.c:64: const char *get_play_message()
 ;	---------------------------------
 ; Function get_play_message
 ; ---------------------------------
 _get_play_message::
-;main.c:134: return (selected_pet == 0) ? "*woof woof* Fun!" : "*meow* Playful!";
+;main.c:66: return (selected_pet == 0) ? "*woof woof* Fun!" : "*meow* Playful!";
 	ld	a, (#_selected_pet)
 	or	a, a
 	jr	NZ, 00103$
@@ -465,7 +557,7 @@ _get_play_message::
 	ret
 00103$:
 	ld	bc, #___str_21+0
-;main.c:135: }
+;main.c:67: }
 	ret
 ___str_20:
 	.ascii "*woof woof* Fun!"
@@ -473,12 +565,12 @@ ___str_20:
 ___str_21:
 	.ascii "*meow* Playful!"
 	.db 0x00
-;main.c:137: const char *get_up_message()
+;main.c:69: const char *get_up_message()
 ;	---------------------------------
 ; Function get_up_message
 ; ---------------------------------
 _get_up_message::
-;main.c:139: return (selected_pet == 0) ? "*looks up curiously*" : "*ears perk up*";
+;main.c:71: return (selected_pet == 0) ? "*looks up curiously*" : "*ears perk up*";
 	ld	a, (#_selected_pet)
 	or	a, a
 	jr	NZ, 00103$
@@ -486,7 +578,7 @@ _get_up_message::
 	ret
 00103$:
 	ld	bc, #___str_23+0
-;main.c:140: }
+;main.c:72: }
 	ret
 ___str_22:
 	.ascii "*looks up curiously*"
@@ -494,12 +586,12 @@ ___str_22:
 ___str_23:
 	.ascii "*ears perk up*"
 	.db 0x00
-;main.c:142: const char *get_down_message()
+;main.c:74: const char *get_down_message()
 ;	---------------------------------
 ; Function get_down_message
 ; ---------------------------------
 _get_down_message::
-;main.c:144: return (selected_pet == 0) ? "*sniffs the ground*" : "*sniffs around*";
+;main.c:76: return (selected_pet == 0) ? "*sniffs the ground*" : "*sniffs around*";
 	ld	a, (#_selected_pet)
 	or	a, a
 	jr	NZ, 00103$
@@ -507,7 +599,7 @@ _get_down_message::
 	ret
 00103$:
 	ld	bc, #___str_25+0
-;main.c:145: }
+;main.c:77: }
 	ret
 ___str_24:
 	.ascii "*sniffs the ground*"
@@ -515,12 +607,12 @@ ___str_24:
 ___str_25:
 	.ascii "*sniffs around*"
 	.db 0x00
-;main.c:147: const char *get_left_message()
+;main.c:79: const char *get_left_message()
 ;	---------------------------------
 ; Function get_left_message
 ; ---------------------------------
 _get_left_message::
-;main.c:149: return (selected_pet == 0) ? "*turns left*" : "*stretches left*";
+;main.c:81: return (selected_pet == 0) ? "*turns left*" : "*stretches left*";
 	ld	a, (#_selected_pet)
 	or	a, a
 	jr	NZ, 00103$
@@ -528,7 +620,7 @@ _get_left_message::
 	ret
 00103$:
 	ld	bc, #___str_27+0
-;main.c:150: }
+;main.c:82: }
 	ret
 ___str_26:
 	.ascii "*turns left*"
@@ -536,12 +628,12 @@ ___str_26:
 ___str_27:
 	.ascii "*stretches left*"
 	.db 0x00
-;main.c:152: const char *get_right_message()
+;main.c:84: const char *get_right_message()
 ;	---------------------------------
 ; Function get_right_message
 ; ---------------------------------
 _get_right_message::
-;main.c:154: return (selected_pet == 0) ? "*turns right*" : "*stretches right*";
+;main.c:86: return (selected_pet == 0) ? "*turns right*" : "*stretches right*";
 	ld	a, (#_selected_pet)
 	or	a, a
 	jr	NZ, 00103$
@@ -549,7 +641,7 @@ _get_right_message::
 	ret
 00103$:
 	ld	bc, #___str_29+0
-;main.c:155: }
+;main.c:87: }
 	ret
 ___str_28:
 	.ascii "*turns right*"
@@ -557,138 +649,138 @@ ___str_28:
 ___str_29:
 	.ascii "*stretches right*"
 	.db 0x00
-;main.c:157: void main()
+;main.c:89: void main()
 ;	---------------------------------
 ; Function main
 ; ---------------------------------
 _main::
 	add	sp, #-5
-;main.c:159: DISPLAY_ON;
+;main.c:91: DISPLAY_ON;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x80
 	ldh	(_LCDC_REG + 0), a
-;main.c:162: show_selection_menu();
+;main.c:93: show_selection_menu();
 	call	_show_selection_menu
-;main.c:167: while (1)
+;main.c:97: while (1)
 00106$:
-;main.c:169: mButtons = joypad();
+;main.c:99: mButtons = joypad();
 	call	_joypad
-;main.c:171: if (mButtons & J_A)
+;main.c:101: if (mButtons & J_A)
 	bit	4, a
 	jr	Z, 00102$
-;main.c:173: selected_pet = 0; // Pudel
+;main.c:103: selected_pet = 0; // Dog
 	xor	a, a
 	ld	(#_selected_pet),a
-;main.c:174: break;
+;main.c:104: break;
 	jr	00108$
 00102$:
-;main.c:177: if (mButtons & J_B)
+;main.c:107: if (mButtons & J_B)
 	bit	5, a
 	jr	Z, 00104$
-;main.c:179: selected_pet = 1; // Katze
+;main.c:109: selected_pet = 1; // Cat
 	ld	hl, #_selected_pet
 	ld	(hl), #0x01
-;main.c:180: break;
+;main.c:110: break;
 	jr	00108$
 00104$:
-;main.c:183: wait_vbl_done();
+;main.c:113: wait_vbl_done();
 	call	_wait_vbl_done
 	jr	00106$
-;main.c:187: while (joypad())
+;main.c:117: while (joypad())
 00108$:
 	call	_joypad
 	or	a, a
 	jr	NZ, 00108$
-;main.c:191: setup_pet_sprite();
+;main.c:120: setup_pet_sprite();
 	call	_setup_pet_sprite
-;main.c:192: SHOW_SPRITES;
+;main.c:121: SHOW_SPRITES;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x02
 	ldh	(_LCDC_REG + 0), a
-;main.c:195: cls();
+;main.c:124: cls();
 	call	_cls
-;main.c:198: UBYTE happiness = 50;
+;main.c:126: UBYTE happiness = 50;
 	ldhl	sp,	#2
-;main.c:199: UBYTE hunger = 30;
+;main.c:127: UBYTE hunger = 30;
 	ld	a, #0x32
 	ld	(hl+), a
-;main.c:200: UBYTE energy = 70;
+;main.c:128: UBYTE energy = 70;
 	ld	a, #0x1e
 	ld	(hl+), a
 	ld	(hl), #0x46
-;main.c:204: printf("=== TAMAGOTCHI ===\n");
+;main.c:131: printf("=== TAMAGOTCHI ===\n");
 	ld	de, #___str_79
 	call	_puts
-;main.c:205: printf("Your %s is ready!\n", get_pet_name());
+;main.c:132: printf("Your %s is ready!\n", get_pet_name());
 	call	_get_pet_name
 	push	bc
 	ld	de, #___str_34
 	push	de
 	call	_printf
 	add	sp, #4
-;main.c:206: printf("\n\n\n\n\n\n");
+;main.c:133: printf("\n\n\n\n\n\n");
 	ld	de, #___str_36
 	call	_puts
-;main.c:207: printf("Happiness: %d\n", happiness);
+;main.c:134: printf("Happiness: %d\n", happiness);
 	ld	de, #0x0032
 	push	de
 	ld	de, #___str_37
 	push	de
 	call	_printf
 	add	sp, #4
-;main.c:208: printf("Hunger: %d\n", hunger);
+;main.c:135: printf("Hunger: %d\n", hunger);
 	ld	de, #0x001e
 	push	de
 	ld	de, #___str_38
 	push	de
 	call	_printf
 	add	sp, #4
-;main.c:209: printf("Energy: %d\n", energy);
+;main.c:136: printf("Energy: %d\n", energy);
 	ld	de, #0x0046
 	push	de
 	ld	de, #___str_39
 	push	de
 	call	_printf
 	add	sp, #4
-;main.c:211: while (1)
+;main.c:138: while (1)
 00191$:
-;main.c:213: mButtons = joypad();
+;main.c:140: mButtons = joypad();
 	call	_joypad
 	ldhl	sp,	#1
 	ld	(hl), a
-;main.c:215: if (mButtons & J_A)
+;main.c:142: if (mButtons & J_A)
 	push	hl
 	bit	4, (hl)
 	pop	hl
 	jr	Z, 00119$
-;main.c:218: if (hunger > 0)
+;main.c:144: if (hunger > 0)
 	ldhl	sp,	#3
 	ld	a, (hl)
 	or	a, a
 	jr	Z, 00116$
-;main.c:220: hunger -= 15;
+;main.c:146: hunger -= 15;
 	ld	a, (hl)
 	add	a, #0xf1
-;main.c:223: happiness += 5;
+;main.c:149: happiness += 5;
 	ld	(hl-), a
 	ld	a, (hl)
 	add	a, #0x05
 	ld	(hl), a
-;main.c:224: if (happiness > 100)
+;main.c:150: if (happiness > 100)
 	ld	a, #0x64
 	sub	a, (hl)
 	jr	NC, 00114$
-;main.c:225: happiness = 100;
+;main.c:151: happiness = 100;
 	ld	(hl), #0x64
 00114$:
-;main.c:227: printf("%s\n", get_feed_message());
+;main.c:152: printf("%s\n", get_feed_message());
 	call	_get_feed_message
 	push	bc
 	ld	de, #___str_40
 	push	de
 	call	_printf
 	add	sp, #4
-;main.c:228: printf("Hunger: %d Happiness: %d\n", hunger, happiness);
+;main.c:153: printf("Hunger: %d Happiness: %d\n", hunger, happiness);
 	ldhl	sp,	#2
 	ld	a, (hl+)
 	ld	e, a
@@ -703,58 +795,58 @@ _main::
 	add	sp, #6
 	jr	00119$
 00116$:
-;main.c:232: printf("Not hungry right now!\n");
+;main.c:157: printf("Not hungry right now!\n");
 	ld	de, #___str_43
 	call	_puts
 00119$:
-;main.c:236: if (mButtons & J_B)
+;main.c:161: if (mButtons & J_B)
 	push	hl
 	ldhl	sp,	#3
 	bit	5, (hl)
 	pop	hl
 	jr	Z, 00128$
-;main.c:239: if (energy > 10)
+;main.c:164: if (energy > 10)
 	ld	a, #0x0a
 	ldhl	sp,	#4
 	sub	a, (hl)
 	jr	NC, 00125$
-;main.c:241: happiness += 10;
+;main.c:166: happiness += 10;
 	dec	hl
 	dec	hl
 	ld	a, (hl)
 	add	a, #0x0a
 	ld	(hl), a
-;main.c:242: if (happiness > 100)
+;main.c:167: if (happiness > 100)
 	ld	a, #0x64
 	sub	a, (hl)
 	jr	NC, 00121$
-;main.c:243: happiness = 100;
+;main.c:168: happiness = 100;
 	ld	(hl), #0x64
 00121$:
-;main.c:244: energy -= 10;
+;main.c:169: energy -= 10;
 	ldhl	sp,	#4
 	ld	a, (hl)
 	add	a, #0xf6
-;main.c:245: hunger += 5;
+;main.c:170: hunger += 5;
 	ld	(hl-), a
 	ld	a, (hl)
 	add	a, #0x05
 	ld	(hl), a
-;main.c:246: if (hunger > 100)
+;main.c:171: if (hunger > 100)
 	ld	a, #0x64
 	sub	a, (hl)
 	jr	NC, 00123$
-;main.c:247: hunger = 100;
+;main.c:172: hunger = 100;
 	ld	(hl), #0x64
 00123$:
-;main.c:249: printf("%s\n", get_play_message());
+;main.c:174: printf("%s\n", get_play_message());
 	call	_get_play_message
 	ld	de, #___str_40+0
 	push	bc
 	push	de
 	call	_printf
 	add	sp, #4
-;main.c:250: printf("Energy: %d Happiness: %d\n", energy, happiness);
+;main.c:175: printf("Energy: %d Happiness: %d\n", energy, happiness);
 	ldhl	sp,	#2
 	ld	a, (hl+)
 	inc	hl
@@ -770,44 +862,44 @@ _main::
 	add	sp, #6
 	jr	00128$
 00125$:
-;main.c:254: printf("Too tired to play...\n");
+;main.c:179: printf("Too tired to play...\n");
 	ld	de, #___str_46
 	call	_puts
 00128$:
-;main.c:258: if (mButtons & J_SELECT)
+;main.c:183: if (mButtons & J_SELECT)
 	push	hl
 	ldhl	sp,	#3
 	bit	6, (hl)
 	pop	hl
 	jr	Z, 00134$
-;main.c:261: energy += 20;
+;main.c:186: energy += 20;
 	ldhl	sp,	#4
 	ld	a, (hl)
 	add	a, #0x14
 	ld	(hl), a
-;main.c:262: if (energy > 100)
+;main.c:187: if (energy > 100)
 	ld	a, #0x64
 	sub	a, (hl)
 	jr	NC, 00130$
-;main.c:263: energy = 100;
+;main.c:188: energy = 100;
 	ld	(hl), #0x64
 00130$:
-;main.c:264: hunger += 3;
+;main.c:189: hunger += 3;
 	ldhl	sp,	#3
 	ld	a, (hl)
 	add	a, #0x03
 	ld	(hl), a
-;main.c:265: if (hunger > 100)
+;main.c:190: if (hunger > 100)
 	ld	a, #0x64
 	sub	a, (hl)
 	jr	NC, 00132$
-;main.c:266: hunger = 100;
+;main.c:191: hunger = 100;
 	ld	(hl), #0x64
 00132$:
-;main.c:268: printf("*zzz* Good rest!\n");
+;main.c:193: printf("*zzz* Good rest!\n");
 	ld	de, #___str_48
 	call	_puts
-;main.c:269: printf("Energy: %d\n", energy);
+;main.c:194: printf("Energy: %d\n", energy);
 	ldhl	sp,	#4
 	ld	c, (hl)
 	xor	a, a
@@ -818,20 +910,20 @@ _main::
 	call	_printf
 	add	sp, #4
 00134$:
-;main.c:272: if (mButtons & J_START)
+;main.c:197: if (mButtons & J_START)
 	push	hl
 	ldhl	sp,	#3
 	bit	7, (hl)
 	pop	hl
 	jp	Z, 00166$
-;main.c:275: printf("\n=== %s STATUS ===\n", get_pet_name());
+;main.c:199: printf("\n=== %s STATUS ===\n", get_pet_name());
 	call	_get_pet_name
 	push	bc
 	ld	de, #___str_49
 	push	de
 	call	_printf
 	add	sp, #4
-;main.c:276: printf("Happiness: %d/100\n", happiness);
+;main.c:200: printf("Happiness: %d/100\n", happiness);
 	ldhl	sp,	#2
 	ld	c, (hl)
 	ld	b, #0x00
@@ -840,7 +932,7 @@ _main::
 	push	de
 	call	_printf
 	add	sp, #4
-;main.c:277: printf("Hunger: %d/100\n", hunger);
+;main.c:201: printf("Hunger: %d/100\n", hunger);
 	ldhl	sp,	#3
 	ld	c, (hl)
 	ld	b, #0x00
@@ -849,7 +941,7 @@ _main::
 	push	de
 	call	_printf
 	add	sp, #4
-;main.c:278: printf("Energy: %d/100\n", energy);
+;main.c:202: printf("Energy: %d/100\n", energy);
 	ldhl	sp,	#4
 	ld	c, (hl)
 	ld	b, #0x00
@@ -858,125 +950,125 @@ _main::
 	push	de
 	call	_printf
 	add	sp, #4
-;main.c:281: if (happiness > 80)
+;main.c:204: if (happiness > 80)
 	ld	a, #0x50
 	ldhl	sp,	#2
 	sub	a, (hl)
 	jr	NC, 00145$
-;main.c:282: printf("Mood: Very Happy! :D\n");
+;main.c:205: printf("Mood: Very Happy! :D\n");
 	ld	de, #___str_54
 	call	_puts
 	jr	00146$
 00145$:
-;main.c:283: else if (happiness > 60)
+;main.c:206: else if (happiness > 60)
 	ld	a, #0x3c
 	ldhl	sp,	#2
 	sub	a, (hl)
 	jr	NC, 00142$
-;main.c:284: printf("Mood: Happy :)\n");
+;main.c:207: printf("Mood: Happy :)\n");
 	ld	de, #___str_56
 	call	_puts
 	jr	00146$
 00142$:
-;main.c:285: else if (happiness > 40)
+;main.c:208: else if (happiness > 40)
 	ld	a, #0x28
 	ldhl	sp,	#2
 	sub	a, (hl)
 	jr	NC, 00139$
-;main.c:286: printf("Mood: Okay :/\n");
+;main.c:209: printf("Mood: Okay :/\n");
 	ld	de, #___str_58
 	call	_puts
 	jr	00146$
 00139$:
-;main.c:287: else if (happiness > 20)
+;main.c:210: else if (happiness > 20)
 	ld	a, #0x14
 	ldhl	sp,	#2
 	sub	a, (hl)
 	jr	NC, 00136$
-;main.c:288: printf("Mood: Sad :(\n");
+;main.c:211: printf("Mood: Sad :(\n");
 	ld	de, #___str_60
 	call	_puts
 	jr	00146$
 00136$:
-;main.c:290: printf("Mood: Very Sad T_T\n");
+;main.c:213: printf("Mood: Very Sad T_T\n");
 	ld	de, #___str_62
 	call	_puts
 00146$:
-;main.c:293: if (hunger > 80)
+;main.c:215: if (hunger > 80)
 	ld	a, #0x50
 	ldhl	sp,	#3
 	sub	a, (hl)
 	jr	NC, 00154$
-;main.c:294: printf("Status: Very Hungry!\n");
+;main.c:216: printf("Status: Very Hungry!\n");
 	ld	de, #___str_64
 	call	_puts
 	jr	00155$
 00154$:
-;main.c:295: else if (hunger > 50)
+;main.c:217: else if (hunger > 50)
 	ld	a, #0x32
 	ldhl	sp,	#3
 	sub	a, (hl)
 	jr	NC, 00151$
-;main.c:296: printf("Status: Hungry\n");
+;main.c:218: printf("Status: Hungry\n");
 	ld	de, #___str_66
 	call	_puts
 	jr	00155$
 00151$:
-;main.c:297: else if (hunger > 20)
+;main.c:219: else if (hunger > 20)
 	ld	a, #0x14
 	ldhl	sp,	#3
 	sub	a, (hl)
 	jr	NC, 00148$
-;main.c:298: printf("Status: A bit hungry\n");
+;main.c:220: printf("Status: A bit hungry\n");
 	ld	de, #___str_68
 	call	_puts
 	jr	00155$
 00148$:
-;main.c:300: printf("Status: Well fed\n");
+;main.c:222: printf("Status: Well fed\n");
 	ld	de, #___str_70
 	call	_puts
 00155$:
-;main.c:303: if (energy < 20)
+;main.c:224: if (energy < 20)
 	ldhl	sp,	#4
 	ld	a, (hl)
 	sub	a, #0x14
 	jr	NC, 00163$
-;main.c:304: printf("Energy: Exhausted\n");
+;main.c:225: printf("Energy: Exhausted\n");
 	ld	de, #___str_72
 	call	_puts
 	jr	00166$
 00163$:
-;main.c:305: else if (energy < 50)
+;main.c:226: else if (energy < 50)
 	ldhl	sp,	#4
 	ld	a, (hl)
 	sub	a, #0x32
 	jr	NC, 00160$
-;main.c:306: printf("Energy: Tired\n");
+;main.c:227: printf("Energy: Tired\n");
 	ld	de, #___str_74
 	call	_puts
 	jr	00166$
 00160$:
-;main.c:307: else if (energy < 80)
+;main.c:228: else if (energy < 80)
 	ldhl	sp,	#4
 	ld	a, (hl)
 	sub	a, #0x50
 	jr	NC, 00157$
-;main.c:308: printf("Energy: Normal\n");
+;main.c:229: printf("Energy: Normal\n");
 	ld	de, #___str_76
 	call	_puts
 	jr	00166$
 00157$:
-;main.c:310: printf("Energy: Full of energy!\n");
+;main.c:231: printf("Energy: Full of energy!\n");
 	ld	de, #___str_78
 	call	_puts
 00166$:
-;main.c:313: if (mButtons & J_UP)
+;main.c:234: if (mButtons & J_UP)
 	push	hl
 	ldhl	sp,	#3
 	bit	2, (hl)
 	pop	hl
 	jr	Z, 00168$
-;main.c:315: printf("%s\n", get_up_message());
+;main.c:236: printf("%s\n", get_up_message());
 	call	_get_up_message
 	push	bc
 	ld	de, #___str_40
@@ -984,13 +1076,13 @@ _main::
 	call	_printf
 	add	sp, #4
 00168$:
-;main.c:318: if (mButtons & J_DOWN)
+;main.c:239: if (mButtons & J_DOWN)
 	push	hl
 	ldhl	sp,	#3
 	bit	3, (hl)
 	pop	hl
 	jr	Z, 00170$
-;main.c:320: printf("%s\n", get_down_message());
+;main.c:241: printf("%s\n", get_down_message());
 	call	_get_down_message
 	push	bc
 	ld	de, #___str_40
@@ -998,13 +1090,13 @@ _main::
 	call	_printf
 	add	sp, #4
 00170$:
-;main.c:323: if (mButtons & J_LEFT)
+;main.c:244: if (mButtons & J_LEFT)
 	push	hl
 	ldhl	sp,	#3
 	bit	1, (hl)
 	pop	hl
 	jr	Z, 00172$
-;main.c:325: printf("%s\n", get_left_message());
+;main.c:246: printf("%s\n", get_left_message());
 	call	_get_left_message
 	push	bc
 	ld	de, #___str_40
@@ -1012,13 +1104,13 @@ _main::
 	call	_printf
 	add	sp, #4
 00172$:
-;main.c:328: if (mButtons & J_RIGHT)
+;main.c:249: if (mButtons & J_RIGHT)
 	push	hl
 	ldhl	sp,	#3
 	bit	0, (hl)
 	pop	hl
 	jr	Z, 00174$
-;main.c:330: printf("%s\n", get_right_message());
+;main.c:251: printf("%s\n", get_right_message());
 	call	_get_right_message
 	pop	hl
 	ld	e, c
@@ -1030,24 +1122,24 @@ _main::
 	call	_printf
 	add	sp, #4
 00174$:
-;main.c:335: time_counter++;
-	ld	hl, #_main_time_counter_20003_376
+;main.c:255: time_counter++;
+	ld	hl, #_main_time_counter_20003_369
 	inc	(hl)
-;main.c:336: if (time_counter > 200)
+;main.c:256: if (time_counter > 200)
 	ld	a, #0xc8
 	sub	a, (hl)
 	jr	NC, 00187$
-;main.c:338: time_counter = 0;
+;main.c:258: time_counter = 0;
 	ld	(hl), #0x00
-;main.c:341: if (hunger < 100)
+;main.c:260: if (hunger < 100)
 	ldhl	sp,	#3
 	ld	a, (hl)
 	sub	a, #0x64
 	jr	NC, 00176$
-;main.c:342: hunger++;
+;main.c:261: hunger++;
 	inc	(hl)
 00176$:
-;main.c:343: if (energy > 0 && happiness > 30)
+;main.c:262: if (energy > 0 && happiness > 30)
 	ldhl	sp,	#4
 	ld	a, (hl)
 	or	a, a
@@ -1057,12 +1149,12 @@ _main::
 	ld	a, #0x1e
 	sub	a, (hl)
 	jr	NC, 00178$
-;main.c:344: energy--;
+;main.c:263: energy--;
 	inc	hl
 	inc	hl
 	dec	(hl)
 00178$:
-;main.c:347: if (hunger > 90 || energy < 10)
+;main.c:265: if (hunger > 90 || energy < 10)
 	ld	a, #0x5a
 	ldhl	sp,	#3
 	sub	a, (hl)
@@ -1072,22 +1164,22 @@ _main::
 	sub	a, #0x0a
 	jr	NC, 00187$
 00182$:
-;main.c:349: if (happiness > 0)
+;main.c:267: if (happiness > 0)
 	ldhl	sp,	#2
 	ld	a, (hl)
 	or	a, a
 	jr	Z, 00187$
-;main.c:350: happiness--;
+;main.c:268: happiness--;
 	dec	(hl)
-;main.c:355: while (mButtons = joypad())
+;main.c:272: while (mButtons = joypad())
 00187$:
 	call	_joypad
 	or	a, a
 	jr	NZ, 00187$
-;main.c:357: wait_vbl_done();
+;main.c:274: wait_vbl_done();
 	call	_wait_vbl_done
 	jp	00191$
-;main.c:359: }
+;main.c:276: }
 	add	sp, #5
 	ret
 ___str_34:
