@@ -1,6 +1,6 @@
 /*
 
- TEST.H
+ JESTER.H
 
  Include File.
 
@@ -10,7 +10,7 @@
   Compression          : None.
   Counter              : None.
   Tile size            : 8 x 8
-  Tiles                : 0 to 0
+  Tiles                : 0 to 24
 
   Palette colors       : None.
   SGB Palette          : None.
@@ -24,8 +24,8 @@
 
 
 /* Bank of tiles. */
-#define TestBank 0
+#define JesterBank 0
 /* Start of tile array. */
-extern unsigned char Test[];
+extern unsigned char Jester[];
 
-/* End of TEST.H */
+/* End of JESTER.H */

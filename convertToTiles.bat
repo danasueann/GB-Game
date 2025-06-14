@@ -1,2 +1,2 @@
-png2asset "C:\Users\danag\Documents\Sprites\Poodle2.png" -map -c "C:\Users\danag\Desktop\GB Game\sprites\Poodle2.c"
+png2asset "C:\Users\danag\Documents\Sprites\background_final.png" -map -c "C:\Users\danag\Desktop\GB Game\sprites\background_final.c"
 REM This script converts a PNG image to a tile map and C source file using png2asset.
