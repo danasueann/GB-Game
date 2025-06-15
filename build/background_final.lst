@@ -43,7 +43,7 @@
                                      43 ; code
                                      44 ;--------------------------------------------------------
                                      45 	.area _CODE
-                                     46 ;sprites\background_final.c:7: BANKREF(background_final)
+                                     46 ;backgrounds\background_final.c:7: BANKREF(background_final)
                                      47 ;	---------------------------------
                                      48 ; Function __func_background_final
                                      49 ; ---------------------------------

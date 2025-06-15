@@ -8,6 +8,7 @@
 #include "backgrounds/SelectMenu_tileset.h"
 
 void setup_select_menu_background(void);
+UBYTE choose_pet(void);
 
 void setup_select_menu_background()
 {
@@ -19,6 +20,23 @@ void setup_select_menu_background()
     DISPLAY_ON;
 }
 
+UBYTE choose_pet(void)
+{
+    while (1)
+    {
+        UBYTE mButtons = joypad();
+
+        if (mButtons & J_A)
+        {
+            return 0; // CAT selected
+        }
+        else if (mButtons & J_B)
+        {
+            return 1; // JESTER selected
+        }
+        wait_vbl_done();
+    }
+}
 
 
 #endif

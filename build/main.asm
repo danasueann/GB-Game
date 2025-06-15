@@ -7,13 +7,22 @@
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
+	.globl _clear_sprites
+	.globl _clear_background
 	.globl _main
 	.globl _set_sprite_data
 	.globl _set_bkg_tiles
 	.globl _set_bkg_data
+	.globl _wait_vbl_done
+	.globl _joypad
+	.globl _selected_pet
+	.globl _setup_home_background
 	.globl _setup_select_menu_background
+	.globl _choose_pet
 	.globl _setup_cat
+	.globl _setup_cat_home
 	.globl _setup_jester
+	.globl _setup_jester_home
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -25,6 +34,8 @@
 ; ram data
 ;--------------------------------------------------------
 	.area _INITIALIZED
+_selected_pet::
+	.ds 1
 ;--------------------------------------------------------
 ; absolute external ram data
 ;--------------------------------------------------------
@@ -45,19 +56,51 @@
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;SelectMenu.h:12: void setup_select_menu_background()
+;home.h:12: void setup_home_background()
+;	---------------------------------
+; Function setup_home_background
+; ---------------------------------
+_setup_home_background::
+;home.h:15: set_bkg_data(0, 216, background_final_tiles);
+	ld	de, #_background_final_tiles
+	push	de
+	ld	hl, #0xd800
+	push	hl
+	call	_set_bkg_data
+	add	sp, #4
+;home.h:16: set_bkg_tiles(0, 0, 20, 18, background_final_map);
+	ld	de, #_background_final_map
+	push	de
+	ld	hl, #0x1214
+	push	hl
+	xor	a, a
+	rrca
+	push	af
+	call	_set_bkg_tiles
+	add	sp, #6
+;home.h:18: SHOW_BKG;
+	ldh	a, (_LCDC_REG + 0)
+	or	a, #0x01
+	ldh	(_LCDC_REG + 0), a
+;home.h:19: DISPLAY_ON;
+	ldh	a, (_LCDC_REG + 0)
+	or	a, #0x80
+	ldh	(_LCDC_REG + 0), a
+;home.h:20: }
+	ret
+;SelectMenu.h:13: void setup_select_menu_background()
 ;	---------------------------------
 ; Function setup_select_menu_background
 ; ---------------------------------
 _setup_select_menu_background::
-;SelectMenu.h:15: set_bkg_data(0, 216, SelectMenu_tileset);
+;SelectMenu.h:16: set_bkg_data(0, 216, SelectMenu_tileset);
 	ld	de, #_SelectMenu_tileset
 	push	de
 	ld	hl, #0xd800
 	push	hl
 	call	_set_bkg_data
 	add	sp, #4
-;SelectMenu.h:16: set_bkg_tiles(0, 0, 20, 18, SelectMenu_tilemap);
+;SelectMenu.h:17: set_bkg_tiles(0, 0, 20, 18, SelectMenu_tilemap);
 	ld	de, #_SelectMenu_tilemap
 	push	de
 	ld	hl, #0x1214
@@ -67,88 +110,142 @@ _setup_select_menu_background::
 	push	af
 	call	_set_bkg_tiles
 	add	sp, #6
-;SelectMenu.h:18: SHOW_BKG;
+;SelectMenu.h:19: SHOW_BKG;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x01
 	ldh	(_LCDC_REG + 0), a
-;SelectMenu.h:19: DISPLAY_ON;
+;SelectMenu.h:20: DISPLAY_ON;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x80
 	ldh	(_LCDC_REG + 0), a
-;SelectMenu.h:20: }
+;SelectMenu.h:21: }
 	ret
-;cat_animated.h:11: void setup_cat(void)
+;SelectMenu.h:23: UBYTE choose_pet(void)
+;	---------------------------------
+; Function choose_pet
+; ---------------------------------
+_choose_pet::
+;SelectMenu.h:25: while (1)
+00107$:
+;SelectMenu.h:27: UBYTE mButtons = joypad();
+	call	_joypad
+;SelectMenu.h:29: if (mButtons & J_A)
+	bit	4, a
+	jr	Z, 00104$
+;SelectMenu.h:31: return 0; // CAT selected
+	xor	a, a
+	ret
+00104$:
+;SelectMenu.h:33: else if (mButtons & J_B)
+	bit	5, a
+	jr	Z, 00105$
+;SelectMenu.h:35: return 1; // JESTER selected
+	ld	a, #0x01
+	ret
+00105$:
+;SelectMenu.h:37: wait_vbl_done();
+	call	_wait_vbl_done
+;SelectMenu.h:39: }
+	jr	00107$
+;cat_animated.h:12: void setup_cat(int start_x, int start_y)
 ;	---------------------------------
 ; Function setup_cat
 ; ---------------------------------
 _setup_cat::
-	add	sp, #-4
-;cat_animated.h:14: set_sprite_data(0, cat_size, cat);
+	add	sp, #-8
+	ldhl	sp,	#4
+	ld	a, e
+	ld	(hl+), a
+	ld	(hl), d
+	ldhl	sp,	#2
+	ld	a, c
+	ld	(hl+), a
+	ld	(hl), b
+;cat_animated.h:15: set_sprite_data(0, cat_size, cat);
 	ld	de, #_cat
 	push	de
 	ld	hl, #0x1100
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;cat_animated.h:16: for (int i = 0; i < cat_size; i++)
-	ld	c, #0x00
+;cat_animated.h:17: for (int i = 0; i < cat_size; i++)
+	ldhl	sp,	#7
+	ld	(hl), #0x00
 00109$:
-	ld	a, c
+	ldhl	sp,	#7
+	ld	a, (hl)
 	sub	a, #0x11
 	jr	NC, 00101$
-;cat_animated.h:18: set_sprite_tile(i, cat_tilemap[i]);
-	ld	hl, #_cat_tilemap
-	ld	b, #0x00
-	add	hl, bc
-	ld	b, (hl)
+;cat_animated.h:19: set_sprite_tile(i, cat_tilemap[i]);
+	ld	de, #_cat_tilemap
+	ld	l, (hl)
+	ld	h, #0x00
+	add	hl, de
+	inc	sp
+	inc	sp
+	ld	e, l
+	ld	d, h
+	push	de
+	ld	a, (de)
+	ld	c, a
+	ldhl	sp,	#7
 ;c:\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-	ld	l, c
+	ld	l, (hl)
+	ld	de, #_shadow_OAM+0
 	ld	h, #0x00
 	add	hl, hl
 	add	hl, hl
-	ld	de, #_shadow_OAM
 	add	hl, de
 	inc	hl
 	inc	hl
-	ld	(hl), b
-;cat_animated.h:16: for (int i = 0; i < cat_size; i++)
-	inc	c
+	ld	(hl), c
+;cat_animated.h:17: for (int i = 0; i < cat_size; i++)
+	ldhl	sp,	#7
+	inc	(hl)
 	jr	00109$
 00101$:
-;cat_animated.h:25: int sprite_index = 0;
+;cat_animated.h:24: int sprite_index = 0;
 	ld	bc, #0x0000
-;cat_animated.h:27: for (int row = 0; row < 4; row++)
-	ldhl	sp,	#2
+;cat_animated.h:26: for (int row = 0; row < 4; row++)
+	ldhl	sp,	#6
 	ld	(hl), #0x00
 00115$:
-	ldhl	sp,	#2
+	ldhl	sp,	#6
 	ld	a, (hl)
 	sub	a, #0x04
 	jr	NC, 00105$
-;cat_animated.h:29: for (int col = 0; col < 4; col++)
+;cat_animated.h:28: for (int col = 0; col < 4; col++)
 	inc	hl
 	ld	(hl), #0x00
 00112$:
-	ldhl	sp,	#3
+	ldhl	sp,	#7
 	ld	a, (hl)
 	sub	a, #0x04
 	jr	NC, 00127$
-;cat_animated.h:31: move_sprite(sprite_index, start_x + col * tile_width, start_y + row * tile_height);
-	dec	hl
+;cat_animated.h:30: move_sprite(sprite_index, start_x + col * tile_width, start_y + row * tile_height);
+	ldhl	sp,	#2
 	ld	a, (hl-)
-	dec	hl
-	add	a, a
-	add	a, a
-	add	a, a
-	add	a, #0x50
 	ld	(hl), a
-	ldhl	sp,	#3
-	ld	a, (hl-)
+	ldhl	sp,	#6
+	ld	a, (hl)
+	add	a, a
+	add	a, a
+	add	a, a
+	ldhl	sp,	#1
+	add	a, (hl)
 	dec	hl
+	ld	(hl), a
+	ldhl	sp,	#4
+	ld	a, (hl)
+	ldhl	sp,	#1
+	ld	(hl), a
+	ldhl	sp,	#7
+	ld	a, (hl)
 	add	a, a
 	add	a, a
 	add	a, a
-	add	a, #0x20
+	ldhl	sp,	#1
+	add	a, (hl)
 	ld	(hl), a
 	ld	e, c
 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
@@ -168,9 +265,9 @@ _setup_cat::
 	inc	de
 	ld	a, (hl)
 	ld	(de), a
-;cat_animated.h:32: sprite_index++;
+;cat_animated.h:31: sprite_index++;
 	inc	bc
-;cat_animated.h:33: if (sprite_index > 15)
+;cat_animated.h:32: if (sprite_index > 15)
 	ld	e, b
 	ld	d, #0x00
 	ld	a, #0x0f
@@ -189,51 +286,78 @@ _setup_cat::
 	scf
 00172$:
 	jr	C, 00127$
-;cat_animated.h:29: for (int col = 0; col < 4; col++)
-	ldhl	sp,	#3
+;cat_animated.h:28: for (int col = 0; col < 4; col++)
+	ldhl	sp,	#7
 	inc	(hl)
 	jr	00112$
 00127$:
-;cat_animated.h:27: for (int row = 0; row < 4; row++)
-	ldhl	sp,	#2
+;cat_animated.h:26: for (int row = 0; row < 4; row++)
+	ldhl	sp,	#6
 	inc	(hl)
 	jr	00115$
 00105$:
-;cat_animated.h:38: SHOW_SPRITES; // Show the sprites on the screen
+;cat_animated.h:37: SHOW_SPRITES; // Show the sprites on the screen
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x02
 	ldh	(_LCDC_REG + 0), a
-;cat_animated.h:39: }
-	add	sp, #4
+;cat_animated.h:38: }
+	add	sp, #8
 	ret
-;jester.h:11: void setup_jester(void)
+;cat_animated.h:40: void setup_cat_home()
+;	---------------------------------
+; Function setup_cat_home
+; ---------------------------------
+_setup_cat_home::
+;cat_animated.h:42: setup_cat(100, 100);
+	ld	bc, #0x0064
+	ld	d, b
+	ld	e, c
+;cat_animated.h:43: }
+	jp	_setup_cat
+;jester.h:12: void setup_jester(int start_x, int start_y)
 ;	---------------------------------
 ; Function setup_jester
 ; ---------------------------------
 _setup_jester::
-	add	sp, #-4
-;jester.h:14: set_sprite_data(32, jester_size, jester);
+	add	sp, #-8
+	ldhl	sp,	#4
+	ld	a, e
+	ld	(hl+), a
+	ld	(hl), d
+	ldhl	sp,	#2
+	ld	a, c
+	ld	(hl+), a
+	ld	(hl), b
+;jester.h:15: set_sprite_data(32, jester_size, jester);
 	ld	de, #_jester
 	push	de
 	ld	hl, #0x1020
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;jester.h:16: for (int i = 0; i < jester_size; i++)
-	ld	c, #0x00
+;jester.h:17: for (int i = 0; i < jester_size; i++)
+	ldhl	sp,	#7
+	ld	(hl), #0x00
 00109$:
-	ld	a, c
+	ldhl	sp,	#7
+	ld	a, (hl)
 	sub	a, #0x10
 	jr	NC, 00101$
-;jester.h:18: set_sprite_tile(i+16, jester_tilemap[i] + 32);
-	ld	hl, #_jester_tilemap
-	ld	b, #0x00
-	add	hl, bc
-	ld	a, (hl)
+;jester.h:19: set_sprite_tile(i+16, jester_tilemap[i] + 32);
+	ld	de, #_jester_tilemap
+	ld	l, (hl)
+	ld	h, #0x00
+	add	hl, de
+	inc	sp
+	inc	sp
+	ld	e, l
+	ld	d, h
+	push	de
+	ld	a, (de)
 	add	a, #0x20
-	ldhl	sp,	#3
-	ld	(hl), a
-	ld	a, c
+	ld	c, a
+	ldhl	sp,	#7
+	ld	a, (hl)
 	add	a, #0x10
 	ld	e, a
 ;c:\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
@@ -246,49 +370,54 @@ _setup_jester::
 	add	hl, de
 	inc	hl
 	inc	hl
-	ld	e, l
-	ld	d, h
-	ldhl	sp,	#3
-	ld	a, (hl)
-	ld	(de), a
-;jester.h:16: for (int i = 0; i < jester_size; i++)
-	inc	c
+	ld	(hl), c
+;jester.h:17: for (int i = 0; i < jester_size; i++)
+	ldhl	sp,	#7
+	inc	(hl)
 	jr	00109$
 00101$:
-;jester.h:25: int sprite_index = 16;
+;jester.h:24: int sprite_index = 16;
 	ld	bc, #0x0010
-;jester.h:27: for (int row = 0; row < 4; row++)
-	ldhl	sp,	#2
+;jester.h:26: for (int row = 0; row < 4; row++)
+	ldhl	sp,	#6
 	ld	(hl), #0x00
 00115$:
-	ldhl	sp,	#2
+	ldhl	sp,	#6
 	ld	a, (hl)
 	sub	a, #0x04
 	jr	NC, 00105$
-;jester.h:29: for (int col = 0; col < 4; col++)
+;jester.h:28: for (int col = 0; col < 4; col++)
 	inc	hl
 	ld	(hl), #0x00
 00112$:
-	ldhl	sp,	#3
+	ldhl	sp,	#7
 	ld	a, (hl)
 	sub	a, #0x04
 	jr	NC, 00127$
-;jester.h:31: move_sprite(sprite_index, start_x + col * tile_width, start_y + row * tile_height);
-	dec	hl
+;jester.h:30: move_sprite(sprite_index, start_x + col * tile_width, start_y + row * tile_height);
+	ldhl	sp,	#2
 	ld	a, (hl-)
-	dec	hl
-	add	a, a
-	add	a, a
-	add	a, a
-	add	a, #0x50
 	ld	(hl), a
-	ldhl	sp,	#3
-	ld	a, (hl-)
+	ldhl	sp,	#6
+	ld	a, (hl)
+	add	a, a
+	add	a, a
+	add	a, a
+	ldhl	sp,	#1
+	add	a, (hl)
 	dec	hl
+	ld	(hl), a
+	ldhl	sp,	#4
+	ld	a, (hl)
+	ldhl	sp,	#1
+	ld	(hl), a
+	ldhl	sp,	#7
+	ld	a, (hl)
 	add	a, a
 	add	a, a
 	add	a, a
-	add	a, #0x6e
+	ldhl	sp,	#1
+	add	a, (hl)
 	ld	(hl), a
 	ld	e, c
 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
@@ -308,9 +437,9 @@ _setup_jester::
 	inc	de
 	ld	a, (hl)
 	ld	(de), a
-;jester.h:32: sprite_index++;
+;jester.h:31: sprite_index++;
 	inc	bc
-;jester.h:33: if (sprite_index > 31) // Adjusted to 31 since we have 16 sprites and start from 16
+;jester.h:32: if (sprite_index > 31) // Adjusted to 31 since we have 16 sprites and start from 16
 	ld	e, b
 	ld	d, #0x00
 	ld	a, #0x1f
@@ -329,39 +458,138 @@ _setup_jester::
 	scf
 00172$:
 	jr	C, 00127$
-;jester.h:29: for (int col = 0; col < 4; col++)
-	ldhl	sp,	#3
+;jester.h:28: for (int col = 0; col < 4; col++)
+	ldhl	sp,	#7
 	inc	(hl)
 	jr	00112$
 00127$:
-;jester.h:27: for (int row = 0; row < 4; row++)
-	ldhl	sp,	#2
+;jester.h:26: for (int row = 0; row < 4; row++)
+	ldhl	sp,	#6
 	inc	(hl)
 	jr	00115$
 00105$:
-;jester.h:38: SHOW_SPRITES; // Show the sprites on the screen
+;jester.h:37: SHOW_SPRITES; // Show the sprites on the screen
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x02
 	ldh	(_LCDC_REG + 0), a
-;jester.h:39: }
-	add	sp, #4
+;jester.h:38: }
+	add	sp, #8
 	ret
-;main.c:11: void main()
+;jester.h:40: void setup_jester_home()
+;	---------------------------------
+; Function setup_jester_home
+; ---------------------------------
+_setup_jester_home::
+;jester.h:42: setup_jester(100, 100);
+	ld	bc, #0x0064
+	ld	d, b
+	ld	e, c
+;jester.h:43: }
+	jp	_setup_jester
+;main.c:14: void main()
 ;	---------------------------------
 ; Function main
 ; ---------------------------------
 _main::
-;main.c:13: DISPLAY_ON;
+;main.c:16: DISPLAY_ON;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x80
 	ldh	(_LCDC_REG + 0), a
-;main.c:15: setup_select_menu_background();
+;main.c:18: setup_select_menu_background();
 	call	_setup_select_menu_background
-;main.c:17: setup_cat();
+;main.c:21: setup_cat(32, 80); // Set up the cat sprite at position (32, 80)
+	ld	bc, #0x0050
+	ld	de, #0x0020
 	call	_setup_cat
-;main.c:18: setup_jester();
-;main.c:24: }
-	jp	_setup_jester
+;main.c:24: setup_jester(110, 80); // Set up the jester sprite at position (110, 80)
+	ld	bc, #0x0050
+	ld	de, #0x006e
+	call	_setup_jester
+;main.c:25: selected_pet = choose_pet();
+	call	_choose_pet
+	ld	hl, #_selected_pet
+	ld	(hl), a
+;main.c:27: if (selected_pet == 0)
+	ld	a, (hl)
+	or	a, a
+	jr	NZ, 00104$
+;main.c:29: clear_background();
+	call	_clear_background
+;main.c:30: clear_sprites();
+	call	_clear_sprites
+;main.c:31: setup_home_background();
+	call	_setup_home_background
+;main.c:32: setup_cat_home();
+	jp	_setup_cat_home
+00104$:
+;main.c:34: else if (selected_pet == 1)
+	ld	a, (#_selected_pet)
+	dec	a
+	ret	NZ
+;main.c:36: clear_background();
+	call	_clear_background
+;main.c:37: clear_sprites();
+	call	_clear_sprites
+;main.c:38: setup_home_background();
+	call	_setup_home_background
+;main.c:39: setup_jester_home();
+;main.c:41: }
+	jp	_setup_jester_home
+;main.c:43: clear_background()
+;	---------------------------------
+; Function clear_background
+; ---------------------------------
+_clear_background::
+;main.c:45: set_bkg_tiles(0, 0, 20, 18, background_final_map);
+	ld	de, #_background_final_map
+	push	de
+	ld	hl, #0x1214
+	push	hl
+	xor	a, a
+	rrca
+	push	af
+	call	_set_bkg_tiles
+	add	sp, #6
+;main.c:46: SHOW_BKG;
+	ldh	a, (_LCDC_REG + 0)
+	or	a, #0x01
+	ldh	(_LCDC_REG + 0), a
+;main.c:47: }
+	ret
+;main.c:49: clear_sprites()
+;	---------------------------------
+; Function clear_sprites
+; ---------------------------------
+_clear_sprites::
+;main.c:52: for (UBYTE i = 0; i < 32; i++)
+	ld	c, #0x00
+00104$:
+	ld	a, c
+	sub	a, #0x20
+	jr	NC, 00101$
+;c:\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+	ld	de, #_shadow_OAM+0
+	ld	l, c
+	xor	a, a
+	ld	h, a
+	add	hl, hl
+	add	hl, hl
+	add	hl, de
+	inc	hl
+	inc	hl
+	ld	(hl), #0x00
+;main.c:52: for (UBYTE i = 0; i < 32; i++)
+	inc	c
+	jr	00104$
+00101$:
+;main.c:56: HIDE_SPRITES;
+	ldh	a, (_LCDC_REG + 0)
+	and	a, #0xfd
+	ldh	(_LCDC_REG + 0), a
+;main.c:57: }
+	ret
 	.area _CODE
 	.area _INITIALIZER
+__xinit__selected_pet:
+	.db #0x00	; 0
 	.area _CABS (ABS)

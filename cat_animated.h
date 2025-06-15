@@ -6,9 +6,10 @@
 #include "sprites/cat.h"
 
 // Function prototypes
-void setup_cat(void);
+void setup_cat(int start_x, int start_y);
+void setup_cat_home(void);
 
-void setup_cat(void)
+void setup_cat(int start_x, int start_y)
 {
 
     set_sprite_data(0, cat_size, cat);
@@ -18,8 +19,6 @@ void setup_cat(void)
         set_sprite_tile(i, cat_tilemap[i]);
     }
 
-    int start_x = 32;
-    int start_y = 80;
     int tile_width = 8;
     int tile_height = 8;
     int sprite_index = 0;
@@ -31,11 +30,16 @@ void setup_cat(void)
             move_sprite(sprite_index, start_x + col * tile_width, start_y + row * tile_height);
             sprite_index++;
             if (sprite_index > 15)
-                break; 
+                break;
         }
     }
 
     SHOW_SPRITES; // Show the sprites on the screen
+}
+
+void setup_cat_home()
+{
+    setup_cat(100, 100);
 }
 
 #endif

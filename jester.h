@@ -6,9 +6,10 @@
 #include "sprites/jester.h"
 
 // Function prototypes
-void setup_jester(void);
+void setup_jester(int start_x, int start_y);
+void setup_jester_home(void);
 
-void setup_jester(void)
+void setup_jester(int start_x, int start_y)
 {
 
     set_sprite_data(32, jester_size, jester);
@@ -18,8 +19,6 @@ void setup_jester(void)
         set_sprite_tile(i+16, jester_tilemap[i] + 32);
     }
 
-    int start_x = 110;
-    int start_y = 80;
     int tile_width = 8;
     int tile_height = 8;
     int sprite_index = 16;
@@ -36,6 +35,11 @@ void setup_jester(void)
     }
 
     SHOW_SPRITES; // Show the sprites on the screen
+}
+
+void setup_jester_home()
+{
+    setup_jester(100, 100);
 }
 
 #endif

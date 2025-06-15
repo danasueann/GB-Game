@@ -10,18 +10,30 @@ Symbol Table
     _LCDC_REG                                                       ******** GX
     _SelectMenu_tilemap                                             ******** GX
     _SelectMenu_tileset                                             ******** GX
+  7 __xinit__selected_pet                                           00000000 R
+    _background_final_map                                           ******** GX
+    _background_final_tiles                                         ******** GX
     _cat                                                            ******** GX
     _cat_tilemap                                                    ******** GX
+  0 _choose_pet                                                     00000054 GR
+  0 _clear_background                                               0000023E GR
+  0 _clear_sprites                                                  00000255 GR
     _jester                                                         ******** GX
     _jester_tilemap                                                 ******** GX
-  0 _main                                                           0000016A GR
+    _joypad                                                         ******** GX
+  0 _main                                                           000001FB GR
+  2 _selected_pet                                                   00000000 GR
     _set_bkg_data                                                   ******** GX
     _set_bkg_tiles                                                  ******** GX
     _set_sprite_data                                                ******** GX
-  0 _setup_cat                                                      0000002A GR
-  0 _setup_jester                                                   000000C3 GR
-  0 _setup_select_menu_background                                   00000000 GR
+  0 _setup_cat                                                      00000069 GR
+  0 _setup_cat_home                                                 00000127 GR
+  0 _setup_home_background                                          00000000 GR
+  0 _setup_jester                                                   0000012F GR
+  0 _setup_jester_home                                              000001F3 GR
+  0 _setup_select_menu_background                                   0000002A GR
     _shadow_OAM                                                     ******** GX
+    _wait_vbl_done                                                  ******** GX
 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
@@ -29,13 +41,13 @@ Hexadecimal [32-Bits]
 
 Area Table
 
-   0 _CODE                                      size      179   flags    0
+   0 _CODE                                      size      273   flags    0
    1 _DATA                                      size        0   flags    0
-   2 _INITIALIZED                               size        0   flags    0
+   2 _INITIALIZED                               size        1   flags    0
    3 _DABS                                      size        0   flags    8
    4 _HOME                                      size        0   flags    0
    5 _GSINIT                                    size        0   flags    0
    6 _GSFINAL                                   size        0   flags    0
-   7 _INITIALIZER                               size        0   flags    0
+   7 _INITIALIZER                               size        1   flags    0
    8 _CABS                                      size        0   flags    8
 

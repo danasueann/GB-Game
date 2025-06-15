@@ -22,15 +22,15 @@ Area                       Addr        Size        Decimal Bytes (Attributes)
      00000000  s__HRAM12 |    00000001  l__GSFINA |    00000001  l__HEADER
      00000001  l__HEADER |    00000001  l__HEADER |    00000001  l__HEADER
      00000001  l__HEADER |    00000001  l__HEADER |    00000001  l__HEADER
-     00000001  l__INITIA |    00000001  l__INITIA |    00000002  l__HEADER
-     00000002  l__HEADER |    00000002  l__HEADER |    00000003  l__HEADER
+     00000002  l__HEADER |    00000002  l__HEADER |    00000002  l__HEADER
+     00000002  l__INITIA |    00000002  l__INITIA |    00000003  l__HEADER
      00000003  l__HRAM12 |    00000005  l__HEADER |    00000006  l__HEADER
      00000007  l__HEADER |    00000008  l__HEADER |    0000000C  l__GSINIT
      00000011  l__DATA   |    00000030  l__HEADER |    00000060  l__HEADER
-     000000AB  l__HEADER |    000000EB  l__HOME   |    00000200  s__CODE  
-     00001FD1  l__CODE   |    00002000  _rROMB0   |    000021D1  s__HOME  
-     000022BC  s__BASE   |    000022BC  s__CODE_0 |    000022BC  s__INITIA
-     000022BC  s__LIT    |    000022BD  s__GSINIT |    000022C9  s__GSFINA
+     000000AB  l__HEADER |    0000012B  l__HOME   |    00000200  s__CODE  
+     00002000  _rROMB0   |    000020CB  l__CODE   |    000022CB  s__HOME  
+     000023F6  s__BASE   |    000023F6  s__CODE_0 |    000023F6  s__INITIA
+     000023F6  s__LIT    |    000023F8  s__GSINIT |    00002404  s__GSFINA
      00003000  _rROMB1   |    00004000  _rMBC7_SR |    00004000  _rRAMB   
      00008000  __VRAM    |    00008000  __VRAM800 |    00008800  __VRAM880
      00009000  __VRAM900 |    00009800  __SCRN0   |    00009C00  __SCRN1  
@@ -38,7 +38,7 @@ Area                       Addr        Size        Decimal Bytes (Attributes)
      0000A020  _rMBC7_AC |    0000A030  _rMBC7_AC |    0000A040  _rMBC7_AC
      0000A050  _rMBC7_AC |    0000C000  __RAM     |    0000C000  _shadow_O
      0000C0A0  s__DATA   |    0000C0B1  s__BSS    |    0000C0B1  s__INITIA
-     0000C0B2  s__HEAP   |    0000C0B2  s__HEAP_E |    0000D000  __RAMBANK
+     0000C0B3  s__HEAP   |    0000C0B3  s__HEAP_E |    0000D000  __RAMBANK
      0000E000  .STACK    |    0000FE00  __OAMRAM  |    0000FF00  _P1_REG  
      0000FF00  __IO      |    0000FF01  _SB_REG   |    0000FF02  _SC_REG  
      0000FF04  _DIV_REG  |    0000FF05  _TIMA_REG |    0000FF06  _TMA_REG 
@@ -75,15 +75,17 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_CODE                  00000200    00001FD1 =        8145. bytes (REL,CON)
+_CODE                  00000200    000020CB =        8395. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     00000200  _setup_se |    0000022A  _setup_ca |    000002C3  _setup_je
-     0000036A  _main     |    00000379  ___func_b |    00000379  _backgrou
-     00000381  _backgrou |    00001101  _backgrou |    00001269  _SelectMe
-     00001E39  _SelectMe |    00001FA1  _cat      |    000020B1  _cat_tile
-     000020C1  _jester   |    000021C1  _jester_t
+     00000200  _setup_ho |    0000022A  _setup_se |    00000254  _choose_p
+     00000269  _setup_ca |    00000327  _setup_ca |    0000032F  _setup_je
+     000003F3  _setup_je |    000003FB  _main     |    0000043E  _clear_ba
+     00000455  _clear_sp |    00000473  ___func_b |    00000473  _backgrou
+     0000047B  _backgrou |    000011FB  _backgrou |    00001363  _SelectMe
+     00001F33  _SelectMe |    0000209B  _cat      |    000021AB  _cat_tile
+     000021BB  _jester   |    000022BB  _jester_t
 ASxxxx Linker V03.00/V05.40 + sdld,  page 4.
 Hexadecimal  [32-Bits]
 
@@ -261,20 +263,22 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_HOME                  000021D1    000000EB =         235. bytes (REL,CON)
+_HOME                  000022CB    0000012B =         299. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     000021D1  .memset_s |    000021DA  .memcpy_s |    000021F7  .display_
-     000021F7  _display_ |    0000220F  _set_tile |    00002214  _set_bkg_
-     00002214  _set_win_ |    0000221C  _set_spri |    0000224C  _set_bkg_
-     00002260  .set_xy_w |    00002269  .set_xy_b |    00002278  .set_xy_t
+     000022CB  .memset_s |    000022D4  .memcpy_s |    000022F1  .display_
+     000022F1  _display_ |    00002309  _set_tile |    0000230E  _set_bkg_
+     0000230E  _set_win_ |    00002316  _set_spri |    00002346  .padup   
+     00002346  _waitpadu |    00002356  .jpad     |    00002356  _joypad  
+     0000237E  _waitpad  |    0000237F  .wait_pad |    00002386  _set_bkg_
+     0000239A  .set_xy_w |    000023A3  .set_xy_b |    000023B2  .set_xy_t
 ASxxxx Linker V03.00/V05.40 + sdld,  page 23.
 Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_INITIALIZER           000022BC    00000001 =           1. bytes (REL,CON)
+_INITIALIZER           000023F6    00000002 =           2. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
@@ -283,17 +287,17 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_GSINIT                000022BD    0000000C =          12. bytes (REL,CON)
+_GSINIT                000023F8    0000000C =          12. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     000022BD  gsinit   
+     000023F8  gsinit   
 ASxxxx Linker V03.00/V05.40 + sdld,  page 25.
 Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_GSFINAL               000022C9    00000001 =           1. bytes (REL,CON)
+_GSFINAL               00002404    00000001 =           1. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
@@ -313,11 +317,11 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_INITIALIZED           0000C0B1    00000001 =           1. bytes (REL,CON)
+_INITIALIZED           0000C0B1    00000002 =           2. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     0000C0B1  __map_til
+     0000C0B1  _selected |    0000C0B2  __map_til
 ASxxxx Linker V03.00/V05.40 + sdld,  page 28.
 Hexadecimal  [32-Bits]
 
@@ -343,6 +347,7 @@ build\jester.o                            [ jester ]
 Libraries Linked                          [ object file ]
 
 c:\gbdk\lib/gb/gb.lib                     [ set_data.o ]
+c:\gbdk\lib/gb/gb.lib                     [ pad.o ]
 c:\gbdk\lib/gb/gb.lib                     [ sfr.o ]
 c:\gbdk\lib/gb/gb.lib                     [ set_bk_t.o ]
 c:\gbdk\lib/gb/gb.lib                     [ set_xy_t.o ]
