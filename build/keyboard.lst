@@ -187,7 +187,7 @@
     00000082                        187 00104$:
                                     188 ;keyboard.c:55: performantdelay(10);
     00000082 3E 0A            [ 8]  189 	ld	a, #0x0a
-    00000084 CDr1Ar02         [24]  190 	call	_performantdelay
+    00000084 CDr24r02         [24]  190 	call	_performantdelay
                                     191 ;keyboard.c:57: }
     00000087 18 DC            [12]  192 	jr	00105$
                                     193 ;keyboard.c:59: void handle_keyboard_input(UBYTE joy)
@@ -197,415 +197,424 @@
     00000089                        197 _handle_keyboard_input::
                                     198 ;keyboard.c:61: switch (joy)
     00000089 FE 01            [ 8]  199 	cp	a, #0x01
-    0000008B CAr38r01         [16]  200 	jp	Z, _move_cursor_right
+    0000008B CAr42r01         [16]  200 	jp	Z, _move_cursor_right
     0000008E FE 02            [ 8]  201 	cp	a, #0x02
-    00000090 CAr0Cr01         [16]  202 	jp	Z, _move_cursor_left
+    00000090 CAr16r01         [16]  202 	jp	Z, _move_cursor_left
     00000093 FE 04            [ 8]  203 	cp	a, #0x04
-    00000095 CArB2r00         [16]  204 	jp	Z, _move_cursor_up
+    00000095 CArBCr00         [16]  204 	jp	Z, _move_cursor_up
     00000098 FE 08            [ 8]  205 	cp	a, #0x08
-    0000009A CArDFr00         [16]  206 	jp	Z, _move_cursor_down
-    0000009D D6 10            [ 8]  207 	sub	a, #0x10
-    0000009F 28 05            [12]  208 	jr	Z, 00105$
-                                    209 ;keyboard.c:63: case J_UP:
-                                    210 ;keyboard.c:64: move_cursor_up();
-    000000A1 C9               [16]  211 	ret
-                                    212 ;keyboard.c:65: break;
-                                    213 ;keyboard.c:66: case J_DOWN:
-                                    214 ;keyboard.c:67: move_cursor_down();
-    000000A2 C9               [16]  215 	ret
-                                    216 ;keyboard.c:68: break;
-                                    217 ;keyboard.c:69: case J_LEFT:
-                                    218 ;keyboard.c:70: move_cursor_left();
-    000000A3 C9               [16]  219 	ret
-                                    220 ;keyboard.c:71: break;
-                                    221 ;keyboard.c:72: case J_RIGHT:
-                                    222 ;keyboard.c:73: move_cursor_right();
-    000000A4 C9               [16]  223 	ret
-                                    224 ;keyboard.c:74: break;
-    000000A5 C9               [16]  225 	ret
-                                    226 ;keyboard.c:75: case J_A:
-    000000A6                        227 00105$:
-                                    228 ;keyboard.c:76: update_pet_name(&cursor);
-    000000A6 11r12r00         [12]  229 	ld	de, #_cursor
-    000000A9 CDrC3r01         [24]  230 	call	_update_pet_name
-                                    231 ;keyboard.c:77: keydown = 1;
-    000000AC 21r00r00         [12]  232 	ld	hl, #_keydown
-    000000AF 36 01            [12]  233 	ld	(hl), #0x01
-                                    234 ;keyboard.c:82: }
-                                    235 ;keyboard.c:83: }
-    000000B1 C9               [16]  236 	ret
-                                    237 ;keyboard.c:85: void move_cursor_up(void)
-                                    238 ;	---------------------------------
-                                    239 ; Function move_cursor_up
-                                    240 ; ---------------------------------
-    000000B2                        241 _move_cursor_up::
-                                    242 ;keyboard.c:87: if (is_within_keyboard(cursor.x, cursor.y - 16))
-    000000B2 21r13r00         [12]  243 	ld	hl, #_cursor + 1
-    000000B5 7E               [ 8]  244 	ld	a, (hl)
-    000000B6 C6 F0            [ 8]  245 	add	a, #0xf0
-    000000B8 5F               [ 4]  246 	ld	e, a
-    000000B9 01r12r00         [12]  247 	ld	bc, #_cursor
-    000000BC 0A               [ 8]  248 	ld	a, (bc)
-    000000BD E5               [16]  249 	push	hl
-    000000BE C5               [16]  250 	push	bc
-    000000BF CDr64r01         [24]  251 	call	_is_within_keyboard
-    000000C2 C1               [12]  252 	pop	bc
-    000000C3 E1               [12]  253 	pop	hl
-    000000C4 B7               [ 4]  254 	or	a, a
-    000000C5 C8               [20]  255 	ret	Z
-                                    256 ;keyboard.c:89: cursor.row--;
-    000000C6 11r15r00         [12]  257 	ld	de, #_cursor + 3
-    000000C9 1A               [ 8]  258 	ld	a, (de)
-    000000CA 3D               [ 4]  259 	dec	a
-    000000CB 12               [ 8]  260 	ld	(de), a
-                                    261 ;keyboard.c:90: cursor.y -= 16;
-    000000CC 7E               [ 8]  262 	ld	a, (hl)
-    000000CD C6 F0            [ 8]  263 	add	a, #0xf0
-    000000CF 77               [ 8]  264 	ld	(hl), a
-                                    265 ;keyboard.c:91: move_sprite(0, cursor.x, cursor.y);
-    000000D0 5E               [ 8]  266 	ld	e, (hl)
-    000000D1 0A               [ 8]  267 	ld	a, (bc)
-    000000D2 4F               [ 4]  268 	ld	c, a
-                                    269 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    000000D3 21r00r00         [12]  270 	ld	hl, #_shadow_OAM
-                                    271 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    000000D6 73               [ 8]  272 	ld	(hl), e
-    000000D7 23               [ 8]  273 	inc	hl
-    000000D8 71               [ 8]  274 	ld	(hl), c
-                                    275 ;keyboard.c:92: keydown = 1;
-    000000D9 21r00r00         [12]  276 	ld	hl, #_keydown
-    000000DC 36 01            [12]  277 	ld	(hl), #0x01
-                                    278 ;keyboard.c:94: }
-    000000DE C9               [16]  279 	ret
-                                    280 ;keyboard.c:96: void move_cursor_down(void)
-                                    281 ;	---------------------------------
-                                    282 ; Function move_cursor_down
-                                    283 ; ---------------------------------
-    000000DF                        284 _move_cursor_down::
-                                    285 ;keyboard.c:98: if (is_within_keyboard(cursor.x, cursor.y + 16))
-    000000DF 21r13r00         [12]  286 	ld	hl, #_cursor + 1
-    000000E2 7E               [ 8]  287 	ld	a, (hl)
-    000000E3 C6 10            [ 8]  288 	add	a, #0x10
-    000000E5 5F               [ 4]  289 	ld	e, a
-    000000E6 01r12r00         [12]  290 	ld	bc, #_cursor
-    000000E9 0A               [ 8]  291 	ld	a, (bc)
-    000000EA E5               [16]  292 	push	hl
-    000000EB C5               [16]  293 	push	bc
-    000000EC CDr64r01         [24]  294 	call	_is_within_keyboard
-    000000EF C1               [12]  295 	pop	bc
-    000000F0 E1               [12]  296 	pop	hl
-    000000F1 B7               [ 4]  297 	or	a, a
-    000000F2 C8               [20]  298 	ret	Z
-                                    299 ;keyboard.c:100: cursor.row++;
-    000000F3 11r15r00         [12]  300 	ld	de, #_cursor + 3
-    000000F6 1A               [ 8]  301 	ld	a, (de)
-    000000F7 3C               [ 4]  302 	inc	a
-    000000F8 12               [ 8]  303 	ld	(de), a
-                                    304 ;keyboard.c:101: cursor.y += 16;
-    000000F9 7E               [ 8]  305 	ld	a, (hl)
-    000000FA C6 10            [ 8]  306 	add	a, #0x10
-    000000FC 77               [ 8]  307 	ld	(hl), a
-                                    308 ;keyboard.c:102: move_sprite(0, cursor.x, cursor.y);
-    000000FD 5E               [ 8]  309 	ld	e, (hl)
-    000000FE 0A               [ 8]  310 	ld	a, (bc)
-    000000FF 4F               [ 4]  311 	ld	c, a
-                                    312 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    00000100 21r00r00         [12]  313 	ld	hl, #_shadow_OAM
-                                    314 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000103 73               [ 8]  315 	ld	(hl), e
-    00000104 23               [ 8]  316 	inc	hl
-    00000105 71               [ 8]  317 	ld	(hl), c
-                                    318 ;keyboard.c:103: keydown = 1;
-    00000106 21r00r00         [12]  319 	ld	hl, #_keydown
-    00000109 36 01            [12]  320 	ld	(hl), #0x01
-                                    321 ;keyboard.c:105: }
-    0000010B C9               [16]  322 	ret
-                                    323 ;keyboard.c:107: void move_cursor_left(void)
-                                    324 ;	---------------------------------
-                                    325 ; Function move_cursor_left
-                                    326 ; ---------------------------------
-    0000010C                        327 _move_cursor_left::
-                                    328 ;keyboard.c:109: if (is_within_keyboard(cursor.x - 16, cursor.y))
-    0000010C 21r13r00         [12]  329 	ld	hl, #_cursor + 1
-    0000010F 5E               [ 8]  330 	ld	e, (hl)
-    00000110 01r12r00         [12]  331 	ld	bc, #_cursor
-    00000113 0A               [ 8]  332 	ld	a, (bc)
-    00000114 C6 F0            [ 8]  333 	add	a, #0xf0
-    00000116 E5               [16]  334 	push	hl
-    00000117 C5               [16]  335 	push	bc
-    00000118 CDr64r01         [24]  336 	call	_is_within_keyboard
-    0000011B C1               [12]  337 	pop	bc
-    0000011C E1               [12]  338 	pop	hl
-    0000011D B7               [ 4]  339 	or	a, a
-    0000011E C8               [20]  340 	ret	Z
-                                    341 ;keyboard.c:111: cursor.col--;
-    0000011F 11r14r00         [12]  342 	ld	de, #_cursor + 2
-    00000122 1A               [ 8]  343 	ld	a, (de)
-    00000123 3D               [ 4]  344 	dec	a
-    00000124 12               [ 8]  345 	ld	(de), a
-                                    346 ;keyboard.c:112: cursor.x -= 16;
-    00000125 0A               [ 8]  347 	ld	a, (bc)
-    00000126 C6 F0            [ 8]  348 	add	a, #0xf0
-    00000128 02               [ 8]  349 	ld	(bc), a
-                                    350 ;keyboard.c:113: move_sprite(0, cursor.x, cursor.y);
-    00000129 5E               [ 8]  351 	ld	e, (hl)
-    0000012A 0A               [ 8]  352 	ld	a, (bc)
-    0000012B 4F               [ 4]  353 	ld	c, a
-                                    354 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    0000012C 21r00r00         [12]  355 	ld	hl, #_shadow_OAM
-                                    356 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    0000012F 73               [ 8]  357 	ld	(hl), e
-    00000130 23               [ 8]  358 	inc	hl
-    00000131 71               [ 8]  359 	ld	(hl), c
-                                    360 ;keyboard.c:114: keydown = 1;
-    00000132 21r00r00         [12]  361 	ld	hl, #_keydown
-    00000135 36 01            [12]  362 	ld	(hl), #0x01
-                                    363 ;keyboard.c:116: }
-    00000137 C9               [16]  364 	ret
-                                    365 ;keyboard.c:118: void move_cursor_right(void)
-                                    366 ;	---------------------------------
-                                    367 ; Function move_cursor_right
-                                    368 ; ---------------------------------
-    00000138                        369 _move_cursor_right::
-                                    370 ;keyboard.c:120: if (is_within_keyboard(cursor.x + 16, cursor.y))
-    00000138 21r13r00         [12]  371 	ld	hl, #_cursor + 1
-    0000013B 5E               [ 8]  372 	ld	e, (hl)
-    0000013C 01r12r00         [12]  373 	ld	bc, #_cursor
-    0000013F 0A               [ 8]  374 	ld	a, (bc)
-    00000140 C6 10            [ 8]  375 	add	a, #0x10
-    00000142 E5               [16]  376 	push	hl
-    00000143 C5               [16]  377 	push	bc
-    00000144 CDr64r01         [24]  378 	call	_is_within_keyboard
-    00000147 C1               [12]  379 	pop	bc
-    00000148 E1               [12]  380 	pop	hl
-    00000149 B7               [ 4]  381 	or	a, a
-    0000014A C8               [20]  382 	ret	Z
-                                    383 ;keyboard.c:122: cursor.col++;
-    0000014B 11r14r00         [12]  384 	ld	de, #_cursor + 2
-    0000014E 1A               [ 8]  385 	ld	a, (de)
-    0000014F 3C               [ 4]  386 	inc	a
-    00000150 12               [ 8]  387 	ld	(de), a
-                                    388 ;keyboard.c:123: cursor.x += 16;
-    00000151 0A               [ 8]  389 	ld	a, (bc)
-    00000152 C6 10            [ 8]  390 	add	a, #0x10
-    00000154 02               [ 8]  391 	ld	(bc), a
-                                    392 ;keyboard.c:124: move_sprite(0, cursor.x, cursor.y);
-    00000155 5E               [ 8]  393 	ld	e, (hl)
-    00000156 0A               [ 8]  394 	ld	a, (bc)
-    00000157 4F               [ 4]  395 	ld	c, a
-                                    396 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    00000158 21r00r00         [12]  397 	ld	hl, #_shadow_OAM
-                                    398 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    0000015B 73               [ 8]  399 	ld	(hl), e
-    0000015C 23               [ 8]  400 	inc	hl
-    0000015D 71               [ 8]  401 	ld	(hl), c
-                                    402 ;keyboard.c:125: keydown = 1;
-    0000015E 21r00r00         [12]  403 	ld	hl, #_keydown
-    00000161 36 01            [12]  404 	ld	(hl), #0x01
-                                    405 ;keyboard.c:127: }
-    00000163 C9               [16]  406 	ret
-                                    407 ;keyboard.c:129: UBYTE is_within_keyboard(UINT8 x, UINT8 y)
-                                    408 ;	---------------------------------
-                                    409 ; Function is_within_keyboard
-                                    410 ; ---------------------------------
-    00000164                        411 _is_within_keyboard::
-    00000164 4F               [ 4]  412 	ld	c, a
-                                    413 ;keyboard.c:132: if ((x == 140 && y == 144) || (x == 156 && y == 144))
-    00000165 7B               [ 4]  414 	ld	a, e
-    00000166 D6 90            [ 8]  415 	sub	a, #0x90
-    00000168 3E 01            [ 8]  416 	ld	a, #0x01
-    0000016A 28 01            [12]  417 	jr	Z, 00151$
-    0000016C AF               [ 4]  418 	xor	a, a
-    0000016D                        419 00151$:
-    0000016D 47               [ 4]  420 	ld	b, a
-    0000016E 79               [ 4]  421 	ld	a, c
-    0000016F D6 8C            [ 8]  422 	sub	a, #0x8c
-    00000171 20 03            [12]  423 	jr	NZ, 00105$
-    00000173 B0               [ 4]  424 	or	a, b
-    00000174 20 08            [12]  425 	jr	NZ, 00101$
-    00000176                        426 00105$:
-    00000176 79               [ 4]  427 	ld	a, c
-    00000177 D6 9C            [ 8]  428 	sub	a, #0x9c
-    00000179 20 06            [12]  429 	jr	NZ, 00102$
-    0000017B B0               [ 4]  430 	or	a, b
-    0000017C 28 03            [12]  431 	jr	Z, 00102$
-    0000017E                        432 00101$:
-                                    433 ;keyboard.c:134: return 1;
-    0000017E 3E 01            [ 8]  434 	ld	a, #0x01
-    00000180 C9               [16]  435 	ret
-    00000181                        436 00102$:
-                                    437 ;keyboard.c:136: return (x >= mincursor_x && x <= maxcursor_x && y >= mincursor_y && y <= maxcursor_y);
-    00000181 79               [ 4]  438 	ld	a, c
-    00000182 D6 0C            [ 8]  439 	sub	a, #0x0c
-    00000184 38 0F            [12]  440 	jr	C, 00108$
-    00000186 3E 9C            [ 8]  441 	ld	a, #0x9c
-    00000188 91               [ 4]  442 	sub	a, c
-    00000189 38 0A            [12]  443 	jr	C, 00108$
-    0000018B 7B               [ 4]  444 	ld	a, e
-    0000018C D6 50            [ 8]  445 	sub	a, #0x50
-    0000018E 38 05            [12]  446 	jr	C, 00108$
-    00000190 3E 80            [ 8]  447 	ld	a, #0x80
-    00000192 93               [ 4]  448 	sub	a, e
-    00000193 30 02            [12]  449 	jr	NC, 00109$
-    00000195                        450 00108$:
-    00000195 AF               [ 4]  451 	xor	a, a
-    00000196 C9               [16]  452 	ret
-    00000197                        453 00109$:
-    00000197 3E 01            [ 8]  454 	ld	a, #0x01
-                                    455 ;keyboard.c:137: }
-    00000199 C9               [16]  456 	ret
-                                    457 ;keyboard.c:139: void add_character_to_name(struct Cursor *cursor)
-                                    458 ;	---------------------------------
-                                    459 ; Function add_character_to_name
-                                    460 ; ---------------------------------
-    0000019A                        461 _add_character_to_name::
-    0000019A 4B               [ 4]  462 	ld	c, e
-    0000019B 42               [ 4]  463 	ld	b, d
-                                    464 ;keyboard.c:141: UINT8 character_index = cursor->row * 10 + cursor->col + 1;
-    0000019C 69               [ 4]  465 	ld	l, c
-    0000019D 60               [ 4]  466 	ld	h, b
-    0000019E 23               [ 8]  467 	inc	hl
-    0000019F 23               [ 8]  468 	inc	hl
-    000001A0 23               [ 8]  469 	inc	hl
-    000001A1 6E               [ 8]  470 	ld	l, (hl)
-    000001A2 5D               [ 4]  471 	ld	e, l
-    000001A3 29               [ 8]  472 	add	hl, hl
-    000001A4 29               [ 8]  473 	add	hl, hl
-    000001A5 19               [ 8]  474 	add	hl, de
-    000001A6 29               [ 8]  475 	add	hl, hl
-    000001A7 03               [ 8]  476 	inc	bc
-    000001A8 03               [ 8]  477 	inc	bc
-    000001A9 0A               [ 8]  478 	ld	a, (bc)
-    000001AA 85               [ 4]  479 	add	a, l
-    000001AB 4F               [ 4]  480 	ld	c, a
-    000001AC 0C               [ 4]  481 	inc	c
-                                    482 ;keyboard.c:143: if (name_character_index == 18)
-    000001AD FAr02r00         [16]  483 	ld	a, (#_name_character_index)
-    000001B0 D6 12            [ 8]  484 	sub	a, #0x12
-    000001B2 C8               [20]  485 	ret	Z
-                                    486 ;keyboard.c:144: return; // Maximum length reached
-                                    487 ;keyboard.c:146: pet_name[name_character_index] = character_index;
-    000001B3 3Er00            [ 8]  488 	ld	a, #<(_pet_name)
-    000001B5 21r02r00         [12]  489 	ld	hl, #_name_character_index
-    000001B8 86               [ 8]  490 	add	a, (hl)
-    000001B9 5F               [ 4]  491 	ld	e, a
-    000001BA 3Es00            [ 8]  492 	ld	a, #>(_pet_name)
-    000001BC CE 00            [ 8]  493 	adc	a, #0x00
-    000001BE 57               [ 4]  494 	ld	d, a
-    000001BF 79               [ 4]  495 	ld	a, c
-    000001C0 12               [ 8]  496 	ld	(de), a
-                                    497 ;keyboard.c:147: name_character_index++;
-    000001C1 34               [12]  498 	inc	(hl)
-                                    499 ;keyboard.c:148: }
-    000001C2 C9               [16]  500 	ret
-                                    501 ;keyboard.c:150: void update_pet_name(struct Cursor *cursor)
-                                    502 ;	---------------------------------
-                                    503 ; Function update_pet_name
-                                    504 ; ---------------------------------
-    000001C3                        505 _update_pet_name::
-                                    506 ;keyboard.c:152: if (cursor->col == 8 && cursor->row == 4)
-    000001C3 6B               [ 4]  507 	ld	l, e
-    000001C4 62               [ 4]  508 	ld	h, d
-    000001C5 23               [ 8]  509 	inc	hl
-    000001C6 23               [ 8]  510 	inc	hl
-    000001C7 4E               [ 8]  511 	ld	c, (hl)
-    000001C8 6B               [ 4]  512 	ld	l, e
-    000001C9 62               [ 4]  513 	ld	h, d
-    000001CA 23               [ 8]  514 	inc	hl
-    000001CB 23               [ 8]  515 	inc	hl
-    000001CC 23               [ 8]  516 	inc	hl
-    000001CD 79               [ 4]  517 	ld	a, c
-    000001CE D6 08            [ 8]  518 	sub	a, #0x08
-    000001D0 20 0B            [12]  519 	jr	NZ, 00106$
-    000001D2 7E               [ 8]  520 	ld	a, (hl)
-    000001D3 D6 04            [ 8]  521 	sub	a, #0x04
-    000001D5 20 06            [12]  522 	jr	NZ, 00106$
-                                    523 ;keyboard.c:154: remove_from_pet_name();
-    000001D7 CDr07r02         [24]  524 	call	_remove_from_pet_name
-                                    525 ;keyboard.c:155: draw_pet_name();
-    000001DA C3rF5r01         [16]  526 	jp	_draw_pet_name
-    000001DD                        527 00106$:
-                                    528 ;keyboard.c:157: else if (cursor->col == 9 && cursor->row == 4)
-    000001DD 79               [ 4]  529 	ld	a, c
-    000001DE D6 09            [ 8]  530 	sub	a, #0x09
-    000001E0 20 0D            [12]  531 	jr	NZ, 00102$
-    000001E2 7E               [ 8]  532 	ld	a, (hl)
-    000001E3 D6 04            [ 8]  533 	sub	a, #0x04
-    000001E5 20 08            [12]  534 	jr	NZ, 00102$
-                                    535 ;keyboard.c:159: pet_has_name = 1; // Indicate that the player has chosen a name
-    000001E7 21r01r00         [12]  536 	ld	hl, #_pet_has_name
-                                    537 ;keyboard.c:160: draw_pet_name();
-    000001EA 36 01            [12]  538 	ld	(hl), #0x01
-    000001EC C3rF5r01         [16]  539 	jp	_draw_pet_name
-    000001EF                        540 00102$:
-                                    541 ;keyboard.c:164: add_character_to_name(cursor);
-    000001EF CDr9Ar01         [24]  542 	call	_add_character_to_name
-                                    543 ;keyboard.c:165: draw_pet_name();
-                                    544 ;keyboard.c:167: }
-    000001F2 C3rF5r01         [16]  545 	jp	_draw_pet_name
-                                    546 ;keyboard.c:169: void draw_pet_name(void)
-                                    547 ;	---------------------------------
-                                    548 ; Function draw_pet_name
-                                    549 ; ---------------------------------
-    000001F5                        550 _draw_pet_name::
-                                    551 ;keyboard.c:171: set_bkg_tiles(1, 4, 18, 1, pet_name);
-    000001F5 11r00r00         [12]  552 	ld	de, #_pet_name
-    000001F8 D5               [16]  553 	push	de
-    000001F9 21 12 01         [12]  554 	ld	hl, #0x112
-    000001FC E5               [16]  555 	push	hl
-    000001FD 21 01 04         [12]  556 	ld	hl, #0x401
-    00000200 E5               [16]  557 	push	hl
-    00000201 CDr00r00         [24]  558 	call	_set_bkg_tiles
-    00000204 E8 06            [16]  559 	add	sp, #6
-                                    560 ;keyboard.c:172: }
-    00000206 C9               [16]  561 	ret
-                                    562 ;keyboard.c:174: void remove_from_pet_name(void)
-                                    563 ;	---------------------------------
-                                    564 ; Function remove_from_pet_name
-                                    565 ; ---------------------------------
-    00000207                        566 _remove_from_pet_name::
-                                    567 ;keyboard.c:176: if (name_character_index > 0)
-    00000207 21r02r00         [12]  568 	ld	hl, #_name_character_index
-    0000020A 7E               [ 8]  569 	ld	a, (hl)
-    0000020B B7               [ 4]  570 	or	a, a
-    0000020C C8               [20]  571 	ret	Z
-                                    572 ;keyboard.c:178: name_character_index--;
-    0000020D 35               [12]  573 	dec	(hl)
-                                    574 ;keyboard.c:179: pet_name[name_character_index] = 0; // Clear the last character
-    0000020E 3Er00            [ 8]  575 	ld	a, #<(_pet_name)
-    00000210 86               [ 8]  576 	add	a, (hl)
-    00000211 4F               [ 4]  577 	ld	c, a
-    00000212 3Es00            [ 8]  578 	ld	a, #>(_pet_name)
-    00000214 CE 00            [ 8]  579 	adc	a, #0x00
-    00000216 47               [ 4]  580 	ld	b, a
-    00000217 AF               [ 4]  581 	xor	a, a
-    00000218 02               [ 8]  582 	ld	(bc), a
-                                    583 ;keyboard.c:181: }
-    00000219 C9               [16]  584 	ret
-                                    585 ;keyboard.c:184: void performantdelay(UINT8 numloops)
-                                    586 ;	---------------------------------
-                                    587 ; Function performantdelay
-                                    588 ; ---------------------------------
-    0000021A                        589 _performantdelay::
-    0000021A 4F               [ 4]  590 	ld	c, a
-                                    591 ;keyboard.c:187: for (i = 0; i < numloops; i++)
-    0000021B 06 00            [ 8]  592 	ld	b, #0x00
-    0000021D                        593 00103$:
-    0000021D 78               [ 4]  594 	ld	a, b
-    0000021E 91               [ 4]  595 	sub	a, c
-    0000021F D0               [20]  596 	ret	NC
-                                    597 ;keyboard.c:189: wait_vbl_done();
-    00000220 CDr00r00         [24]  598 	call	_wait_vbl_done
-                                    599 ;keyboard.c:187: for (i = 0; i < numloops; i++)
-    00000223 04               [ 4]  600 	inc	b
-                                    601 ;keyboard.c:191: }
-    00000224 18 F7            [12]  602 	jr	00103$
-                                    603 	.area _CODE
-                                    604 	.area _INITIALIZER
-    00000000                        605 __xinit__keydown:
-    00000000 00                     606 	.db #0x00	; 0
-    00000001                        607 __xinit__pet_has_name:
-    00000001 00                     608 	.db #0x00	; 0
-    00000002                        609 __xinit__name_character_index:
-    00000002 00                     610 	.db #0x00	; 0
-                                    611 	.area _CABS (ABS)
+    0000009A CArE9r00         [16]  206 	jp	Z, _move_cursor_down
+    0000009D FE 10            [ 8]  207 	cp	a, #0x10
+    0000009F 28 09            [12]  208 	jr	Z, 00105$
+    000000A1 D6 20            [ 8]  209 	sub	a, #0x20
+    000000A3 28 11            [12]  210 	jr	Z, 00106$
+                                    211 ;keyboard.c:63: case J_UP:
+                                    212 ;keyboard.c:64: move_cursor_up();
+    000000A5 C9               [16]  213 	ret
+                                    214 ;keyboard.c:65: break;
+                                    215 ;keyboard.c:66: case J_DOWN:
+                                    216 ;keyboard.c:67: move_cursor_down();
+    000000A6 C9               [16]  217 	ret
+                                    218 ;keyboard.c:68: break;
+                                    219 ;keyboard.c:69: case J_LEFT:
+                                    220 ;keyboard.c:70: move_cursor_left();
+    000000A7 C9               [16]  221 	ret
+                                    222 ;keyboard.c:71: break;
+                                    223 ;keyboard.c:72: case J_RIGHT:
+                                    224 ;keyboard.c:73: move_cursor_right();
+    000000A8 C9               [16]  225 	ret
+                                    226 ;keyboard.c:74: break;
+    000000A9 C9               [16]  227 	ret
+                                    228 ;keyboard.c:75: case J_A:
+    000000AA                        229 00105$:
+                                    230 ;keyboard.c:76: update_pet_name(&cursor);
+    000000AA 11r12r00         [12]  231 	ld	de, #_cursor
+    000000AD CDrCDr01         [24]  232 	call	_update_pet_name
+                                    233 ;keyboard.c:77: keydown = 1;
+    000000B0 21r00r00         [12]  234 	ld	hl, #_keydown
+    000000B3 36 01            [12]  235 	ld	(hl), #0x01
+                                    236 ;keyboard.c:78: break;
+    000000B5 C9               [16]  237 	ret
+                                    238 ;keyboard.c:79: case J_B:
+    000000B6                        239 00106$:
+                                    240 ;keyboard.c:80: draw_pet_name();
+    000000B6 CDrFFr01         [24]  241 	call	_draw_pet_name
+                                    242 ;keyboard.c:81: remove_from_pet_name();
+                                    243 ;keyboard.c:83: }
+                                    244 ;keyboard.c:84: }
+    000000B9 C3r11r02         [16]  245 	jp	_remove_from_pet_name
+                                    246 ;keyboard.c:86: void move_cursor_up(void)
+                                    247 ;	---------------------------------
+                                    248 ; Function move_cursor_up
+                                    249 ; ---------------------------------
+    000000BC                        250 _move_cursor_up::
+                                    251 ;keyboard.c:88: if (is_within_keyboard(cursor.x, cursor.y - 16))
+    000000BC 21r13r00         [12]  252 	ld	hl, #_cursor + 1
+    000000BF 7E               [ 8]  253 	ld	a, (hl)
+    000000C0 C6 F0            [ 8]  254 	add	a, #0xf0
+    000000C2 5F               [ 4]  255 	ld	e, a
+    000000C3 01r12r00         [12]  256 	ld	bc, #_cursor
+    000000C6 0A               [ 8]  257 	ld	a, (bc)
+    000000C7 E5               [16]  258 	push	hl
+    000000C8 C5               [16]  259 	push	bc
+    000000C9 CDr6Er01         [24]  260 	call	_is_within_keyboard
+    000000CC C1               [12]  261 	pop	bc
+    000000CD E1               [12]  262 	pop	hl
+    000000CE B7               [ 4]  263 	or	a, a
+    000000CF C8               [20]  264 	ret	Z
+                                    265 ;keyboard.c:90: cursor.row--;
+    000000D0 11r15r00         [12]  266 	ld	de, #_cursor + 3
+    000000D3 1A               [ 8]  267 	ld	a, (de)
+    000000D4 3D               [ 4]  268 	dec	a
+    000000D5 12               [ 8]  269 	ld	(de), a
+                                    270 ;keyboard.c:91: cursor.y -= 16;
+    000000D6 7E               [ 8]  271 	ld	a, (hl)
+    000000D7 C6 F0            [ 8]  272 	add	a, #0xf0
+    000000D9 77               [ 8]  273 	ld	(hl), a
+                                    274 ;keyboard.c:92: move_sprite(0, cursor.x, cursor.y);
+    000000DA 5E               [ 8]  275 	ld	e, (hl)
+    000000DB 0A               [ 8]  276 	ld	a, (bc)
+    000000DC 4F               [ 4]  277 	ld	c, a
+                                    278 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000000DD 21r00r00         [12]  279 	ld	hl, #_shadow_OAM
+                                    280 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000000E0 73               [ 8]  281 	ld	(hl), e
+    000000E1 23               [ 8]  282 	inc	hl
+    000000E2 71               [ 8]  283 	ld	(hl), c
+                                    284 ;keyboard.c:93: keydown = 1;
+    000000E3 21r00r00         [12]  285 	ld	hl, #_keydown
+    000000E6 36 01            [12]  286 	ld	(hl), #0x01
+                                    287 ;keyboard.c:95: }
+    000000E8 C9               [16]  288 	ret
+                                    289 ;keyboard.c:97: void move_cursor_down(void)
+                                    290 ;	---------------------------------
+                                    291 ; Function move_cursor_down
+                                    292 ; ---------------------------------
+    000000E9                        293 _move_cursor_down::
+                                    294 ;keyboard.c:99: if (is_within_keyboard(cursor.x, cursor.y + 16))
+    000000E9 21r13r00         [12]  295 	ld	hl, #_cursor + 1
+    000000EC 7E               [ 8]  296 	ld	a, (hl)
+    000000ED C6 10            [ 8]  297 	add	a, #0x10
+    000000EF 5F               [ 4]  298 	ld	e, a
+    000000F0 01r12r00         [12]  299 	ld	bc, #_cursor
+    000000F3 0A               [ 8]  300 	ld	a, (bc)
+    000000F4 E5               [16]  301 	push	hl
+    000000F5 C5               [16]  302 	push	bc
+    000000F6 CDr6Er01         [24]  303 	call	_is_within_keyboard
+    000000F9 C1               [12]  304 	pop	bc
+    000000FA E1               [12]  305 	pop	hl
+    000000FB B7               [ 4]  306 	or	a, a
+    000000FC C8               [20]  307 	ret	Z
+                                    308 ;keyboard.c:101: cursor.row++;
+    000000FD 11r15r00         [12]  309 	ld	de, #_cursor + 3
+    00000100 1A               [ 8]  310 	ld	a, (de)
+    00000101 3C               [ 4]  311 	inc	a
+    00000102 12               [ 8]  312 	ld	(de), a
+                                    313 ;keyboard.c:102: cursor.y += 16;
+    00000103 7E               [ 8]  314 	ld	a, (hl)
+    00000104 C6 10            [ 8]  315 	add	a, #0x10
+    00000106 77               [ 8]  316 	ld	(hl), a
+                                    317 ;keyboard.c:103: move_sprite(0, cursor.x, cursor.y);
+    00000107 5E               [ 8]  318 	ld	e, (hl)
+    00000108 0A               [ 8]  319 	ld	a, (bc)
+    00000109 4F               [ 4]  320 	ld	c, a
+                                    321 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000010A 21r00r00         [12]  322 	ld	hl, #_shadow_OAM
+                                    323 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    0000010D 73               [ 8]  324 	ld	(hl), e
+    0000010E 23               [ 8]  325 	inc	hl
+    0000010F 71               [ 8]  326 	ld	(hl), c
+                                    327 ;keyboard.c:104: keydown = 1;
+    00000110 21r00r00         [12]  328 	ld	hl, #_keydown
+    00000113 36 01            [12]  329 	ld	(hl), #0x01
+                                    330 ;keyboard.c:106: }
+    00000115 C9               [16]  331 	ret
+                                    332 ;keyboard.c:108: void move_cursor_left(void)
+                                    333 ;	---------------------------------
+                                    334 ; Function move_cursor_left
+                                    335 ; ---------------------------------
+    00000116                        336 _move_cursor_left::
+                                    337 ;keyboard.c:110: if (is_within_keyboard(cursor.x - 16, cursor.y))
+    00000116 21r13r00         [12]  338 	ld	hl, #_cursor + 1
+    00000119 5E               [ 8]  339 	ld	e, (hl)
+    0000011A 01r12r00         [12]  340 	ld	bc, #_cursor
+    0000011D 0A               [ 8]  341 	ld	a, (bc)
+    0000011E C6 F0            [ 8]  342 	add	a, #0xf0
+    00000120 E5               [16]  343 	push	hl
+    00000121 C5               [16]  344 	push	bc
+    00000122 CDr6Er01         [24]  345 	call	_is_within_keyboard
+    00000125 C1               [12]  346 	pop	bc
+    00000126 E1               [12]  347 	pop	hl
+    00000127 B7               [ 4]  348 	or	a, a
+    00000128 C8               [20]  349 	ret	Z
+                                    350 ;keyboard.c:112: cursor.col--;
+    00000129 11r14r00         [12]  351 	ld	de, #_cursor + 2
+    0000012C 1A               [ 8]  352 	ld	a, (de)
+    0000012D 3D               [ 4]  353 	dec	a
+    0000012E 12               [ 8]  354 	ld	(de), a
+                                    355 ;keyboard.c:113: cursor.x -= 16;
+    0000012F 0A               [ 8]  356 	ld	a, (bc)
+    00000130 C6 F0            [ 8]  357 	add	a, #0xf0
+    00000132 02               [ 8]  358 	ld	(bc), a
+                                    359 ;keyboard.c:114: move_sprite(0, cursor.x, cursor.y);
+    00000133 5E               [ 8]  360 	ld	e, (hl)
+    00000134 0A               [ 8]  361 	ld	a, (bc)
+    00000135 4F               [ 4]  362 	ld	c, a
+                                    363 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000136 21r00r00         [12]  364 	ld	hl, #_shadow_OAM
+                                    365 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000139 73               [ 8]  366 	ld	(hl), e
+    0000013A 23               [ 8]  367 	inc	hl
+    0000013B 71               [ 8]  368 	ld	(hl), c
+                                    369 ;keyboard.c:115: keydown = 1;
+    0000013C 21r00r00         [12]  370 	ld	hl, #_keydown
+    0000013F 36 01            [12]  371 	ld	(hl), #0x01
+                                    372 ;keyboard.c:117: }
+    00000141 C9               [16]  373 	ret
+                                    374 ;keyboard.c:119: void move_cursor_right(void)
+                                    375 ;	---------------------------------
+                                    376 ; Function move_cursor_right
+                                    377 ; ---------------------------------
+    00000142                        378 _move_cursor_right::
+                                    379 ;keyboard.c:121: if (is_within_keyboard(cursor.x + 16, cursor.y))
+    00000142 21r13r00         [12]  380 	ld	hl, #_cursor + 1
+    00000145 5E               [ 8]  381 	ld	e, (hl)
+    00000146 01r12r00         [12]  382 	ld	bc, #_cursor
+    00000149 0A               [ 8]  383 	ld	a, (bc)
+    0000014A C6 10            [ 8]  384 	add	a, #0x10
+    0000014C E5               [16]  385 	push	hl
+    0000014D C5               [16]  386 	push	bc
+    0000014E CDr6Er01         [24]  387 	call	_is_within_keyboard
+    00000151 C1               [12]  388 	pop	bc
+    00000152 E1               [12]  389 	pop	hl
+    00000153 B7               [ 4]  390 	or	a, a
+    00000154 C8               [20]  391 	ret	Z
+                                    392 ;keyboard.c:123: cursor.col++;
+    00000155 11r14r00         [12]  393 	ld	de, #_cursor + 2
+    00000158 1A               [ 8]  394 	ld	a, (de)
+    00000159 3C               [ 4]  395 	inc	a
+    0000015A 12               [ 8]  396 	ld	(de), a
+                                    397 ;keyboard.c:124: cursor.x += 16;
+    0000015B 0A               [ 8]  398 	ld	a, (bc)
+    0000015C C6 10            [ 8]  399 	add	a, #0x10
+    0000015E 02               [ 8]  400 	ld	(bc), a
+                                    401 ;keyboard.c:125: move_sprite(0, cursor.x, cursor.y);
+    0000015F 5E               [ 8]  402 	ld	e, (hl)
+    00000160 0A               [ 8]  403 	ld	a, (bc)
+    00000161 4F               [ 4]  404 	ld	c, a
+                                    405 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000162 21r00r00         [12]  406 	ld	hl, #_shadow_OAM
+                                    407 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000165 73               [ 8]  408 	ld	(hl), e
+    00000166 23               [ 8]  409 	inc	hl
+    00000167 71               [ 8]  410 	ld	(hl), c
+                                    411 ;keyboard.c:126: keydown = 1;
+    00000168 21r00r00         [12]  412 	ld	hl, #_keydown
+    0000016B 36 01            [12]  413 	ld	(hl), #0x01
+                                    414 ;keyboard.c:128: }
+    0000016D C9               [16]  415 	ret
+                                    416 ;keyboard.c:130: UBYTE is_within_keyboard(UINT8 x, UINT8 y)
+                                    417 ;	---------------------------------
+                                    418 ; Function is_within_keyboard
+                                    419 ; ---------------------------------
+    0000016E                        420 _is_within_keyboard::
+    0000016E 4F               [ 4]  421 	ld	c, a
+                                    422 ;keyboard.c:133: if ((x == 140 && y == 144) || (x == 156 && y == 144))
+    0000016F 7B               [ 4]  423 	ld	a, e
+    00000170 D6 90            [ 8]  424 	sub	a, #0x90
+    00000172 3E 01            [ 8]  425 	ld	a, #0x01
+    00000174 28 01            [12]  426 	jr	Z, 00151$
+    00000176 AF               [ 4]  427 	xor	a, a
+    00000177                        428 00151$:
+    00000177 47               [ 4]  429 	ld	b, a
+    00000178 79               [ 4]  430 	ld	a, c
+    00000179 D6 8C            [ 8]  431 	sub	a, #0x8c
+    0000017B 20 03            [12]  432 	jr	NZ, 00105$
+    0000017D B0               [ 4]  433 	or	a, b
+    0000017E 20 08            [12]  434 	jr	NZ, 00101$
+    00000180                        435 00105$:
+    00000180 79               [ 4]  436 	ld	a, c
+    00000181 D6 9C            [ 8]  437 	sub	a, #0x9c
+    00000183 20 06            [12]  438 	jr	NZ, 00102$
+    00000185 B0               [ 4]  439 	or	a, b
+    00000186 28 03            [12]  440 	jr	Z, 00102$
+    00000188                        441 00101$:
+                                    442 ;keyboard.c:135: return 1;
+    00000188 3E 01            [ 8]  443 	ld	a, #0x01
+    0000018A C9               [16]  444 	ret
+    0000018B                        445 00102$:
+                                    446 ;keyboard.c:137: return (x >= mincursor_x && x <= maxcursor_x && y >= mincursor_y && y <= maxcursor_y);
+    0000018B 79               [ 4]  447 	ld	a, c
+    0000018C D6 0C            [ 8]  448 	sub	a, #0x0c
+    0000018E 38 0F            [12]  449 	jr	C, 00108$
+    00000190 3E 9C            [ 8]  450 	ld	a, #0x9c
+    00000192 91               [ 4]  451 	sub	a, c
+    00000193 38 0A            [12]  452 	jr	C, 00108$
+    00000195 7B               [ 4]  453 	ld	a, e
+    00000196 D6 50            [ 8]  454 	sub	a, #0x50
+    00000198 38 05            [12]  455 	jr	C, 00108$
+    0000019A 3E 80            [ 8]  456 	ld	a, #0x80
+    0000019C 93               [ 4]  457 	sub	a, e
+    0000019D 30 02            [12]  458 	jr	NC, 00109$
+    0000019F                        459 00108$:
+    0000019F AF               [ 4]  460 	xor	a, a
+    000001A0 C9               [16]  461 	ret
+    000001A1                        462 00109$:
+    000001A1 3E 01            [ 8]  463 	ld	a, #0x01
+                                    464 ;keyboard.c:138: }
+    000001A3 C9               [16]  465 	ret
+                                    466 ;keyboard.c:140: void add_character_to_name(struct Cursor *cursor)
+                                    467 ;	---------------------------------
+                                    468 ; Function add_character_to_name
+                                    469 ; ---------------------------------
+    000001A4                        470 _add_character_to_name::
+    000001A4 4B               [ 4]  471 	ld	c, e
+    000001A5 42               [ 4]  472 	ld	b, d
+                                    473 ;keyboard.c:142: UINT8 character_index = cursor->row * 10 + cursor->col + 1;
+    000001A6 69               [ 4]  474 	ld	l, c
+    000001A7 60               [ 4]  475 	ld	h, b
+    000001A8 23               [ 8]  476 	inc	hl
+    000001A9 23               [ 8]  477 	inc	hl
+    000001AA 23               [ 8]  478 	inc	hl
+    000001AB 6E               [ 8]  479 	ld	l, (hl)
+    000001AC 5D               [ 4]  480 	ld	e, l
+    000001AD 29               [ 8]  481 	add	hl, hl
+    000001AE 29               [ 8]  482 	add	hl, hl
+    000001AF 19               [ 8]  483 	add	hl, de
+    000001B0 29               [ 8]  484 	add	hl, hl
+    000001B1 03               [ 8]  485 	inc	bc
+    000001B2 03               [ 8]  486 	inc	bc
+    000001B3 0A               [ 8]  487 	ld	a, (bc)
+    000001B4 85               [ 4]  488 	add	a, l
+    000001B5 4F               [ 4]  489 	ld	c, a
+    000001B6 0C               [ 4]  490 	inc	c
+                                    491 ;keyboard.c:144: if (name_character_index == 18)
+    000001B7 FAr02r00         [16]  492 	ld	a, (#_name_character_index)
+    000001BA D6 12            [ 8]  493 	sub	a, #0x12
+    000001BC C8               [20]  494 	ret	Z
+                                    495 ;keyboard.c:145: return; // Maximum length reached
+                                    496 ;keyboard.c:147: pet_name[name_character_index] = character_index;
+    000001BD 3Er00            [ 8]  497 	ld	a, #<(_pet_name)
+    000001BF 21r02r00         [12]  498 	ld	hl, #_name_character_index
+    000001C2 86               [ 8]  499 	add	a, (hl)
+    000001C3 5F               [ 4]  500 	ld	e, a
+    000001C4 3Es00            [ 8]  501 	ld	a, #>(_pet_name)
+    000001C6 CE 00            [ 8]  502 	adc	a, #0x00
+    000001C8 57               [ 4]  503 	ld	d, a
+    000001C9 79               [ 4]  504 	ld	a, c
+    000001CA 12               [ 8]  505 	ld	(de), a
+                                    506 ;keyboard.c:148: name_character_index++;
+    000001CB 34               [12]  507 	inc	(hl)
+                                    508 ;keyboard.c:149: }
+    000001CC C9               [16]  509 	ret
+                                    510 ;keyboard.c:151: void update_pet_name(struct Cursor *cursor)
+                                    511 ;	---------------------------------
+                                    512 ; Function update_pet_name
+                                    513 ; ---------------------------------
+    000001CD                        514 _update_pet_name::
+                                    515 ;keyboard.c:153: if (cursor->col == 8 && cursor->row == 4)
+    000001CD 6B               [ 4]  516 	ld	l, e
+    000001CE 62               [ 4]  517 	ld	h, d
+    000001CF 23               [ 8]  518 	inc	hl
+    000001D0 23               [ 8]  519 	inc	hl
+    000001D1 4E               [ 8]  520 	ld	c, (hl)
+    000001D2 6B               [ 4]  521 	ld	l, e
+    000001D3 62               [ 4]  522 	ld	h, d
+    000001D4 23               [ 8]  523 	inc	hl
+    000001D5 23               [ 8]  524 	inc	hl
+    000001D6 23               [ 8]  525 	inc	hl
+    000001D7 79               [ 4]  526 	ld	a, c
+    000001D8 D6 08            [ 8]  527 	sub	a, #0x08
+    000001DA 20 0B            [12]  528 	jr	NZ, 00106$
+    000001DC 7E               [ 8]  529 	ld	a, (hl)
+    000001DD D6 04            [ 8]  530 	sub	a, #0x04
+    000001DF 20 06            [12]  531 	jr	NZ, 00106$
+                                    532 ;keyboard.c:155: remove_from_pet_name();
+    000001E1 CDr11r02         [24]  533 	call	_remove_from_pet_name
+                                    534 ;keyboard.c:156: draw_pet_name();
+    000001E4 C3rFFr01         [16]  535 	jp	_draw_pet_name
+    000001E7                        536 00106$:
+                                    537 ;keyboard.c:158: else if (cursor->col == 9 && cursor->row == 4)
+    000001E7 79               [ 4]  538 	ld	a, c
+    000001E8 D6 09            [ 8]  539 	sub	a, #0x09
+    000001EA 20 0D            [12]  540 	jr	NZ, 00102$
+    000001EC 7E               [ 8]  541 	ld	a, (hl)
+    000001ED D6 04            [ 8]  542 	sub	a, #0x04
+    000001EF 20 08            [12]  543 	jr	NZ, 00102$
+                                    544 ;keyboard.c:160: pet_has_name = 1; // Indicate that the player has chosen a name
+    000001F1 21r01r00         [12]  545 	ld	hl, #_pet_has_name
+                                    546 ;keyboard.c:161: draw_pet_name();
+    000001F4 36 01            [12]  547 	ld	(hl), #0x01
+    000001F6 C3rFFr01         [16]  548 	jp	_draw_pet_name
+    000001F9                        549 00102$:
+                                    550 ;keyboard.c:165: add_character_to_name(cursor);
+    000001F9 CDrA4r01         [24]  551 	call	_add_character_to_name
+                                    552 ;keyboard.c:166: draw_pet_name();
+                                    553 ;keyboard.c:168: }
+    000001FC C3rFFr01         [16]  554 	jp	_draw_pet_name
+                                    555 ;keyboard.c:170: void draw_pet_name(void)
+                                    556 ;	---------------------------------
+                                    557 ; Function draw_pet_name
+                                    558 ; ---------------------------------
+    000001FF                        559 _draw_pet_name::
+                                    560 ;keyboard.c:172: set_bkg_tiles(1, 4, 18, 1, pet_name);
+    000001FF 11r00r00         [12]  561 	ld	de, #_pet_name
+    00000202 D5               [16]  562 	push	de
+    00000203 21 12 01         [12]  563 	ld	hl, #0x112
+    00000206 E5               [16]  564 	push	hl
+    00000207 21 01 04         [12]  565 	ld	hl, #0x401
+    0000020A E5               [16]  566 	push	hl
+    0000020B CDr00r00         [24]  567 	call	_set_bkg_tiles
+    0000020E E8 06            [16]  568 	add	sp, #6
+                                    569 ;keyboard.c:173: }
+    00000210 C9               [16]  570 	ret
+                                    571 ;keyboard.c:175: void remove_from_pet_name(void)
+                                    572 ;	---------------------------------
+                                    573 ; Function remove_from_pet_name
+                                    574 ; ---------------------------------
+    00000211                        575 _remove_from_pet_name::
+                                    576 ;keyboard.c:177: if (name_character_index > 0)
+    00000211 21r02r00         [12]  577 	ld	hl, #_name_character_index
+    00000214 7E               [ 8]  578 	ld	a, (hl)
+    00000215 B7               [ 4]  579 	or	a, a
+    00000216 C8               [20]  580 	ret	Z
+                                    581 ;keyboard.c:179: name_character_index--;
+    00000217 35               [12]  582 	dec	(hl)
+                                    583 ;keyboard.c:180: pet_name[name_character_index] = 0; // Clear the last character
+    00000218 3Er00            [ 8]  584 	ld	a, #<(_pet_name)
+    0000021A 86               [ 8]  585 	add	a, (hl)
+    0000021B 4F               [ 4]  586 	ld	c, a
+    0000021C 3Es00            [ 8]  587 	ld	a, #>(_pet_name)
+    0000021E CE 00            [ 8]  588 	adc	a, #0x00
+    00000220 47               [ 4]  589 	ld	b, a
+    00000221 AF               [ 4]  590 	xor	a, a
+    00000222 02               [ 8]  591 	ld	(bc), a
+                                    592 ;keyboard.c:182: }
+    00000223 C9               [16]  593 	ret
+                                    594 ;keyboard.c:185: void performantdelay(UINT8 numloops)
+                                    595 ;	---------------------------------
+                                    596 ; Function performantdelay
+                                    597 ; ---------------------------------
+    00000224                        598 _performantdelay::
+    00000224 4F               [ 4]  599 	ld	c, a
+                                    600 ;keyboard.c:188: for (i = 0; i < numloops; i++)
+    00000225 06 00            [ 8]  601 	ld	b, #0x00
+    00000227                        602 00103$:
+    00000227 78               [ 4]  603 	ld	a, b
+    00000228 91               [ 4]  604 	sub	a, c
+    00000229 D0               [20]  605 	ret	NC
+                                    606 ;keyboard.c:190: wait_vbl_done();
+    0000022A CDr00r00         [24]  607 	call	_wait_vbl_done
+                                    608 ;keyboard.c:188: for (i = 0; i < numloops; i++)
+    0000022D 04               [ 4]  609 	inc	b
+                                    610 ;keyboard.c:192: }
+    0000022E 18 F7            [12]  611 	jr	00103$
+                                    612 	.area _CODE
+                                    613 	.area _INITIALIZER
+    00000000                        614 __xinit__keydown:
+    00000000 00                     615 	.db #0x00	; 0
+    00000001                        616 __xinit__pet_has_name:
+    00000001 00                     617 	.db #0x00	; 0
+    00000002                        618 __xinit__name_character_index:
+    00000002 00                     619 	.db #0x00	; 0
+                                    620 	.area _CABS (ABS)

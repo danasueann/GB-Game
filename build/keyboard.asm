@@ -204,8 +204,10 @@ _handle_keyboard_input::
 	jp	Z, _move_cursor_up
 	cp	a, #0x08
 	jp	Z, _move_cursor_down
-	sub	a, #0x10
+	cp	a, #0x10
 	jr	Z, 00105$
+	sub	a, #0x20
+	jr	Z, 00106$
 ;keyboard.c:63: case J_UP:
 ;keyboard.c:64: move_cursor_up();
 	ret
@@ -231,15 +233,22 @@ _handle_keyboard_input::
 ;keyboard.c:77: keydown = 1;
 	ld	hl, #_keydown
 	ld	(hl), #0x01
-;keyboard.c:82: }
-;keyboard.c:83: }
+;keyboard.c:78: break;
 	ret
-;keyboard.c:85: void move_cursor_up(void)
+;keyboard.c:79: case J_B:
+00106$:
+;keyboard.c:80: draw_pet_name();
+	call	_draw_pet_name
+;keyboard.c:81: remove_from_pet_name();
+;keyboard.c:83: }
+;keyboard.c:84: }
+	jp	_remove_from_pet_name
+;keyboard.c:86: void move_cursor_up(void)
 ;	---------------------------------
 ; Function move_cursor_up
 ; ---------------------------------
 _move_cursor_up::
-;keyboard.c:87: if (is_within_keyboard(cursor.x, cursor.y - 16))
+;keyboard.c:88: if (is_within_keyboard(cursor.x, cursor.y - 16))
 	ld	hl, #_cursor + 1
 	ld	a, (hl)
 	add	a, #0xf0
@@ -253,16 +262,16 @@ _move_cursor_up::
 	pop	hl
 	or	a, a
 	ret	Z
-;keyboard.c:89: cursor.row--;
+;keyboard.c:90: cursor.row--;
 	ld	de, #_cursor + 3
 	ld	a, (de)
 	dec	a
 	ld	(de), a
-;keyboard.c:90: cursor.y -= 16;
+;keyboard.c:91: cursor.y -= 16;
 	ld	a, (hl)
 	add	a, #0xf0
 	ld	(hl), a
-;keyboard.c:91: move_sprite(0, cursor.x, cursor.y);
+;keyboard.c:92: move_sprite(0, cursor.x, cursor.y);
 	ld	e, (hl)
 	ld	a, (bc)
 	ld	c, a
@@ -272,17 +281,17 @@ _move_cursor_up::
 	ld	(hl), e
 	inc	hl
 	ld	(hl), c
-;keyboard.c:92: keydown = 1;
+;keyboard.c:93: keydown = 1;
 	ld	hl, #_keydown
 	ld	(hl), #0x01
-;keyboard.c:94: }
+;keyboard.c:95: }
 	ret
-;keyboard.c:96: void move_cursor_down(void)
+;keyboard.c:97: void move_cursor_down(void)
 ;	---------------------------------
 ; Function move_cursor_down
 ; ---------------------------------
 _move_cursor_down::
-;keyboard.c:98: if (is_within_keyboard(cursor.x, cursor.y + 16))
+;keyboard.c:99: if (is_within_keyboard(cursor.x, cursor.y + 16))
 	ld	hl, #_cursor + 1
 	ld	a, (hl)
 	add	a, #0x10
@@ -296,16 +305,16 @@ _move_cursor_down::
 	pop	hl
 	or	a, a
 	ret	Z
-;keyboard.c:100: cursor.row++;
+;keyboard.c:101: cursor.row++;
 	ld	de, #_cursor + 3
 	ld	a, (de)
 	inc	a
 	ld	(de), a
-;keyboard.c:101: cursor.y += 16;
+;keyboard.c:102: cursor.y += 16;
 	ld	a, (hl)
 	add	a, #0x10
 	ld	(hl), a
-;keyboard.c:102: move_sprite(0, cursor.x, cursor.y);
+;keyboard.c:103: move_sprite(0, cursor.x, cursor.y);
 	ld	e, (hl)
 	ld	a, (bc)
 	ld	c, a
@@ -315,17 +324,17 @@ _move_cursor_down::
 	ld	(hl), e
 	inc	hl
 	ld	(hl), c
-;keyboard.c:103: keydown = 1;
+;keyboard.c:104: keydown = 1;
 	ld	hl, #_keydown
 	ld	(hl), #0x01
-;keyboard.c:105: }
+;keyboard.c:106: }
 	ret
-;keyboard.c:107: void move_cursor_left(void)
+;keyboard.c:108: void move_cursor_left(void)
 ;	---------------------------------
 ; Function move_cursor_left
 ; ---------------------------------
 _move_cursor_left::
-;keyboard.c:109: if (is_within_keyboard(cursor.x - 16, cursor.y))
+;keyboard.c:110: if (is_within_keyboard(cursor.x - 16, cursor.y))
 	ld	hl, #_cursor + 1
 	ld	e, (hl)
 	ld	bc, #_cursor
@@ -338,16 +347,16 @@ _move_cursor_left::
 	pop	hl
 	or	a, a
 	ret	Z
-;keyboard.c:111: cursor.col--;
+;keyboard.c:112: cursor.col--;
 	ld	de, #_cursor + 2
 	ld	a, (de)
 	dec	a
 	ld	(de), a
-;keyboard.c:112: cursor.x -= 16;
+;keyboard.c:113: cursor.x -= 16;
 	ld	a, (bc)
 	add	a, #0xf0
 	ld	(bc), a
-;keyboard.c:113: move_sprite(0, cursor.x, cursor.y);
+;keyboard.c:114: move_sprite(0, cursor.x, cursor.y);
 	ld	e, (hl)
 	ld	a, (bc)
 	ld	c, a
@@ -357,17 +366,17 @@ _move_cursor_left::
 	ld	(hl), e
 	inc	hl
 	ld	(hl), c
-;keyboard.c:114: keydown = 1;
+;keyboard.c:115: keydown = 1;
 	ld	hl, #_keydown
 	ld	(hl), #0x01
-;keyboard.c:116: }
+;keyboard.c:117: }
 	ret
-;keyboard.c:118: void move_cursor_right(void)
+;keyboard.c:119: void move_cursor_right(void)
 ;	---------------------------------
 ; Function move_cursor_right
 ; ---------------------------------
 _move_cursor_right::
-;keyboard.c:120: if (is_within_keyboard(cursor.x + 16, cursor.y))
+;keyboard.c:121: if (is_within_keyboard(cursor.x + 16, cursor.y))
 	ld	hl, #_cursor + 1
 	ld	e, (hl)
 	ld	bc, #_cursor
@@ -380,16 +389,16 @@ _move_cursor_right::
 	pop	hl
 	or	a, a
 	ret	Z
-;keyboard.c:122: cursor.col++;
+;keyboard.c:123: cursor.col++;
 	ld	de, #_cursor + 2
 	ld	a, (de)
 	inc	a
 	ld	(de), a
-;keyboard.c:123: cursor.x += 16;
+;keyboard.c:124: cursor.x += 16;
 	ld	a, (bc)
 	add	a, #0x10
 	ld	(bc), a
-;keyboard.c:124: move_sprite(0, cursor.x, cursor.y);
+;keyboard.c:125: move_sprite(0, cursor.x, cursor.y);
 	ld	e, (hl)
 	ld	a, (bc)
 	ld	c, a
@@ -399,18 +408,18 @@ _move_cursor_right::
 	ld	(hl), e
 	inc	hl
 	ld	(hl), c
-;keyboard.c:125: keydown = 1;
+;keyboard.c:126: keydown = 1;
 	ld	hl, #_keydown
 	ld	(hl), #0x01
-;keyboard.c:127: }
+;keyboard.c:128: }
 	ret
-;keyboard.c:129: UBYTE is_within_keyboard(UINT8 x, UINT8 y)
+;keyboard.c:130: UBYTE is_within_keyboard(UINT8 x, UINT8 y)
 ;	---------------------------------
 ; Function is_within_keyboard
 ; ---------------------------------
 _is_within_keyboard::
 	ld	c, a
-;keyboard.c:132: if ((x == 140 && y == 144) || (x == 156 && y == 144))
+;keyboard.c:133: if ((x == 140 && y == 144) || (x == 156 && y == 144))
 	ld	a, e
 	sub	a, #0x90
 	ld	a, #0x01
@@ -430,11 +439,11 @@ _is_within_keyboard::
 	or	a, b
 	jr	Z, 00102$
 00101$:
-;keyboard.c:134: return 1;
+;keyboard.c:135: return 1;
 	ld	a, #0x01
 	ret
 00102$:
-;keyboard.c:136: return (x >= mincursor_x && x <= maxcursor_x && y >= mincursor_y && y <= maxcursor_y);
+;keyboard.c:137: return (x >= mincursor_x && x <= maxcursor_x && y >= mincursor_y && y <= maxcursor_y);
 	ld	a, c
 	sub	a, #0x0c
 	jr	C, 00108$
@@ -452,16 +461,16 @@ _is_within_keyboard::
 	ret
 00109$:
 	ld	a, #0x01
-;keyboard.c:137: }
+;keyboard.c:138: }
 	ret
-;keyboard.c:139: void add_character_to_name(struct Cursor *cursor)
+;keyboard.c:140: void add_character_to_name(struct Cursor *cursor)
 ;	---------------------------------
 ; Function add_character_to_name
 ; ---------------------------------
 _add_character_to_name::
 	ld	c, e
 	ld	b, d
-;keyboard.c:141: UINT8 character_index = cursor->row * 10 + cursor->col + 1;
+;keyboard.c:142: UINT8 character_index = cursor->row * 10 + cursor->col + 1;
 	ld	l, c
 	ld	h, b
 	inc	hl
@@ -479,12 +488,12 @@ _add_character_to_name::
 	add	a, l
 	ld	c, a
 	inc	c
-;keyboard.c:143: if (name_character_index == 18)
+;keyboard.c:144: if (name_character_index == 18)
 	ld	a, (#_name_character_index)
 	sub	a, #0x12
 	ret	Z
-;keyboard.c:144: return; // Maximum length reached
-;keyboard.c:146: pet_name[name_character_index] = character_index;
+;keyboard.c:145: return; // Maximum length reached
+;keyboard.c:147: pet_name[name_character_index] = character_index;
 	ld	a, #<(_pet_name)
 	ld	hl, #_name_character_index
 	add	a, (hl)
@@ -494,16 +503,16 @@ _add_character_to_name::
 	ld	d, a
 	ld	a, c
 	ld	(de), a
-;keyboard.c:147: name_character_index++;
+;keyboard.c:148: name_character_index++;
 	inc	(hl)
-;keyboard.c:148: }
+;keyboard.c:149: }
 	ret
-;keyboard.c:150: void update_pet_name(struct Cursor *cursor)
+;keyboard.c:151: void update_pet_name(struct Cursor *cursor)
 ;	---------------------------------
 ; Function update_pet_name
 ; ---------------------------------
 _update_pet_name::
-;keyboard.c:152: if (cursor->col == 8 && cursor->row == 4)
+;keyboard.c:153: if (cursor->col == 8 && cursor->row == 4)
 	ld	l, e
 	ld	h, d
 	inc	hl
@@ -520,35 +529,35 @@ _update_pet_name::
 	ld	a, (hl)
 	sub	a, #0x04
 	jr	NZ, 00106$
-;keyboard.c:154: remove_from_pet_name();
+;keyboard.c:155: remove_from_pet_name();
 	call	_remove_from_pet_name
-;keyboard.c:155: draw_pet_name();
+;keyboard.c:156: draw_pet_name();
 	jp	_draw_pet_name
 00106$:
-;keyboard.c:157: else if (cursor->col == 9 && cursor->row == 4)
+;keyboard.c:158: else if (cursor->col == 9 && cursor->row == 4)
 	ld	a, c
 	sub	a, #0x09
 	jr	NZ, 00102$
 	ld	a, (hl)
 	sub	a, #0x04
 	jr	NZ, 00102$
-;keyboard.c:159: pet_has_name = 1; // Indicate that the player has chosen a name
+;keyboard.c:160: pet_has_name = 1; // Indicate that the player has chosen a name
 	ld	hl, #_pet_has_name
-;keyboard.c:160: draw_pet_name();
+;keyboard.c:161: draw_pet_name();
 	ld	(hl), #0x01
 	jp	_draw_pet_name
 00102$:
-;keyboard.c:164: add_character_to_name(cursor);
+;keyboard.c:165: add_character_to_name(cursor);
 	call	_add_character_to_name
-;keyboard.c:165: draw_pet_name();
-;keyboard.c:167: }
+;keyboard.c:166: draw_pet_name();
+;keyboard.c:168: }
 	jp	_draw_pet_name
-;keyboard.c:169: void draw_pet_name(void)
+;keyboard.c:170: void draw_pet_name(void)
 ;	---------------------------------
 ; Function draw_pet_name
 ; ---------------------------------
 _draw_pet_name::
-;keyboard.c:171: set_bkg_tiles(1, 4, 18, 1, pet_name);
+;keyboard.c:172: set_bkg_tiles(1, 4, 18, 1, pet_name);
 	ld	de, #_pet_name
 	push	de
 	ld	hl, #0x112
@@ -557,21 +566,21 @@ _draw_pet_name::
 	push	hl
 	call	_set_bkg_tiles
 	add	sp, #6
-;keyboard.c:172: }
+;keyboard.c:173: }
 	ret
-;keyboard.c:174: void remove_from_pet_name(void)
+;keyboard.c:175: void remove_from_pet_name(void)
 ;	---------------------------------
 ; Function remove_from_pet_name
 ; ---------------------------------
 _remove_from_pet_name::
-;keyboard.c:176: if (name_character_index > 0)
+;keyboard.c:177: if (name_character_index > 0)
 	ld	hl, #_name_character_index
 	ld	a, (hl)
 	or	a, a
 	ret	Z
-;keyboard.c:178: name_character_index--;
+;keyboard.c:179: name_character_index--;
 	dec	(hl)
-;keyboard.c:179: pet_name[name_character_index] = 0; // Clear the last character
+;keyboard.c:180: pet_name[name_character_index] = 0; // Clear the last character
 	ld	a, #<(_pet_name)
 	add	a, (hl)
 	ld	c, a
@@ -580,25 +589,25 @@ _remove_from_pet_name::
 	ld	b, a
 	xor	a, a
 	ld	(bc), a
-;keyboard.c:181: }
+;keyboard.c:182: }
 	ret
-;keyboard.c:184: void performantdelay(UINT8 numloops)
+;keyboard.c:185: void performantdelay(UINT8 numloops)
 ;	---------------------------------
 ; Function performantdelay
 ; ---------------------------------
 _performantdelay::
 	ld	c, a
-;keyboard.c:187: for (i = 0; i < numloops; i++)
+;keyboard.c:188: for (i = 0; i < numloops; i++)
 	ld	b, #0x00
 00103$:
 	ld	a, b
 	sub	a, c
 	ret	NC
-;keyboard.c:189: wait_vbl_done();
+;keyboard.c:190: wait_vbl_done();
 	call	_wait_vbl_done
-;keyboard.c:187: for (i = 0; i < numloops; i++)
+;keyboard.c:188: for (i = 0; i < numloops; i++)
 	inc	b
-;keyboard.c:191: }
+;keyboard.c:192: }
 	jr	00103$
 	.area _CODE
 	.area _INITIALIZER

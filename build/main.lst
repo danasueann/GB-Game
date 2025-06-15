@@ -499,7 +499,7 @@
     000001FF E0r00            [12]  499 	ldh	(_LCDC_REG + 0), a
                                     500 ;main.c:22: setup_select_menu_background();
     00000201 CDr2Ar00         [24]  501 	call	_setup_select_menu_background
-                                    502 ;main.c:24: setup_cat(32, 80); // Set up the cat sprite at position (32, 80)
+                                    502 ;main.c:24: setup_cat(32, 80);     // Set up the cat sprite at position (32, 80)
     00000204 01 50 00         [12]  503 	ld	bc, #0x0050
     00000207 11 20 00         [12]  504 	ld	de, #0x0020
     0000020A CDr69r00         [24]  505 	call	_setup_cat
@@ -511,76 +511,106 @@
     00000216 CDr54r00         [24]  511 	call	_choose_pet
     00000219 EAr00r00         [16]  512 	ld	(#_selected_pet),a
                                     513 ;main.c:28: clear_background();
-    0000021C CDr28r02         [24]  514 	call	_clear_background
+    0000021C CDr51r02         [24]  514 	call	_clear_background
                                     515 ;main.c:29: clear_sprites();
-    0000021F CDr3Fr02         [24]  516 	call	_clear_sprites
+    0000021F CDr68r02         [24]  516 	call	_clear_sprites
                                     517 ;main.c:32: choose_name();
     00000222 CDr00r00         [24]  518 	call	_choose_name
                                     519 ;main.c:33: keyboard_input_loop(); // This replaces the while loop from the original code
-                                    520 ;main.c:34: }
-    00000225 C3r00r00         [16]  521 	jp	_keyboard_input_loop
-                                    522 ;main.c:36: void clear_background()
-                                    523 ;	---------------------------------
-                                    524 ; Function clear_background
-                                    525 ; ---------------------------------
-    00000228                        526 _clear_background::
-                                    527 ;main.c:38: set_bkg_tiles(0, 0, 20, 18, background_final_map);
-    00000228 11r00r00         [12]  528 	ld	de, #_background_final_map
-    0000022B D5               [16]  529 	push	de
-    0000022C 21 14 12         [12]  530 	ld	hl, #0x1214
-    0000022F E5               [16]  531 	push	hl
-    00000230 AF               [ 4]  532 	xor	a, a
-    00000231 0F               [ 4]  533 	rrca
-    00000232 F5               [16]  534 	push	af
-    00000233 CDr00r00         [24]  535 	call	_set_bkg_tiles
-    00000236 E8 06            [16]  536 	add	sp, #6
-                                    537 ;main.c:39: SHOW_BKG;
-    00000238 F0r00            [12]  538 	ldh	a, (_LCDC_REG + 0)
-    0000023A F6 01            [ 8]  539 	or	a, #0x01
-    0000023C E0r00            [12]  540 	ldh	(_LCDC_REG + 0), a
-                                    541 ;main.c:40: }
-    0000023E C9               [16]  542 	ret
-                                    543 ;main.c:42: void clear_sprites()
-                                    544 ;	---------------------------------
-                                    545 ; Function clear_sprites
-                                    546 ; ---------------------------------
-    0000023F                        547 _clear_sprites::
-                                    548 ;main.c:44: for (UBYTE i = 1; i < 32; i++)
-    0000023F 0E 01            [ 8]  549 	ld	c, #0x01
-    00000241                        550 00105$:
-    00000241 79               [ 4]  551 	ld	a, c
-    00000242 D6 20            [ 8]  552 	sub	a, #0x20
-    00000244 30 18            [12]  553 	jr	NC, 00101$
-                                    554 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    00000246 69               [ 4]  555 	ld	l, c
-    00000247 26 00            [ 8]  556 	ld	h, #0x00
-    00000249 29               [ 8]  557 	add	hl, hl
-    0000024A 29               [ 8]  558 	add	hl, hl
-    0000024B 5D               [ 4]  559 	ld	e, l
-    0000024C 54               [ 4]  560 	ld	d, h
-    0000024D 21r00r00         [12]  561 	ld	hl, #_shadow_OAM
-    00000250 19               [ 8]  562 	add	hl, de
-                                    563 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000251 AF               [ 4]  564 	xor	a, a
-    00000252 22               [ 8]  565 	ld	(hl+), a
-    00000253 77               [ 8]  566 	ld	(hl), a
-                                    567 ;c:\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    00000254 21r01r00         [12]  568 	ld	hl,#_shadow_OAM + 1
-    00000257 19               [ 8]  569 	add	hl,de
-    00000258 23               [ 8]  570 	inc	hl
-    00000259 36 00            [12]  571 	ld	(hl), #0x00
-                                    572 ;main.c:44: for (UBYTE i = 1; i < 32; i++)
-    0000025B 0C               [ 4]  573 	inc	c
-    0000025C 18 E3            [12]  574 	jr	00105$
-    0000025E                        575 00101$:
-                                    576 ;main.c:49: HIDE_SPRITES;
-    0000025E F0r00            [12]  577 	ldh	a, (_LCDC_REG + 0)
-    00000260 E6 FD            [ 8]  578 	and	a, #0xfd
-    00000262 E0r00            [12]  579 	ldh	(_LCDC_REG + 0), a
-                                    580 ;main.c:50: }
-    00000264 C9               [16]  581 	ret
-                                    582 	.area _CODE
-                                    583 	.area _INITIALIZER
-    00000000                        584 __xinit__selected_pet:
-    00000000 00                     585 	.db #0x00	; 0
-                                    586 	.area _CABS (ABS)
+    00000225 CDr00r00         [24]  520 	call	_keyboard_input_loop
+                                    521 ;main.c:35: if (pet_has_name)
+    00000228 FAr00r00         [16]  522 	ld	a, (#_pet_has_name)
+    0000022B B7               [ 4]  523 	or	a, a
+    0000022C 28 0C            [12]  524 	jr	Z, 00102$
+                                    525 ;c:\gbdk\include\gb\gb.h:1475: SCX_REG+=x, SCY_REG+=y;
+    0000022E F0r00            [12]  526 	ldh	a, (_SCX_REG + 0)
+    00000230 C6 04            [ 8]  527 	add	a, #0x04
+    00000232 E0r00            [12]  528 	ldh	(_SCX_REG + 0), a
+                                    529 ;main.c:38: clear_background();
+    00000234 CDr51r02         [24]  530 	call	_clear_background
+                                    531 ;main.c:39: clear_sprites();
+    00000237 CDr68r02         [24]  532 	call	_clear_sprites
+    0000023A                        533 00102$:
+                                    534 ;main.c:42: if (selected_pet == 0)
+    0000023A FAr00r00         [16]  535 	ld	a, (#_selected_pet)
+    0000023D B7               [ 4]  536 	or	a, a
+    0000023E 20 06            [12]  537 	jr	NZ, 00106$
+                                    538 ;main.c:44: setup_home_background();
+    00000240 CDr00r00         [24]  539 	call	_setup_home_background
+                                    540 ;main.c:45: setup_cat_home();
+    00000243 C3r27r01         [16]  541 	jp	_setup_cat_home
+    00000246                        542 00106$:
+                                    543 ;main.c:47: else if (selected_pet == 1)
+    00000246 FAr00r00         [16]  544 	ld	a, (#_selected_pet)
+    00000249 3D               [ 4]  545 	dec	a
+    0000024A C0               [20]  546 	ret	NZ
+                                    547 ;main.c:49: setup_home_background();
+    0000024B CDr00r00         [24]  548 	call	_setup_home_background
+                                    549 ;main.c:50: setup_jester_home();
+                                    550 ;main.c:52: }
+    0000024E C3rF3r01         [16]  551 	jp	_setup_jester_home
+                                    552 ;main.c:54: void clear_background()
+                                    553 ;	---------------------------------
+                                    554 ; Function clear_background
+                                    555 ; ---------------------------------
+    00000251                        556 _clear_background::
+                                    557 ;main.c:56: set_bkg_tiles(0, 0, 20, 18, background_final_map);
+    00000251 11r00r00         [12]  558 	ld	de, #_background_final_map
+    00000254 D5               [16]  559 	push	de
+    00000255 21 14 12         [12]  560 	ld	hl, #0x1214
+    00000258 E5               [16]  561 	push	hl
+    00000259 AF               [ 4]  562 	xor	a, a
+    0000025A 0F               [ 4]  563 	rrca
+    0000025B F5               [16]  564 	push	af
+    0000025C CDr00r00         [24]  565 	call	_set_bkg_tiles
+    0000025F E8 06            [16]  566 	add	sp, #6
+                                    567 ;main.c:57: SHOW_BKG;
+    00000261 F0r00            [12]  568 	ldh	a, (_LCDC_REG + 0)
+    00000263 F6 01            [ 8]  569 	or	a, #0x01
+    00000265 E0r00            [12]  570 	ldh	(_LCDC_REG + 0), a
+                                    571 ;main.c:58: }
+    00000267 C9               [16]  572 	ret
+                                    573 ;main.c:60: void clear_sprites()
+                                    574 ;	---------------------------------
+                                    575 ; Function clear_sprites
+                                    576 ; ---------------------------------
+    00000268                        577 _clear_sprites::
+                                    578 ;main.c:62: for (UBYTE i = 1; i < 32; i++)
+    00000268 0E 01            [ 8]  579 	ld	c, #0x01
+    0000026A                        580 00105$:
+    0000026A 79               [ 4]  581 	ld	a, c
+    0000026B D6 20            [ 8]  582 	sub	a, #0x20
+    0000026D 30 18            [12]  583 	jr	NC, 00101$
+                                    584 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000026F 69               [ 4]  585 	ld	l, c
+    00000270 26 00            [ 8]  586 	ld	h, #0x00
+    00000272 29               [ 8]  587 	add	hl, hl
+    00000273 29               [ 8]  588 	add	hl, hl
+    00000274 5D               [ 4]  589 	ld	e, l
+    00000275 54               [ 4]  590 	ld	d, h
+    00000276 21r00r00         [12]  591 	ld	hl, #_shadow_OAM
+    00000279 19               [ 8]  592 	add	hl, de
+                                    593 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    0000027A AF               [ 4]  594 	xor	a, a
+    0000027B 22               [ 8]  595 	ld	(hl+), a
+    0000027C 77               [ 8]  596 	ld	(hl), a
+                                    597 ;c:\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    0000027D 21r01r00         [12]  598 	ld	hl,#_shadow_OAM + 1
+    00000280 19               [ 8]  599 	add	hl,de
+    00000281 23               [ 8]  600 	inc	hl
+    00000282 36 00            [12]  601 	ld	(hl), #0x00
+                                    602 ;main.c:62: for (UBYTE i = 1; i < 32; i++)
+    00000284 0C               [ 4]  603 	inc	c
+    00000285 18 E3            [12]  604 	jr	00105$
+    00000287                        605 00101$:
+                                    606 ;main.c:67: HIDE_SPRITES;
+    00000287 F0r00            [12]  607 	ldh	a, (_LCDC_REG + 0)
+    00000289 E6 FD            [ 8]  608 	and	a, #0xfd
+    0000028B E0r00            [12]  609 	ldh	(_LCDC_REG + 0), a
+                                    610 ;main.c:68: }
+    0000028D C9               [16]  611 	ret
+                                    612 	.area _CODE
+                                    613 	.area _INITIALIZER
+    00000000                        614 __xinit__selected_pet:
+    00000000 00                     615 	.db #0x00	; 0
+                                    616 	.area _CABS (ABS)

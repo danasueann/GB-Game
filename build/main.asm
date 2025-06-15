@@ -499,7 +499,7 @@ _main::
 	ldh	(_LCDC_REG + 0), a
 ;main.c:22: setup_select_menu_background();
 	call	_setup_select_menu_background
-;main.c:24: setup_cat(32, 80); // Set up the cat sprite at position (32, 80)
+;main.c:24: setup_cat(32, 80);     // Set up the cat sprite at position (32, 80)
 	ld	bc, #0x0050
 	ld	de, #0x0020
 	call	_setup_cat
@@ -517,14 +517,44 @@ _main::
 ;main.c:32: choose_name();
 	call	_choose_name
 ;main.c:33: keyboard_input_loop(); // This replaces the while loop from the original code
-;main.c:34: }
-	jp	_keyboard_input_loop
-;main.c:36: void clear_background()
+	call	_keyboard_input_loop
+;main.c:35: if (pet_has_name)
+	ld	a, (#_pet_has_name)
+	or	a, a
+	jr	Z, 00102$
+;c:\gbdk\include\gb\gb.h:1475: SCX_REG+=x, SCY_REG+=y;
+	ldh	a, (_SCX_REG + 0)
+	add	a, #0x04
+	ldh	(_SCX_REG + 0), a
+;main.c:38: clear_background();
+	call	_clear_background
+;main.c:39: clear_sprites();
+	call	_clear_sprites
+00102$:
+;main.c:42: if (selected_pet == 0)
+	ld	a, (#_selected_pet)
+	or	a, a
+	jr	NZ, 00106$
+;main.c:44: setup_home_background();
+	call	_setup_home_background
+;main.c:45: setup_cat_home();
+	jp	_setup_cat_home
+00106$:
+;main.c:47: else if (selected_pet == 1)
+	ld	a, (#_selected_pet)
+	dec	a
+	ret	NZ
+;main.c:49: setup_home_background();
+	call	_setup_home_background
+;main.c:50: setup_jester_home();
+;main.c:52: }
+	jp	_setup_jester_home
+;main.c:54: void clear_background()
 ;	---------------------------------
 ; Function clear_background
 ; ---------------------------------
 _clear_background::
-;main.c:38: set_bkg_tiles(0, 0, 20, 18, background_final_map);
+;main.c:56: set_bkg_tiles(0, 0, 20, 18, background_final_map);
 	ld	de, #_background_final_map
 	push	de
 	ld	hl, #0x1214
@@ -534,18 +564,18 @@ _clear_background::
 	push	af
 	call	_set_bkg_tiles
 	add	sp, #6
-;main.c:39: SHOW_BKG;
+;main.c:57: SHOW_BKG;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x01
 	ldh	(_LCDC_REG + 0), a
-;main.c:40: }
+;main.c:58: }
 	ret
-;main.c:42: void clear_sprites()
+;main.c:60: void clear_sprites()
 ;	---------------------------------
 ; Function clear_sprites
 ; ---------------------------------
 _clear_sprites::
-;main.c:44: for (UBYTE i = 1; i < 32; i++)
+;main.c:62: for (UBYTE i = 1; i < 32; i++)
 	ld	c, #0x01
 00105$:
 	ld	a, c
@@ -569,15 +599,15 @@ _clear_sprites::
 	add	hl,de
 	inc	hl
 	ld	(hl), #0x00
-;main.c:44: for (UBYTE i = 1; i < 32; i++)
+;main.c:62: for (UBYTE i = 1; i < 32; i++)
 	inc	c
 	jr	00105$
 00101$:
-;main.c:49: HIDE_SPRITES;
+;main.c:67: HIDE_SPRITES;
 	ldh	a, (_LCDC_REG + 0)
 	and	a, #0xfd
 	ldh	(_LCDC_REG + 0), a
-;main.c:50: }
+;main.c:68: }
 	ret
 	.area _CODE
 	.area _INITIALIZER

@@ -28,9 +28,9 @@ Area                       Addr        Size        Decimal Bytes (Attributes)
      0000000C  l__GSINIT |    00000027  l__DATA   |    00000030  l__HEADER
      00000060  l__HEADER |    000000AB  l__HEADER |    0000012B  l__HOME  
      0000016D  l__INITIA |    0000016D  l__INITIA |    00000200  s__CODE  
-     00002000  _rROMB0   |    000025C3  l__CODE   |    000027C3  s__HOME  
-     000028EE  s__BASE   |    000028EE  s__CODE_0 |    000028EE  s__INITIA
-     000028EE  s__LIT    |    00002A5B  s__GSINIT |    00002A67  s__GSFINA
+     00002000  _rROMB0   |    000025F6  l__CODE   |    000027F6  s__HOME  
+     00002921  s__BASE   |    00002921  s__CODE_0 |    00002921  s__INITIA
+     00002921  s__LIT    |    00002A8E  s__GSINIT |    00002A9A  s__GSFINA
      00003000  _rROMB1   |    00004000  _rMBC7_SR |    00004000  _rRAMB   
      00008000  __VRAM    |    00008000  __VRAM800 |    00008800  __VRAM880
      00009000  __VRAM900 |    00009800  __SCRN0   |    00009C00  __SCRN1  
@@ -75,23 +75,23 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_CODE                  00000200    000025C3 =        9667. bytes (REL,CON)
+_CODE                  00000200    000025F6 =        9718. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
      00000200  _setup_ho |    0000022A  _setup_se |    00000254  _choose_p
      00000269  _setup_ca |    00000327  _setup_ca |    0000032F  _setup_je
-     000003F3  _setup_je |    000003FB  _main     |    00000428  _clear_ba
-     0000043F  _clear_sp |    00000465  ___func_b |    00000465  _backgrou
-     0000046D  _backgrou |    000011ED  _backgrou |    00001355  _SelectMe
-     00001F25  _SelectMe |    0000208D  _cat      |    0000219D  _cat_tile
-     000021AD  _jester   |    000022AD  _jester_t |    000022BD  _cursor_s
-     000022CD  _keyboard |    0000259D  _choose_n |    000025FE  _mincurso
-     000025FF  _maxcurso |    00002600  _mincurso |    00002601  _maxcurso
-     00002602  _keyboard |    00002626  _handle_k |    0000264F  _move_cur
-     0000267C  _move_cur |    000026A9  _move_cur |    000026D5  _move_cur
-     00002701  _is_withi |    00002737  _add_char |    00002760  _update_p
-     00002792  _draw_pet |    000027A4  _remove_f |    000027B7  _performa
+     000003F3  _setup_je |    000003FB  _main     |    00000451  _clear_ba
+     00000468  _clear_sp |    0000048E  ___func_b |    0000048E  _backgrou
+     00000496  _backgrou |    00001216  _backgrou |    0000137E  _SelectMe
+     00001F4E  _SelectMe |    000020B6  _cat      |    000021C6  _cat_tile
+     000021D6  _jester   |    000022D6  _jester_t |    000022E6  _cursor_s
+     000022F6  _keyboard |    000025C6  _choose_n |    00002627  _mincurso
+     00002628  _maxcurso |    00002629  _mincurso |    0000262A  _maxcurso
+     0000262B  _keyboard |    0000264F  _handle_k |    00002682  _move_cur
+     000026AF  _move_cur |    000026DC  _move_cur |    00002708  _move_cur
+     00002734  _is_withi |    0000276A  _add_char |    00002793  _update_p
+     000027C5  _draw_pet |    000027D7  _remove_f |    000027EA  _performa
 ASxxxx Linker V03.00/V05.40 + sdld,  page 4.
 Hexadecimal  [32-Bits]
 
@@ -269,22 +269,22 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_HOME                  000027C3    0000012B =         299. bytes (REL,CON)
+_HOME                  000027F6    0000012B =         299. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     000027C3  .memset_s |    000027CC  .memcpy_s |    000027E9  .display_
-     000027E9  _display_ |    00002801  .padup    |    00002801  _waitpadu
-     00002811  .jpad     |    00002811  _joypad   |    00002839  _waitpad 
-     0000283A  .wait_pad |    00002841  _set_tile |    00002846  _set_bkg_
-     00002846  _set_win_ |    0000284E  _set_spri |    0000287E  _set_bkg_
-     00002892  .set_xy_w |    0000289B  .set_xy_b |    000028AA  .set_xy_t
+     000027F6  .memset_s |    000027FF  .memcpy_s |    0000281C  .display_
+     0000281C  _display_ |    00002834  .padup    |    00002834  _waitpadu
+     00002844  .jpad     |    00002844  _joypad   |    0000286C  _waitpad 
+     0000286D  .wait_pad |    00002874  _set_tile |    00002879  _set_bkg_
+     00002879  _set_win_ |    00002881  _set_spri |    000028B1  _set_bkg_
+     000028C5  .set_xy_w |    000028CE  .set_xy_b |    000028DD  .set_xy_t
 ASxxxx Linker V03.00/V05.40 + sdld,  page 23.
 Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_INITIALIZER           000028EE    0000016D =         365. bytes (REL,CON)
+_INITIALIZER           00002921    0000016D =         365. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
@@ -293,17 +293,17 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_GSINIT                00002A5B    0000000C =          12. bytes (REL,CON)
+_GSINIT                00002A8E    0000000C =          12. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     00002A5B  gsinit   
+     00002A8E  gsinit   
 ASxxxx Linker V03.00/V05.40 + sdld,  page 25.
 Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_GSFINAL               00002A67    00000001 =           1. bytes (REL,CON)
+_GSFINAL               00002A9A    00000001 =           1. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    

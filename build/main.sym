@@ -8,6 +8,7 @@ Symbol Table
     .__.CPU.                                                    =   00000000 L
     .__.H$L.                                                    =   00000000 L
     _LCDC_REG                                                       ******** GX
+    _SCX_REG                                                        ******** GX
     _SelectMenu_tilemap                                             ******** GX
     _SelectMenu_tileset                                             ******** GX
   7 __xinit__selected_pet                                           00000000 R
@@ -17,13 +18,14 @@ Symbol Table
     _cat_tilemap                                                    ******** GX
     _choose_name                                                    ******** GX
   0 _choose_pet                                                     00000054 GR
-  0 _clear_background                                               00000228 GR
-  0 _clear_sprites                                                  0000023F GR
+  0 _clear_background                                               00000251 GR
+  0 _clear_sprites                                                  00000268 GR
     _jester                                                         ******** GX
     _jester_tilemap                                                 ******** GX
     _joypad                                                         ******** GX
     _keyboard_input_loop                                            ******** GX
   0 _main                                                           000001FB GR
+    _pet_has_name                                                   ******** GX
   2 _selected_pet                                                   00000000 GR
     _set_bkg_data                                                   ******** GX
     _set_bkg_tiles                                                  ******** GX
@@ -37,12 +39,13 @@ Symbol Table
     _shadow_OAM                                                     ******** GX
     _wait_vbl_done                                                  ******** GX
 
+
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
 Hexadecimal [32-Bits]
 
 Area Table
 
-   0 _CODE                                      size      265   flags    0
+   0 _CODE                                      size      28E   flags    0
    1 _DATA                                      size        0   flags    0
    2 _INITIALIZED                               size        1   flags    0
    3 _DABS                                      size        0   flags    8

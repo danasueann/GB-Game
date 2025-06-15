@@ -77,7 +77,9 @@ void handle_keyboard_input(UBYTE joy)
         keydown = 1;
         break;
     case J_B:
-        // Exit keyboard or delete character
+        draw_pet_name(&cursor);
+        remove_from_pet_name();
+        keydown = 1;
         break;
     }
 }
