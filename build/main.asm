@@ -7,9 +7,9 @@
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
-	.globl _clear_sprites
-	.globl _clear_background
 	.globl _main
+	.globl _keyboard_input_loop
+	.globl _choose_name
 	.globl _set_sprite_data
 	.globl _set_bkg_tiles
 	.globl _set_bkg_data
@@ -23,6 +23,8 @@
 	.globl _setup_cat_home
 	.globl _setup_jester
 	.globl _setup_jester_home
+	.globl _clear_background
+	.globl _clear_sprites
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -486,61 +488,43 @@ _setup_jester_home::
 	ld	e, c
 ;jester.h:43: }
 	jp	_setup_jester
-;main.c:14: void main()
+;main.c:18: void main()
 ;	---------------------------------
 ; Function main
 ; ---------------------------------
 _main::
-;main.c:16: DISPLAY_ON;
+;main.c:20: DISPLAY_ON;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x80
 	ldh	(_LCDC_REG + 0), a
-;main.c:18: setup_select_menu_background();
+;main.c:22: setup_select_menu_background();
 	call	_setup_select_menu_background
-;main.c:21: setup_cat(32, 80); // Set up the cat sprite at position (32, 80)
+;main.c:24: setup_cat(32, 80); // Set up the cat sprite at position (32, 80)
 	ld	bc, #0x0050
 	ld	de, #0x0020
 	call	_setup_cat
-;main.c:24: setup_jester(110, 80); // Set up the jester sprite at position (110, 80)
+;main.c:25: setup_jester(110, 80); // Set up the jester sprite at position (110, 80)
 	ld	bc, #0x0050
 	ld	de, #0x006e
 	call	_setup_jester
-;main.c:25: selected_pet = choose_pet();
+;main.c:27: selected_pet = choose_pet();
 	call	_choose_pet
-	ld	hl, #_selected_pet
-	ld	(hl), a
-;main.c:27: if (selected_pet == 0)
-	ld	a, (hl)
-	or	a, a
-	jr	NZ, 00104$
-;main.c:29: clear_background();
+	ld	(#_selected_pet),a
+;main.c:28: clear_background();
 	call	_clear_background
-;main.c:30: clear_sprites();
+;main.c:29: clear_sprites();
 	call	_clear_sprites
-;main.c:31: setup_home_background();
-	call	_setup_home_background
-;main.c:32: setup_cat_home();
-	jp	_setup_cat_home
-00104$:
-;main.c:34: else if (selected_pet == 1)
-	ld	a, (#_selected_pet)
-	dec	a
-	ret	NZ
-;main.c:36: clear_background();
-	call	_clear_background
-;main.c:37: clear_sprites();
-	call	_clear_sprites
-;main.c:38: setup_home_background();
-	call	_setup_home_background
-;main.c:39: setup_jester_home();
-;main.c:41: }
-	jp	_setup_jester_home
-;main.c:43: clear_background()
+;main.c:32: choose_name();
+	call	_choose_name
+;main.c:33: keyboard_input_loop(); // This replaces the while loop from the original code
+;main.c:34: }
+	jp	_keyboard_input_loop
+;main.c:36: void clear_background()
 ;	---------------------------------
 ; Function clear_background
 ; ---------------------------------
 _clear_background::
-;main.c:45: set_bkg_tiles(0, 0, 20, 18, background_final_map);
+;main.c:38: set_bkg_tiles(0, 0, 20, 18, background_final_map);
 	ld	de, #_background_final_map
 	push	de
 	ld	hl, #0x1214
@@ -550,43 +534,50 @@ _clear_background::
 	push	af
 	call	_set_bkg_tiles
 	add	sp, #6
-;main.c:46: SHOW_BKG;
+;main.c:39: SHOW_BKG;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x01
 	ldh	(_LCDC_REG + 0), a
-;main.c:47: }
+;main.c:40: }
 	ret
-;main.c:49: clear_sprites()
+;main.c:42: void clear_sprites()
 ;	---------------------------------
 ; Function clear_sprites
 ; ---------------------------------
 _clear_sprites::
-;main.c:52: for (UBYTE i = 0; i < 32; i++)
-	ld	c, #0x00
-00104$:
+;main.c:44: for (UBYTE i = 1; i < 32; i++)
+	ld	c, #0x01
+00105$:
 	ld	a, c
 	sub	a, #0x20
 	jr	NC, 00101$
-;c:\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-	ld	de, #_shadow_OAM+0
+;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	l, c
-	xor	a, a
-	ld	h, a
+	ld	h, #0x00
 	add	hl, hl
 	add	hl, hl
+	ld	e, l
+	ld	d, h
+	ld	hl, #_shadow_OAM
 	add	hl, de
-	inc	hl
+;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+	xor	a, a
+	ld	(hl+), a
+	ld	(hl), a
+;c:\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+	ld	hl,#_shadow_OAM + 1
+	add	hl,de
 	inc	hl
 	ld	(hl), #0x00
-;main.c:52: for (UBYTE i = 0; i < 32; i++)
+;main.c:44: for (UBYTE i = 1; i < 32; i++)
 	inc	c
-	jr	00104$
+	jr	00105$
 00101$:
-;main.c:56: HIDE_SPRITES;
+;main.c:49: HIDE_SPRITES;
 	ldh	a, (_LCDC_REG + 0)
 	and	a, #0xfd
 	ldh	(_LCDC_REG + 0), a
-;main.c:57: }
+;main.c:50: }
 	ret
 	.area _CODE
 	.area _INITIALIZER

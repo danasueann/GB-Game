@@ -15,12 +15,14 @@ Symbol Table
     _background_final_tiles                                         ******** GX
     _cat                                                            ******** GX
     _cat_tilemap                                                    ******** GX
+    _choose_name                                                    ******** GX
   0 _choose_pet                                                     00000054 GR
-  0 _clear_background                                               0000023E GR
-  0 _clear_sprites                                                  00000255 GR
+  0 _clear_background                                               00000228 GR
+  0 _clear_sprites                                                  0000023F GR
     _jester                                                         ******** GX
     _jester_tilemap                                                 ******** GX
     _joypad                                                         ******** GX
+    _keyboard_input_loop                                            ******** GX
   0 _main                                                           000001FB GR
   2 _selected_pet                                                   00000000 GR
     _set_bkg_data                                                   ******** GX
@@ -35,13 +37,12 @@ Symbol Table
     _shadow_OAM                                                     ******** GX
     _wait_vbl_done                                                  ******** GX
 
-
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
 Hexadecimal [32-Bits]
 
 Area Table
 
-   0 _CODE                                      size      273   flags    0
+   0 _CODE                                      size      265   flags    0
    1 _DATA                                      size        0   flags    0
    2 _INITIALIZED                               size        1   flags    0
    3 _DABS                                      size        0   flags    8

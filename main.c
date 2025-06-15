@@ -8,6 +8,10 @@
 #include "cat_animated.h"
 #include "sprites/jester.h"
 #include "jester.h"
+#include "keyboard.h"
+
+void clear_background(void);
+void clear_sprites(void);
 
 UBYTE selected_pet = 0;
 
@@ -17,40 +21,29 @@ void main()
 
     setup_select_menu_background();
 
-    // x und y Position für die Katze
     setup_cat(32, 80); // Set up the cat sprite at position (32, 80)
-
-    // x und y Position für Jester
     setup_jester(110, 80); // Set up the jester sprite at position (110, 80)
+    
     selected_pet = choose_pet();
-
-    if (selected_pet == 0)
-    {
-        clear_background();
-        clear_sprites();
-        setup_home_background();
-        setup_cat_home();
-    }
-    else if (selected_pet == 1)
-    {
-        clear_background();
-        clear_sprites();
-        setup_home_background();
-        setup_jester_home();
-    }
+    clear_background();
+    clear_sprites();
+    
+    // Initialize keyboard and name selection
+    choose_name();
+    keyboard_input_loop(); // This replaces the while loop from the original code
 }
 
-clear_background()
+void clear_background()
 {
     set_bkg_tiles(0, 0, 20, 18, background_final_map);
     SHOW_BKG;
 }
 
-clear_sprites()
+void clear_sprites()
 {
-
-    for (UBYTE i = 0; i < 32; i++)
+    for (UBYTE i = 1; i < 32; i++)
     {
+        move_sprite(i, 0, 0);
         set_sprite_tile(i, 0);
     }
     HIDE_SPRITES;
