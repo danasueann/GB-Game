@@ -1,0 +1,41 @@
+#ifndef animated_jester_sprite_functions_h
+#define animated_jester_sprite_functions_h
+
+#include <gb/gb.h>
+#include <stdio.h>
+#include "sprites/jester.h"
+
+// Function prototypes
+void setup_jester(void);
+
+void setup_jester(void)
+{
+
+    set_sprite_data(32, jester_size, jester);
+
+    for (int i = 0; i < jester_size; i++)
+    {
+        set_sprite_tile(i+16, jester_tilemap[i] + 32);
+    }
+
+    int start_x = 110;
+    int start_y = 80;
+    int tile_width = 8;
+    int tile_height = 8;
+    int sprite_index = 16;
+
+    for (int row = 0; row < 4; row++)
+    {
+        for (int col = 0; col < 4; col++)
+        {
+            move_sprite(sprite_index, start_x + col * tile_width, start_y + row * tile_height);
+            sprite_index++;
+            if (sprite_index > 31) // Adjusted to 31 since we have 16 sprites and start from 16
+                break;
+        }
+    }
+
+    SHOW_SPRITES; // Show the sprites on the screen
+}
+
+#endif

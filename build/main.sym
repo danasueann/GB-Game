@@ -7,37 +7,21 @@ Symbol Table
     .__.ABS.                                                    =   00000000 G
     .__.CPU.                                                    =   00000000 L
     .__.H$L.                                                    =   00000000 L
-  2 _CatSprite                                                      00000060 GR
     _LCDC_REG                                                       ******** GX
-  0 _Poodle2_map                                                    0000023F GR
-  0 _Poodle2_palettes                                               00000107 GR
-  0 _Poodle2_tiles                                                  0000010F GR
-  2 _PoodleSprite                                                   00000000 GR
-    ___bank_Poodle2                                             =   00000000 G
-  0 ___func_Poodle2                                                 00000106 GR
-  7 __xinit__CatSprite                                              00000060 R
-  7 __xinit__PoodleSprite                                           00000000 R
-  7 __xinit__poodle_main                                            000000F4 R
-  7 __xinit__poodle_selection                                       000000F0 R
-  7 __xinit__selected_pet                                           000000F8 R
-    _background_final_map                                           ******** GX
-    _background_final_tiles                                         ******** GX
-  0 _clear_all_sprites                                              00000318 GR
-  0 _main                                                           00000474 GR
-  2 _poodle_main                                                    000000F4 R
-  2 _poodle_selection                                               000000F0 R
-  2 _selected_pet                                                   000000F8 GR
+    _SelectMenu_tilemap                                             ******** GX
+    _SelectMenu_tileset                                             ******** GX
+    _cat                                                            ******** GX
+    _cat_tilemap                                                    ******** GX
+    _jester                                                         ******** GX
+    _jester_tilemap                                                 ******** GX
+  0 _main                                                           0000016A GR
     _set_bkg_data                                                   ******** GX
     _set_bkg_tiles                                                  ******** GX
     _set_sprite_data                                                ******** GX
-  0 _setup_cat_sprite_main                                          00000083 GR
-  0 _setup_cat_sprite_selection                                     00000000 GR
-  0 _setup_dog2_sprite_main                                         00000258 GR
-  0 _setup_dog2_sprite_selection                                    00000106 GR
-  0 _setup_dog2_sprite_selection_managed                            00000336 GR
+  0 _setup_cat                                                      0000002A GR
+  0 _setup_jester                                                   000000C3 GR
+  0 _setup_select_menu_background                                   00000000 GR
     _shadow_OAM                                                     ******** GX
-  0 _show_selection_menu                                            0000044A GR
-    b___func_Poodle2                                            =   00000000 L
 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
@@ -45,13 +29,13 @@ Hexadecimal [32-Bits]
 
 Area Table
 
-   0 _CODE                                      size      47D   flags    0
+   0 _CODE                                      size      179   flags    0
    1 _DATA                                      size        0   flags    0
-   2 _INITIALIZED                               size       F9   flags    0
+   2 _INITIALIZED                               size        0   flags    0
    3 _DABS                                      size        0   flags    8
    4 _HOME                                      size        0   flags    0
    5 _GSINIT                                    size        0   flags    0
    6 _GSFINAL                                   size        0   flags    0
-   7 _INITIALIZER                               size       F9   flags    0
+   7 _INITIALIZER                               size        0   flags    0
    8 _CABS                                      size        0   flags    8
 
