@@ -7,6 +7,8 @@
 #include "cat_animated.h"
 #include "sprites/jester.h"
 #include "jester.h"
+#include "choose_name.h"
+
 
 void main()
 {
@@ -16,6 +18,8 @@ void main()
 
     setup_cat();
     setup_jester();
+
+    
 
     // set_bkg_data(0, 216, background_final_tiles); // ANZAHL = Anzahl Tiles aus deiner Datei
     // set_bkg_tiles(0, 0, 20, 18, background_final_map);
