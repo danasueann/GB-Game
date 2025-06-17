@@ -20,7 +20,7 @@ extern const UINT8 maxcursor_y;
 extern UBYTE keydown;
 extern UBYTE pet_has_name;
 extern UINT8 name_character_index;
-extern UINT8 pet_name[18]; // Array to hold the pet name, max 18 characters
+extern UINT8 pet_name[6]; // Array to hold the pet name, max 18 characters
 extern struct Cursor cursor;
 
 // Function declarations

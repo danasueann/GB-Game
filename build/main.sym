@@ -12,30 +12,33 @@ Symbol Table
     _SelectMenu_tilemap                                             ******** GX
     _SelectMenu_tileset                                             ******** GX
   7 __xinit__selected_pet                                           00000000 R
-    _background_final_map                                           ******** GX
-    _background_final_tiles                                         ******** GX
+    _background_cat                                                 ******** GX
+    _background_cat_tilemap                                         ******** GX
+    _background_dog                                                 ******** GX
+    _background_dog_tilemap                                         ******** GX
     _cat                                                            ******** GX
     _cat_tilemap                                                    ******** GX
     _choose_name                                                    ******** GX
-  0 _choose_pet                                                     00000054 GR
-  0 _clear_background                                               00000251 GR
-  0 _clear_sprites                                                  00000268 GR
+  0 _choose_pet                                                     0000007E GR
+  0 _clear_background                                               00000284 GR
+  0 _clear_sprites                                                  0000029B GR
     _jester                                                         ******** GX
     _jester_tilemap                                                 ******** GX
     _joypad                                                         ******** GX
     _keyboard_input_loop                                            ******** GX
-  0 _main                                                           000001FB GR
+  0 _main                                                           00000225 GR
     _pet_has_name                                                   ******** GX
   2 _selected_pet                                                   00000000 GR
     _set_bkg_data                                                   ******** GX
     _set_bkg_tiles                                                  ******** GX
     _set_sprite_data                                                ******** GX
-  0 _setup_cat                                                      00000069 GR
-  0 _setup_cat_home                                                 00000127 GR
-  0 _setup_home_background                                          00000000 GR
-  0 _setup_jester                                                   0000012F GR
-  0 _setup_jester_home                                              000001F3 GR
-  0 _setup_select_menu_background                                   0000002A GR
+  0 _setup_cat                                                      00000093 GR
+  0 _setup_cat_home                                                 00000151 GR
+  0 _setup_home_background_cat                                      00000000 GR
+  0 _setup_home_background_dog                                      0000002A GR
+  0 _setup_jester                                                   00000159 GR
+  0 _setup_jester_home                                              0000021D GR
+  0 _setup_select_menu_background                                   00000054 GR
     _shadow_OAM                                                     ******** GX
     _wait_vbl_done                                                  ******** GX
 
@@ -45,7 +48,7 @@ Hexadecimal [32-Bits]
 
 Area Table
 
-   0 _CODE                                      size      28E   flags    0
+   0 _CODE                                      size      2C1   flags    0
    1 _DATA                                      size        0   flags    0
    2 _INITIALIZED                               size        1   flags    0
    3 _DABS                                      size        0   flags    8

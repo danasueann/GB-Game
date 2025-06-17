@@ -1,6 +1,7 @@
 #include <gb/gb.h>
 #include <stdio.h>
-#include "backgrounds/background_final.h"
+#include "backgrounds/background_cat.h"
+#include "backgrounds/background_dog.h"
 #include "home.h"
 #include "backgrounds/SelectMenu_tileset.h"
 #include "SelectMenu.h"
@@ -9,6 +10,9 @@
 #include "sprites/jester.h"
 #include "jester.h"
 #include "keyboard.h"
+#include "foregrounds/hud.h"
+
+
 
 void clear_background(void);
 void clear_sprites(void);
@@ -41,19 +45,25 @@ void main()
 
     if (selected_pet == 0)
     {
-        setup_home_background();
+        clear_background();
+        clear_sprites();
+        setup_home_background_cat();
+        // setup_home_hud_cat();
         setup_cat_home();
     }
     else if (selected_pet == 1)
     {
-        setup_home_background();
+        clear_background();
+        clear_sprites();
+        setup_home_background_dog();
+        
         setup_jester_home();
     }
 }
 
 void clear_background()
 {
-    set_bkg_tiles(0, 0, 20, 18, background_final_map);
+    set_bkg_tiles(0, 0, 20, 18, background_cat_tilemap);
     SHOW_BKG;
 }
 

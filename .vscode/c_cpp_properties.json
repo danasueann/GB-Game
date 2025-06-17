@@ -5,7 +5,8 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "C:\\gbdk\\include\\**",
-                "${workspaceFolder}\\sprites\\**"
+                "${workspaceFolder}\\sprites\\**",
+                "${workspaceFolder}\\vwf\\**"
             ],
             "defines": [
                 "__PORT_sm83",

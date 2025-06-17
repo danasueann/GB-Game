@@ -12,13 +12,13 @@ Symbol Table
   7 __xinit__keydown                                                00000000 R
   7 __xinit__name_character_index                                   00000002 R
   7 __xinit__pet_has_name                                           00000001 R
-  0 _add_character_to_name                                          000001A4 GR
+  0 _add_character_to_name                                          000001C2 GR
   0 _choose_name                                                    00000000 GR
-  1 _cursor                                                         00000012 GR
+  1 _cursor                                                         00000006 GR
     _cursor_sprite                                                  ******** GX
-  0 _draw_pet_name                                                  000001FF GR
+  0 _draw_pet_name                                                  0000021D GR
   0 _handle_keyboard_input                                          00000089 GR
-  0 _is_within_keyboard                                             0000016E GR
+  0 _is_within_keyboard                                             0000018C GR
     _joypad                                                         ******** GX
   0 _keyboard_input_loop                                            00000065 GR
     _keyboarddata                                                   ******** GX
@@ -28,20 +28,20 @@ Symbol Table
   0 _maxcursor_y                                                    00000064 GR
   0 _mincursor_x                                                    00000061 GR
   0 _mincursor_y                                                    00000063 GR
-  0 _move_cursor_down                                               000000E9 GR
-  0 _move_cursor_left                                               00000116 GR
-  0 _move_cursor_right                                              00000142 GR
-  0 _move_cursor_up                                                 000000BC GR
+  0 _move_cursor_down                                               00000107 GR
+  0 _move_cursor_left                                               00000134 GR
+  0 _move_cursor_right                                              00000160 GR
+  0 _move_cursor_up                                                 000000DA GR
   2 _name_character_index                                           00000002 GR
-  0 _performantdelay                                                00000224 GR
+  0 _performantdelay                                                00000242 GR
   2 _pet_has_name                                                   00000001 GR
   1 _pet_name                                                       00000000 GR
-  0 _remove_from_pet_name                                           00000211 GR
+  0 _remove_from_pet_name                                           0000022F GR
     _set_bkg_data                                                   ******** GX
     _set_bkg_tiles                                                  ******** GX
     _set_sprite_data                                                ******** GX
     _shadow_OAM                                                     ******** GX
-  0 _update_pet_name                                                000001CD GR
+  0 _update_pet_name                                                000001EB GR
     _wait_vbl_done                                                  ******** GX
     _waitpad                                                        ******** GX
 
@@ -51,8 +51,8 @@ Hexadecimal [32-Bits]
 
 Area Table
 
-   0 _CODE                                      size      230   flags    0
-   1 _DATA                                      size       16   flags    0
+   0 _CODE                                      size      24E   flags    0
+   1 _DATA                                      size        A   flags    0
    2 _INITIALIZED                               size        3   flags    0
    3 _DABS                                      size        0   flags    8
    4 _HOME                                      size        0   flags    0

@@ -13,7 +13,7 @@ const UINT8 maxcursor_y = 128;
 UBYTE keydown = 0;
 UBYTE pet_has_name = 0;
 UINT8 name_character_index = 0;
-UINT8 pet_name[18]; // Array to hold the pet name, max 18 characters
+UINT8 pet_name[6]; // Array to hold the pet name, max 6 characters
 struct Cursor cursor;
 
 void choose_name(void)
@@ -77,8 +77,16 @@ void handle_keyboard_input(UBYTE joy)
         keydown = 1;
         break;
     case J_B:
-        draw_pet_name(&cursor);
+        draw_pet_name();
         remove_from_pet_name();
+        keydown = 1;
+        break;
+    case J_START:
+        if (name_character_index > 0)
+        { 
+            pet_has_name = 1;
+            draw_pet_name();
+        }
         keydown = 1;
         break;
     }
@@ -142,7 +150,7 @@ void add_character_to_name(struct Cursor *cursor)
 {
     UINT8 character_index = cursor->row * 10 + cursor->col + 1;
 
-    if (name_character_index == 18)
+    if (name_character_index == 6)
         return; // Maximum length reached
 
     pet_name[name_character_index] = character_index;
@@ -170,7 +178,7 @@ void update_pet_name(struct Cursor *cursor)
 
 void draw_pet_name(void)
 {
-    set_bkg_tiles(1, 4, 18, 1, pet_name);
+    set_bkg_tiles(1, 4, 6, 1, pet_name);
 }
 
 void remove_from_pet_name(void)
