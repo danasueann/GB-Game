@@ -10,7 +10,12 @@
 	.globl _main
 	.globl _keyboard_input_loop
 	.globl _choose_name
+	.globl _vwf_draw_text
+	.globl _vwf_activate_font
+	.globl _vwf_load_font
+	.globl _vwf_set_destination
 	.globl _set_sprite_data
+	.globl _set_bkg_tile_xy
 	.globl _set_bkg_tiles
 	.globl _set_bkg_data
 	.globl _wait_vbl_done
@@ -18,6 +23,7 @@
 	.globl _selected_pet
 	.globl _setup_home_background_cat
 	.globl _setup_home_background_dog
+	.globl _display_pet_name
 	.globl _setup_select_menu_background
 	.globl _choose_pet
 	.globl _setup_cat
@@ -81,29 +87,34 @@ _setup_home_background_cat::
 	push	af
 	call	_set_bkg_tiles
 	add	sp, #6
-;home.h:15: SHOW_BKG;
+;home.h:14: SCY_REG = 0;
+	xor	a, a
+	ldh	(_SCY_REG + 0), a
+;home.h:15: display_pet_name();
+	call	_display_pet_name
+;home.h:16: SHOW_BKG;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x01
 	ldh	(_LCDC_REG + 0), a
-;home.h:16: DISPLAY_ON;
+;home.h:17: DISPLAY_ON;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x80
 	ldh	(_LCDC_REG + 0), a
-;home.h:17: }
+;home.h:19: }
 	ret
-;home.h:18: void setup_home_background_dog()
+;home.h:20: void setup_home_background_dog()
 ;	---------------------------------
 ; Function setup_home_background_dog
 ; ---------------------------------
 _setup_home_background_dog::
-;home.h:21: set_bkg_data(0, 216, background_dog);
+;home.h:23: set_bkg_data(0, 216, background_dog);
 	ld	de, #_background_dog
 	push	de
 	ld	hl, #0xd800
 	push	hl
 	call	_set_bkg_data
 	add	sp, #4
-;home.h:22: set_bkg_tiles(0, 0, 20, 18, background_dog_tilemap);
+;home.h:24: set_bkg_tiles(0, 0, 20, 18, background_dog_tilemap);
 	ld	de, #_background_dog_tilemap
 	push	de
 	ld	hl, #0x1214
@@ -113,15 +124,45 @@ _setup_home_background_dog::
 	push	af
 	call	_set_bkg_tiles
 	add	sp, #6
-;home.h:25: SHOW_BKG;
+;home.h:26: SHOW_BKG;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x01
 	ldh	(_LCDC_REG + 0), a
-;home.h:26: DISPLAY_ON;
+;home.h:27: DISPLAY_ON;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x80
 	ldh	(_LCDC_REG + 0), a
-;home.h:27: }
+;home.h:28: display_pet_name();
+;home.h:29: }
+	jp	_display_pet_name
+;home.h:31: void display_pet_name()
+;	---------------------------------
+; Function display_pet_name
+; ---------------------------------
+_display_pet_name::
+;home.h:34: vwf_load_font(0, font_ru, BANK(font_ru));
+	ld	b, #<(___bank_font_ru)
+	push	bc
+	inc	sp
+	ld	de, #_font_ru
+	xor	a, a
+	call	_vwf_load_font
+;home.h:35: vwf_activate_font(0);
+	xor	a, a
+	call	_vwf_activate_font
+;home.h:36: vwf_set_destination(VWF_RENDER_BKG);
+	xor	a, a
+	call	_vwf_set_destination
+;home.h:37: vwf_draw_text(5, 0, 217, get_pet_name());
+	call	_get_pet_name
+	push	bc
+	ld	a, #0xd9
+	push	af
+	inc	sp
+	ld	e, #0x00
+	ld	a, #0x05
+	call	_vwf_draw_text
+;home.h:38: }
 	ret
 ;SelectMenu.h:13: void setup_select_menu_background()
 ;	---------------------------------
@@ -521,35 +562,37 @@ _setup_jester_home::
 	ld	e, c
 ;jester.h:39: }
 	jp	_setup_jester
-;main.c:22: void main()
+;main.c:28: void main()
 ;	---------------------------------
 ; Function main
 ; ---------------------------------
 _main::
-;main.c:24: DISPLAY_ON;
+;main.c:30: DISPLAY_ON;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x80
 	ldh	(_LCDC_REG + 0), a
-;main.c:28: setup_cat(32, 80);     // Set up the cat sprite at position (32, 80)
+;main.c:32: setup_select_menu_background();
+	call	_setup_select_menu_background
+;main.c:34: setup_cat(32, 80);     // Set up the cat sprite at position (32, 80)
 	ld	bc, #0x0050
 	ld	de, #0x0020
 	call	_setup_cat
-;main.c:29: setup_jester(110, 80); // Set up the jester sprite at position (110, 80)
+;main.c:35: setup_jester(110, 80); // Set up the jester sprite at position (110, 80)
 	ld	bc, #0x0050
 	ld	de, #0x006e
 	call	_setup_jester
-;main.c:31: selected_pet = choose_pet();
+;main.c:37: selected_pet = choose_pet();
 	call	_choose_pet
 	ld	(#_selected_pet),a
-;main.c:32: clear_background();
+;main.c:38: clear_background();
 	call	_clear_background
-;main.c:33: clear_sprites();
+;main.c:39: clear_sprites();
 	call	_clear_sprites
-;main.c:36: choose_name();
+;main.c:42: choose_name();
 	call	_choose_name
-;main.c:37: keyboard_input_loop(); // This replaces the while loop from the original code
+;main.c:43: keyboard_input_loop(); // This replaces the while loop from the original code
 	call	_keyboard_input_loop
-;main.c:39: if (pet_has_name)
+;main.c:45: if (pet_has_name)
 	ld	a, (#_pet_has_name)
 	or	a, a
 	jr	Z, 00102$
@@ -557,64 +600,82 @@ _main::
 	ldh	a, (_SCX_REG + 0)
 	add	a, #0x04
 	ldh	(_SCX_REG + 0), a
-;main.c:42: clear_background();
-	call	_clear_background
-;main.c:43: clear_sprites();
-	call	_clear_sprites
-00102$:
-;main.c:46: if (selected_pet == 0)
-	ld	a, (#_selected_pet)
-	or	a, a
-	jr	NZ, 00106$
 ;main.c:48: clear_background();
 	call	_clear_background
 ;main.c:49: clear_sprites();
 	call	_clear_sprites
-;main.c:50: setup_home_background_cat();
+00102$:
+;main.c:52: if (selected_pet == 0)
+	ld	a, (#_selected_pet)
+	or	a, a
+	jr	NZ, 00106$
+;main.c:54: clear_background();
+	call	_clear_background
+;main.c:55: clear_sprites();
+	call	_clear_sprites
+;main.c:56: setup_home_background_cat();
 	call	_setup_home_background_cat
-;main.c:52: setup_cat_home();
+;main.c:57: setup_cat_home();
 	jp	_setup_cat_home
 00106$:
-;main.c:54: else if (selected_pet == 1)
+;main.c:59: else if (selected_pet == 1)
 	ld	a, (#_selected_pet)
 	dec	a
 	ret	NZ
-;main.c:56: clear_background();
+;main.c:61: clear_background();
 	call	_clear_background
-;main.c:57: clear_sprites();
+;main.c:62: clear_sprites();
 	call	_clear_sprites
-;main.c:58: setup_home_background_dog();
+;main.c:63: setup_home_background_dog();
 	call	_setup_home_background_dog
-;main.c:60: setup_jester_home();
-;main.c:62: }
+;main.c:65: setup_jester_home();
+;main.c:67: }
 	jp	_setup_jester_home
-;main.c:64: void clear_background()
+;main.c:69: void clear_background()
 ;	---------------------------------
 ; Function clear_background
 ; ---------------------------------
 _clear_background::
-;main.c:66: set_bkg_tiles(0, 0, 20, 18, background_cat_tilemap);
-	ld	de, #_background_cat_tilemap
+;main.c:71: for (UBYTE x = 0; x < 20; x++) {
+	ld	d, #0x00
+00107$:
+	ld	a, d
+	sub	a, #0x14
+	jr	NC, 00102$
+;main.c:72: for (UBYTE y = 0; y < 18; y++) {
+	ld	e, #0x00
+00104$:
+	ld	a, e
+	sub	a, #0x12
+	jr	NC, 00108$
+;main.c:73: set_bkg_tile_xy(x, y, 0);
 	push	de
-	ld	hl, #0x1214
-	push	hl
 	xor	a, a
-	rrca
 	push	af
-	call	_set_bkg_tiles
-	add	sp, #6
-;main.c:67: SHOW_BKG;
+	inc	sp
+	ld	a, d
+	call	_set_bkg_tile_xy
+	pop	de
+;main.c:72: for (UBYTE y = 0; y < 18; y++) {
+	inc	e
+	jr	00104$
+00108$:
+;main.c:71: for (UBYTE x = 0; x < 20; x++) {
+	inc	d
+	jr	00107$
+00102$:
+;main.c:76: HIDE_BKG;
 	ldh	a, (_LCDC_REG + 0)
-	or	a, #0x01
+	and	a, #0xfe
 	ldh	(_LCDC_REG + 0), a
-;main.c:68: }
+;main.c:77: }
 	ret
-;main.c:70: void clear_sprites()
+;main.c:79: void clear_sprites()
 ;	---------------------------------
 ; Function clear_sprites
 ; ---------------------------------
 _clear_sprites::
-;main.c:72: for (UBYTE i = 1; i < 32; i++)
+;main.c:81: for (UBYTE i = 1; i < 32; i++)
 	ld	c, #0x01
 00105$:
 	ld	a, c
@@ -638,15 +699,15 @@ _clear_sprites::
 	add	hl,de
 	inc	hl
 	ld	(hl), #0x00
-;main.c:72: for (UBYTE i = 1; i < 32; i++)
+;main.c:81: for (UBYTE i = 1; i < 32; i++)
 	inc	c
 	jr	00105$
 00101$:
-;main.c:77: HIDE_SPRITES;
+;main.c:86: HIDE_SPRITES;
 	ldh	a, (_LCDC_REG + 0)
 	and	a, #0xfd
 	ldh	(_LCDC_REG + 0), a
-;main.c:78: }
+;main.c:87: }
 	ret
 	.area _CODE
 	.area _INITIALIZER

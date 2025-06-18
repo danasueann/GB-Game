@@ -1,5 +1,10 @@
 #include <gb/gb.h>
 #include <stdio.h>
+#include "include/vwf.h"
+#include "include/vwf_font.h"
+#include "include/vwf_font_bold.h"
+#include "include/vwf_font_ru.h"
+
 #include "backgrounds/background_cat.h"
 #include "backgrounds/background_dog.h"
 #include "home.h"
@@ -11,6 +16,7 @@
 #include "jester.h"
 #include "keyboard.h"
 #include "foregrounds/hud.h"
+
 
 
 
@@ -48,7 +54,6 @@ void main()
         clear_background();
         clear_sprites();
         setup_home_background_cat();
-        // setup_home_hud_cat();
         setup_cat_home();
     }
     else if (selected_pet == 1)
@@ -63,8 +68,12 @@ void main()
 
 void clear_background()
 {
-    set_bkg_tiles(0, 0, 20, 18, background_cat_tilemap);
-    SHOW_BKG;
+    for (UBYTE x = 0; x < 20; x++) {
+        for (UBYTE y = 0; y < 18; y++) {
+            set_bkg_tile_xy(x, y, 0);
+        }
+    }
+    HIDE_BKG;
 }
 
 void clear_sprites()

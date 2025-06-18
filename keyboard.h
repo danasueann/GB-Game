@@ -37,5 +37,7 @@ void move_cursor_down(void);
 void move_cursor_left(void);
 void move_cursor_right(void);
 void performantdelay(UINT8 numloops);
+void array_to_string(char *output_string);
+char *get_pet_name(void);
 
 #endif // KEYBOARD_H

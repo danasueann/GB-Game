@@ -9,8 +9,10 @@ Symbol Table
     .__.H$L.                                                    =   00000000 L
     _LCDC_REG                                                       ******** GX
     _SCX_REG                                                        ******** GX
+    _SCY_REG                                                        ******** GX
     _SelectMenu_tilemap                                             ******** GX
     _SelectMenu_tileset                                             ******** GX
+    ___bank_font_ru                                                 ******** GX
   7 __xinit__selected_pet                                           00000000 R
     _background_cat                                                 ******** GX
     _background_cat_tilemap                                         ******** GX
@@ -19,36 +21,43 @@ Symbol Table
     _cat                                                            ******** GX
     _cat_tilemap                                                    ******** GX
     _choose_name                                                    ******** GX
-  0 _choose_pet                                                     0000007E GR
-  0 _clear_background                                               00000284 GR
-  0 _clear_sprites                                                  0000029B GR
+  0 _choose_pet                                                     000000A9 GR
+  0 _clear_background                                               000002B2 GR
+  0 _clear_sprites                                                  000002D6 GR
+  0 _display_pet_name                                               0000005C GR
+    _font_ru                                                        ******** GX
+    _get_pet_name                                                   ******** GX
     _jester                                                         ******** GX
     _jester_tilemap                                                 ******** GX
     _joypad                                                         ******** GX
     _keyboard_input_loop                                            ******** GX
-  0 _main                                                           00000225 GR
+  0 _main                                                           00000250 GR
     _pet_has_name                                                   ******** GX
   2 _selected_pet                                                   00000000 GR
     _set_bkg_data                                                   ******** GX
+    _set_bkg_tile_xy                                                ******** GX
     _set_bkg_tiles                                                  ******** GX
     _set_sprite_data                                                ******** GX
-  0 _setup_cat                                                      00000093 GR
-  0 _setup_cat_home                                                 00000151 GR
+  0 _setup_cat                                                      000000BE GR
+  0 _setup_cat_home                                                 0000017C GR
   0 _setup_home_background_cat                                      00000000 GR
-  0 _setup_home_background_dog                                      0000002A GR
-  0 _setup_jester                                                   00000159 GR
-  0 _setup_jester_home                                              0000021D GR
-  0 _setup_select_menu_background                                   00000054 GR
+  0 _setup_home_background_dog                                      00000030 GR
+  0 _setup_jester                                                   00000184 GR
+  0 _setup_jester_home                                              00000248 GR
+  0 _setup_select_menu_background                                   0000007F GR
     _shadow_OAM                                                     ******** GX
+    _vwf_activate_font                                              ******** GX
+    _vwf_draw_text                                                  ******** GX
+    _vwf_load_font                                                  ******** GX
+    _vwf_set_destination                                            ******** GX
     _wait_vbl_done                                                  ******** GX
-
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
 Hexadecimal [32-Bits]
 
 Area Table
 
-   0 _CODE                                      size      2C1   flags    0
+   0 _CODE                                      size      2FC   flags    0
    1 _DATA                                      size        0   flags    0
    2 _INITIALIZED                               size        1   flags    0
    3 _DABS                                      size        0   flags    8

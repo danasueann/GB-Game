@@ -83,7 +83,7 @@ void handle_keyboard_input(UBYTE joy)
         break;
     case J_START:
         if (name_character_index > 0)
-        { 
+        {
             pet_has_name = 1;
             draw_pet_name();
         }
@@ -198,4 +198,45 @@ void performantdelay(UINT8 numloops)
     {
         wait_vbl_done();
     }
+}
+
+// Character-Lookup-Tabelle basierend auf deinem Keyboard-Layout
+// Du musst diese Tabelle an dein tatsächliches Keyboard-Layout anpassen
+const char keyboard_chars[] = {
+    ' ',                                              // Index 0 (leer)
+    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', // Row 0 (Index 1-10)
+    'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', // Row 1 (Index 11-20)
+    'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', // Row 2 (Index 21-30)
+    '4', '5', '6', '7', '8', '9', '.', '-', '!', '?', // Row 3 (Index 31-40)
+    ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '<', '>'  // Row 4 (Index 41-50, < und > für Backspace/OK)
+};
+
+void array_to_string(char *output_string)
+{
+    UINT8 i;
+
+    for (i = 0; i < name_character_index && i < 6; i++)
+    {
+        UINT8 char_index = pet_name[i];
+
+        if (char_index < sizeof(keyboard_chars))
+        {
+            output_string[i] = keyboard_chars[char_index];
+        }
+        else
+        {
+            output_string[i] = '?';
+        }
+    }
+
+    // String terminieren
+    output_string[i] = '\0';
+}
+
+
+char *get_pet_name(void) 
+{
+    static char pet_name_string[7];
+    array_to_string(pet_name_string);
+    return pet_name_string;
 }

@@ -18,6 +18,7 @@
 	.globl _keydown
 	.globl _cursor
 	.globl _pet_name
+	.globl _keyboard_chars
 	.globl _maxcursor_y
 	.globl _mincursor_y
 	.globl _maxcursor_x
@@ -35,6 +36,8 @@
 	.globl _draw_pet_name
 	.globl _remove_from_pet_name
 	.globl _performantdelay
+	.globl _array_to_string
+	.globl _get_pet_name
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -46,6 +49,8 @@ _pet_name::
 	.ds 6
 _cursor::
 	.ds 4
+_get_pet_name_pet_name_string_10000_226:
+	.ds 7
 ;--------------------------------------------------------
 ; ram data
 ;--------------------------------------------------------
@@ -632,6 +637,128 @@ _performantdelay::
 	inc	b
 ;keyboard.c:201: }
 	jr	00103$
+;keyboard.c:214: void array_to_string(char *output_string)
+;	---------------------------------
+; Function array_to_string
+; ---------------------------------
+_array_to_string::
+	push	de
+;keyboard.c:218: for (i = 0; i < name_character_index && i < 6; i++)
+	ld	c, #0x00
+00107$:
+;keyboard.c:224: output_string[i] = keyboard_chars[char_index];
+	pop	de
+	push	de
+	ld	l, c
+	ld	h, #0x00
+	add	hl, de
+	ld	e, l
+	ld	d, h
+;keyboard.c:218: for (i = 0; i < name_character_index && i < 6; i++)
+	ld	a, c
+	ld	hl, #_name_character_index
+	sub	a, (hl)
+	jr	NC, 00104$
+	ld	a, c
+	sub	a, #0x06
+	jr	NC, 00104$
+;keyboard.c:220: UINT8 char_index = pet_name[i];
+	ld	hl, #_pet_name
+	ld	b, #0x00
+	add	hl, bc
+	ld	a, (hl)
+;keyboard.c:222: if (char_index < sizeof(keyboard_chars))
+	cp	a, #0x33
+	jr	NC, 00102$
+;keyboard.c:224: output_string[i] = keyboard_chars[char_index];
+	add	a, #<(_keyboard_chars)
+	ld	l, a
+	ld	a, #0x00
+	adc	a, #>(_keyboard_chars)
+	ld	h, a
+	ld	a, (hl)
+	ld	(de), a
+	jr	00108$
+00102$:
+;keyboard.c:228: output_string[i] = '?';
+	ld	a, #0x3f
+	ld	(de), a
+00108$:
+;keyboard.c:218: for (i = 0; i < name_character_index && i < 6; i++)
+	inc	c
+	jr	00107$
+00104$:
+;keyboard.c:233: output_string[i] = '\0';
+	xor	a, a
+	ld	(de), a
+;keyboard.c:234: }
+	inc	sp
+	inc	sp
+	ret
+_keyboard_chars:
+	.db #0x20	;  32
+	.db #0x41	;  65	'A'
+	.db #0x42	;  66	'B'
+	.db #0x43	;  67	'C'
+	.db #0x44	;  68	'D'
+	.db #0x45	;  69	'E'
+	.db #0x46	;  70	'F'
+	.db #0x47	;  71	'G'
+	.db #0x48	;  72	'H'
+	.db #0x49	;  73	'I'
+	.db #0x4a	;  74	'J'
+	.db #0x4b	;  75	'K'
+	.db #0x4c	;  76	'L'
+	.db #0x4d	;  77	'M'
+	.db #0x4e	;  78	'N'
+	.db #0x4f	;  79	'O'
+	.db #0x50	;  80	'P'
+	.db #0x51	;  81	'Q'
+	.db #0x52	;  82	'R'
+	.db #0x53	;  83	'S'
+	.db #0x54	;  84	'T'
+	.db #0x55	;  85	'U'
+	.db #0x56	;  86	'V'
+	.db #0x57	;  87	'W'
+	.db #0x58	;  88	'X'
+	.db #0x59	;  89	'Y'
+	.db #0x5a	;  90	'Z'
+	.db #0x30	;  48	'0'
+	.db #0x31	;  49	'1'
+	.db #0x32	;  50	'2'
+	.db #0x33	;  51	'3'
+	.db #0x34	;  52	'4'
+	.db #0x35	;  53	'5'
+	.db #0x36	;  54	'6'
+	.db #0x37	;  55	'7'
+	.db #0x38	;  56	'8'
+	.db #0x39	;  57	'9'
+	.db #0x2e	;  46
+	.db #0x2d	;  45
+	.db #0x21	;  33
+	.db #0x3f	;  63
+	.db #0x20	;  32
+	.db #0x20	;  32
+	.db #0x20	;  32
+	.db #0x20	;  32
+	.db #0x20	;  32
+	.db #0x20	;  32
+	.db #0x20	;  32
+	.db #0x20	;  32
+	.db #0x3c	;  60
+	.db #0x3e	;  62
+;keyboard.c:237: char *get_pet_name(void) 
+;	---------------------------------
+; Function get_pet_name
+; ---------------------------------
+_get_pet_name::
+;keyboard.c:240: array_to_string(pet_name_string);
+	ld	de, #_get_pet_name_pet_name_string_10000_226
+	call	_array_to_string
+;keyboard.c:241: return pet_name_string;
+	ld	bc, #_get_pet_name_pet_name_string_10000_226
+;keyboard.c:242: }
+	ret
 	.area _CODE
 	.area _INITIALIZER
 __xinit__keydown:

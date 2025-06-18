@@ -13,13 +13,17 @@ Symbol Table
   7 __xinit__name_character_index                                   00000002 R
   7 __xinit__pet_has_name                                           00000001 R
   0 _add_character_to_name                                          000001C2 GR
+  0 _array_to_string                                                0000024E GR
   0 _choose_name                                                    00000000 GR
   1 _cursor                                                         00000006 GR
     _cursor_sprite                                                  ******** GX
   0 _draw_pet_name                                                  0000021D GR
+  0 _get_pet_name                                                   000002BA GR
+  1 _get_pet_name_pet_name_string_10000_226                         0000000A R
   0 _handle_keyboard_input                                          00000089 GR
   0 _is_within_keyboard                                             0000018C GR
     _joypad                                                         ******** GX
+  0 _keyboard_chars                                                 00000287 GR
   0 _keyboard_input_loop                                            00000065 GR
     _keyboarddata                                                   ******** GX
     _keyboardmap                                                    ******** GX
@@ -45,14 +49,13 @@ Symbol Table
     _wait_vbl_done                                                  ******** GX
     _waitpad                                                        ******** GX
 
-
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
 Hexadecimal [32-Bits]
 
 Area Table
 
-   0 _CODE                                      size      24E   flags    0
-   1 _DATA                                      size        A   flags    0
+   0 _CODE                                      size      2C4   flags    0
+   1 _DATA                                      size       11   flags    0
    2 _INITIALIZED                               size        3   flags    0
    3 _DABS                                      size        0   flags    8
    4 _HOME                                      size        0   flags    0

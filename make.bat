@@ -1,4 +1,8 @@
-
+c:\gbdk\bin\lcc.exe -Ivwf/include -c -o build/vwf.o vwf/src/vwf.c
+c:\gbdk\bin\lcc.exe -Ivwf/include -c -o build/vwf_font.o vwf/src/vwf_font.c
+c:\gbdk\bin\lcc.exe -Ivwf/include -c -o build/vwf_font_bold.o vwf/src/vwf_font_bold.c
+c:\gbdk\bin\lcc.exe -Ivwf/include -c -o build/vwf_font_ru.o vwf/src/vwf_font_ru.c
+c:\gbdk\bin\lcc.exe -Ivwf/include -c -o build/vwf_a.o vwf/src/sm83/vwf_a.s
 
 c:\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -DUSE_SFR_FOR_REG -c -o build\main.o main.c
 c:\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -DUSE_SFR_FOR_REG -c -o build\background_cat.o backgrounds\background_cat.c
@@ -21,7 +25,12 @@ c:\gbdk\bin\lcc -Wa-l -Wl-m -Wl-j -DUSE_SFR_FOR_REG -o build\game.gb ^
     build\cursor.o ^
     build\keyboarddata.o ^
     build\keyboardmap.o ^
-    build\keyboard.o
+    build\keyboard.o ^
+    build\vwf.o ^
+    build\vwf_font.o ^
+    build\vwf_font_bold.o ^
+    build\vwf_font_ru.o ^
+    build\vwf_a.o
 
 
 

@@ -10,646 +10,707 @@
                                      10 	.globl _main
                                      11 	.globl _keyboard_input_loop
                                      12 	.globl _choose_name
-                                     13 	.globl _set_sprite_data
-                                     14 	.globl _set_bkg_tiles
-                                     15 	.globl _set_bkg_data
-                                     16 	.globl _wait_vbl_done
-                                     17 	.globl _joypad
-                                     18 	.globl _selected_pet
-                                     19 	.globl _setup_home_background_cat
-                                     20 	.globl _setup_home_background_dog
-                                     21 	.globl _setup_select_menu_background
-                                     22 	.globl _choose_pet
-                                     23 	.globl _setup_cat
-                                     24 	.globl _setup_cat_home
-                                     25 	.globl _setup_jester
-                                     26 	.globl _setup_jester_home
-                                     27 	.globl _clear_background
-                                     28 	.globl _clear_sprites
-                                     29 ;--------------------------------------------------------
-                                     30 ; special function registers
-                                     31 ;--------------------------------------------------------
-                                     32 ;--------------------------------------------------------
-                                     33 ; ram data
-                                     34 ;--------------------------------------------------------
-                                     35 	.area _DATA
-                                     36 ;--------------------------------------------------------
-                                     37 ; ram data
+                                     13 	.globl _vwf_draw_text
+                                     14 	.globl _vwf_activate_font
+                                     15 	.globl _vwf_load_font
+                                     16 	.globl _vwf_set_destination
+                                     17 	.globl _set_sprite_data
+                                     18 	.globl _set_bkg_tile_xy
+                                     19 	.globl _set_bkg_tiles
+                                     20 	.globl _set_bkg_data
+                                     21 	.globl _wait_vbl_done
+                                     22 	.globl _joypad
+                                     23 	.globl _selected_pet
+                                     24 	.globl _setup_home_background_cat
+                                     25 	.globl _setup_home_background_dog
+                                     26 	.globl _display_pet_name
+                                     27 	.globl _setup_select_menu_background
+                                     28 	.globl _choose_pet
+                                     29 	.globl _setup_cat
+                                     30 	.globl _setup_cat_home
+                                     31 	.globl _setup_jester
+                                     32 	.globl _setup_jester_home
+                                     33 	.globl _clear_background
+                                     34 	.globl _clear_sprites
+                                     35 ;--------------------------------------------------------
+                                     36 ; special function registers
+                                     37 ;--------------------------------------------------------
                                      38 ;--------------------------------------------------------
-                                     39 	.area _INITIALIZED
-    00000000                         40 _selected_pet::
-    00000000                         41 	.ds 1
+                                     39 ; ram data
+                                     40 ;--------------------------------------------------------
+                                     41 	.area _DATA
                                      42 ;--------------------------------------------------------
-                                     43 ; absolute external ram data
+                                     43 ; ram data
                                      44 ;--------------------------------------------------------
-                                     45 	.area _DABS (ABS)
-                                     46 ;--------------------------------------------------------
-                                     47 ; global & static initialisations
+                                     45 	.area _INITIALIZED
+    00000000                         46 _selected_pet::
+    00000000                         47 	.ds 1
                                      48 ;--------------------------------------------------------
-                                     49 	.area _HOME
-                                     50 	.area _GSINIT
-                                     51 	.area _GSFINAL
-                                     52 	.area _GSINIT
-                                     53 ;--------------------------------------------------------
-                                     54 ; Home
-                                     55 ;--------------------------------------------------------
-                                     56 	.area _HOME
-                                     57 	.area _HOME
-                                     58 ;--------------------------------------------------------
-                                     59 ; code
-                                     60 ;--------------------------------------------------------
-                                     61 	.area _CODE
-                                     62 ;home.h:10: void setup_home_background_cat()
-                                     63 ;	---------------------------------
-                                     64 ; Function setup_home_background_cat
-                                     65 ; ---------------------------------
-    00000000                         66 _setup_home_background_cat::
-                                     67 ;home.h:12: set_bkg_data(0, 216, background_cat);
-    00000000 11r00r00         [12]   68 	ld	de, #_background_cat
-    00000003 D5               [16]   69 	push	de
-    00000004 21 00 D8         [12]   70 	ld	hl, #0xd800
-    00000007 E5               [16]   71 	push	hl
-    00000008 CDr00r00         [24]   72 	call	_set_bkg_data
-    0000000B E8 04            [16]   73 	add	sp, #4
-                                     74 ;home.h:13: set_bkg_tiles(0, 0, 20, 18, background_cat_tilemap);
-    0000000D 11r00r00         [12]   75 	ld	de, #_background_cat_tilemap
-    00000010 D5               [16]   76 	push	de
-    00000011 21 14 12         [12]   77 	ld	hl, #0x1214
-    00000014 E5               [16]   78 	push	hl
-    00000015 AF               [ 4]   79 	xor	a, a
-    00000016 0F               [ 4]   80 	rrca
-    00000017 F5               [16]   81 	push	af
-    00000018 CDr00r00         [24]   82 	call	_set_bkg_tiles
-    0000001B E8 06            [16]   83 	add	sp, #6
-                                     84 ;home.h:15: SHOW_BKG;
-    0000001D F0r00            [12]   85 	ldh	a, (_LCDC_REG + 0)
-    0000001F F6 01            [ 8]   86 	or	a, #0x01
-    00000021 E0r00            [12]   87 	ldh	(_LCDC_REG + 0), a
-                                     88 ;home.h:16: DISPLAY_ON;
-    00000023 F0r00            [12]   89 	ldh	a, (_LCDC_REG + 0)
-    00000025 F6 80            [ 8]   90 	or	a, #0x80
-    00000027 E0r00            [12]   91 	ldh	(_LCDC_REG + 0), a
-                                     92 ;home.h:17: }
-    00000029 C9               [16]   93 	ret
-                                     94 ;home.h:18: void setup_home_background_dog()
-                                     95 ;	---------------------------------
-                                     96 ; Function setup_home_background_dog
-                                     97 ; ---------------------------------
-    0000002A                         98 _setup_home_background_dog::
-                                     99 ;home.h:21: set_bkg_data(0, 216, background_dog);
-    0000002A 11r00r00         [12]  100 	ld	de, #_background_dog
-    0000002D D5               [16]  101 	push	de
-    0000002E 21 00 D8         [12]  102 	ld	hl, #0xd800
-    00000031 E5               [16]  103 	push	hl
-    00000032 CDr00r00         [24]  104 	call	_set_bkg_data
-    00000035 E8 04            [16]  105 	add	sp, #4
-                                    106 ;home.h:22: set_bkg_tiles(0, 0, 20, 18, background_dog_tilemap);
-    00000037 11r00r00         [12]  107 	ld	de, #_background_dog_tilemap
-    0000003A D5               [16]  108 	push	de
-    0000003B 21 14 12         [12]  109 	ld	hl, #0x1214
-    0000003E E5               [16]  110 	push	hl
-    0000003F AF               [ 4]  111 	xor	a, a
-    00000040 0F               [ 4]  112 	rrca
-    00000041 F5               [16]  113 	push	af
-    00000042 CDr00r00         [24]  114 	call	_set_bkg_tiles
-    00000045 E8 06            [16]  115 	add	sp, #6
-                                    116 ;home.h:25: SHOW_BKG;
-    00000047 F0r00            [12]  117 	ldh	a, (_LCDC_REG + 0)
-    00000049 F6 01            [ 8]  118 	or	a, #0x01
-    0000004B E0r00            [12]  119 	ldh	(_LCDC_REG + 0), a
-                                    120 ;home.h:26: DISPLAY_ON;
-    0000004D F0r00            [12]  121 	ldh	a, (_LCDC_REG + 0)
-    0000004F F6 80            [ 8]  122 	or	a, #0x80
-    00000051 E0r00            [12]  123 	ldh	(_LCDC_REG + 0), a
-                                    124 ;home.h:27: }
-    00000053 C9               [16]  125 	ret
-                                    126 ;SelectMenu.h:13: void setup_select_menu_background()
-                                    127 ;	---------------------------------
-                                    128 ; Function setup_select_menu_background
-                                    129 ; ---------------------------------
-    00000054                        130 _setup_select_menu_background::
-                                    131 ;SelectMenu.h:16: set_bkg_data(0, 216, SelectMenu_tileset);
-    00000054 11r00r00         [12]  132 	ld	de, #_SelectMenu_tileset
-    00000057 D5               [16]  133 	push	de
-    00000058 21 00 D8         [12]  134 	ld	hl, #0xd800
-    0000005B E5               [16]  135 	push	hl
-    0000005C CDr00r00         [24]  136 	call	_set_bkg_data
-    0000005F E8 04            [16]  137 	add	sp, #4
-                                    138 ;SelectMenu.h:17: set_bkg_tiles(0, 0, 20, 18, SelectMenu_tilemap);
-    00000061 11r00r00         [12]  139 	ld	de, #_SelectMenu_tilemap
-    00000064 D5               [16]  140 	push	de
-    00000065 21 14 12         [12]  141 	ld	hl, #0x1214
-    00000068 E5               [16]  142 	push	hl
-    00000069 AF               [ 4]  143 	xor	a, a
-    0000006A 0F               [ 4]  144 	rrca
-    0000006B F5               [16]  145 	push	af
-    0000006C CDr00r00         [24]  146 	call	_set_bkg_tiles
-    0000006F E8 06            [16]  147 	add	sp, #6
-                                    148 ;SelectMenu.h:19: SHOW_BKG;
-    00000071 F0r00            [12]  149 	ldh	a, (_LCDC_REG + 0)
-    00000073 F6 01            [ 8]  150 	or	a, #0x01
-    00000075 E0r00            [12]  151 	ldh	(_LCDC_REG + 0), a
-                                    152 ;SelectMenu.h:20: DISPLAY_ON;
-    00000077 F0r00            [12]  153 	ldh	a, (_LCDC_REG + 0)
-    00000079 F6 80            [ 8]  154 	or	a, #0x80
-    0000007B E0r00            [12]  155 	ldh	(_LCDC_REG + 0), a
-                                    156 ;SelectMenu.h:21: }
-    0000007D C9               [16]  157 	ret
-                                    158 ;SelectMenu.h:23: UBYTE choose_pet(void)
-                                    159 ;	---------------------------------
-                                    160 ; Function choose_pet
-                                    161 ; ---------------------------------
-    0000007E                        162 _choose_pet::
-                                    163 ;SelectMenu.h:25: while (1)
-    0000007E                        164 00107$:
-                                    165 ;SelectMenu.h:27: UBYTE mButtons = joypad();
-    0000007E CDr00r00         [24]  166 	call	_joypad
-                                    167 ;SelectMenu.h:29: if (mButtons & J_A)
-    00000081 CB 67            [ 8]  168 	bit	4, a
-    00000083 28 02            [12]  169 	jr	Z, 00104$
-                                    170 ;SelectMenu.h:31: return 0; // CAT selected
-    00000085 AF               [ 4]  171 	xor	a, a
-    00000086 C9               [16]  172 	ret
-    00000087                        173 00104$:
-                                    174 ;SelectMenu.h:33: else if (mButtons & J_B)
-    00000087 CB 6F            [ 8]  175 	bit	5, a
-    00000089 28 03            [12]  176 	jr	Z, 00105$
-                                    177 ;SelectMenu.h:35: return 1; // JESTER selected
-    0000008B 3E 01            [ 8]  178 	ld	a, #0x01
-    0000008D C9               [16]  179 	ret
-    0000008E                        180 00105$:
-                                    181 ;SelectMenu.h:37: wait_vbl_done();
-    0000008E CDr00r00         [24]  182 	call	_wait_vbl_done
-                                    183 ;SelectMenu.h:39: }
-    00000091 18 EB            [12]  184 	jr	00107$
-                                    185 ;cat_animated.h:12: void setup_cat(int start_x, int start_y)
-                                    186 ;	---------------------------------
-                                    187 ; Function setup_cat
-                                    188 ; ---------------------------------
-    00000093                        189 _setup_cat::
-    00000093 E8 F8            [16]  190 	add	sp, #-8
-    00000095 F8 04            [12]  191 	ldhl	sp,	#4
-    00000097 7B               [ 4]  192 	ld	a, e
-    00000098 22               [ 8]  193 	ld	(hl+), a
-    00000099 72               [ 8]  194 	ld	(hl), d
-    0000009A F8 02            [12]  195 	ldhl	sp,	#2
-    0000009C 79               [ 4]  196 	ld	a, c
-    0000009D 22               [ 8]  197 	ld	(hl+), a
-    0000009E 70               [ 8]  198 	ld	(hl), b
-                                    199 ;cat_animated.h:15: set_sprite_data(0, cat_size, cat);
-    0000009F 11r00r00         [12]  200 	ld	de, #_cat
-    000000A2 D5               [16]  201 	push	de
-    000000A3 21 00 11         [12]  202 	ld	hl, #0x1100
-    000000A6 E5               [16]  203 	push	hl
-    000000A7 CDr00r00         [24]  204 	call	_set_sprite_data
-    000000AA E8 04            [16]  205 	add	sp, #4
-                                    206 ;cat_animated.h:17: for (int i = 0; i < cat_size; i++)
-    000000AC F8 07            [12]  207 	ldhl	sp,	#7
-    000000AE 36 00            [12]  208 	ld	(hl), #0x00
-    000000B0                        209 00109$:
-    000000B0 F8 07            [12]  210 	ldhl	sp,	#7
-    000000B2 7E               [ 8]  211 	ld	a, (hl)
-    000000B3 D6 11            [ 8]  212 	sub	a, #0x11
-    000000B5 30 21            [12]  213 	jr	NC, 00101$
-                                    214 ;cat_animated.h:19: set_sprite_tile(i, cat_tilemap[i]);
-    000000B7 11r00r00         [12]  215 	ld	de, #_cat_tilemap
-    000000BA 6E               [ 8]  216 	ld	l, (hl)
-    000000BB 26 00            [ 8]  217 	ld	h, #0x00
-    000000BD 19               [ 8]  218 	add	hl, de
-    000000BE 33               [ 8]  219 	inc	sp
-    000000BF 33               [ 8]  220 	inc	sp
-    000000C0 5D               [ 4]  221 	ld	e, l
-    000000C1 54               [ 4]  222 	ld	d, h
-    000000C2 D5               [16]  223 	push	de
-    000000C3 1A               [ 8]  224 	ld	a, (de)
-    000000C4 4F               [ 4]  225 	ld	c, a
-    000000C5 F8 07            [12]  226 	ldhl	sp,	#7
-                                    227 ;c:\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    000000C7 6E               [ 8]  228 	ld	l, (hl)
-    000000C8 11r00r00         [12]  229 	ld	de, #_shadow_OAM+0
-    000000CB 26 00            [ 8]  230 	ld	h, #0x00
-    000000CD 29               [ 8]  231 	add	hl, hl
-    000000CE 29               [ 8]  232 	add	hl, hl
-    000000CF 19               [ 8]  233 	add	hl, de
-    000000D0 23               [ 8]  234 	inc	hl
-    000000D1 23               [ 8]  235 	inc	hl
-    000000D2 71               [ 8]  236 	ld	(hl), c
-                                    237 ;cat_animated.h:17: for (int i = 0; i < cat_size; i++)
-    000000D3 F8 07            [12]  238 	ldhl	sp,	#7
-    000000D5 34               [12]  239 	inc	(hl)
-    000000D6 18 D8            [12]  240 	jr	00109$
-    000000D8                        241 00101$:
-                                    242 ;cat_animated.h:24: int sprite_index = 0;
-    000000D8 01 00 00         [12]  243 	ld	bc, #0x0000
-                                    244 ;cat_animated.h:26: for (int row = 0; row < 4; row++)
-    000000DB F8 06            [12]  245 	ldhl	sp,	#6
-    000000DD 36 00            [12]  246 	ld	(hl), #0x00
-    000000DF                        247 00115$:
-    000000DF F8 06            [12]  248 	ldhl	sp,	#6
-    000000E1 7E               [ 8]  249 	ld	a, (hl)
-    000000E2 D6 04            [ 8]  250 	sub	a, #0x04
-    000000E4 30 62            [12]  251 	jr	NC, 00105$
-                                    252 ;cat_animated.h:28: for (int col = 0; col < 4; col++)
-    000000E6 23               [ 8]  253 	inc	hl
-    000000E7 36 00            [12]  254 	ld	(hl), #0x00
-    000000E9                        255 00112$:
-    000000E9 F8 07            [12]  256 	ldhl	sp,	#7
-    000000EB 7E               [ 8]  257 	ld	a, (hl)
-    000000EC D6 04            [ 8]  258 	sub	a, #0x04
-    000000EE 30 53            [12]  259 	jr	NC, 00127$
-                                    260 ;cat_animated.h:30: move_sprite(sprite_index, start_x + col * tile_width, start_y + row * tile_height);
-    000000F0 F8 02            [12]  261 	ldhl	sp,	#2
-    000000F2 3A               [ 8]  262 	ld	a, (hl-)
-    000000F3 77               [ 8]  263 	ld	(hl), a
-    000000F4 F8 06            [12]  264 	ldhl	sp,	#6
-    000000F6 7E               [ 8]  265 	ld	a, (hl)
-    000000F7 87               [ 4]  266 	add	a, a
-    000000F8 87               [ 4]  267 	add	a, a
-    000000F9 87               [ 4]  268 	add	a, a
-    000000FA F8 01            [12]  269 	ldhl	sp,	#1
-    000000FC 86               [ 8]  270 	add	a, (hl)
-    000000FD 2B               [ 8]  271 	dec	hl
-    000000FE 77               [ 8]  272 	ld	(hl), a
-    000000FF F8 04            [12]  273 	ldhl	sp,	#4
-    00000101 7E               [ 8]  274 	ld	a, (hl)
-    00000102 F8 01            [12]  275 	ldhl	sp,	#1
-    00000104 77               [ 8]  276 	ld	(hl), a
-    00000105 F8 07            [12]  277 	ldhl	sp,	#7
-    00000107 7E               [ 8]  278 	ld	a, (hl)
-    00000108 87               [ 4]  279 	add	a, a
-    00000109 87               [ 4]  280 	add	a, a
-    0000010A 87               [ 4]  281 	add	a, a
-    0000010B F8 01            [12]  282 	ldhl	sp,	#1
-    0000010D 86               [ 8]  283 	add	a, (hl)
-    0000010E 77               [ 8]  284 	ld	(hl), a
-    0000010F 59               [ 4]  285 	ld	e, c
-                                    286 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    00000110 AF               [ 4]  287 	xor	a, a
-    00000111 6B               [ 4]  288 	ld	l, e
-    00000112 67               [ 4]  289 	ld	h, a
-    00000113 29               [ 8]  290 	add	hl, hl
-    00000114 29               [ 8]  291 	add	hl, hl
-    00000115 11r00r00         [12]  292 	ld	de, #_shadow_OAM
-    00000118 19               [ 8]  293 	add	hl, de
-    00000119 5D               [ 4]  294 	ld	e, l
-    0000011A 54               [ 4]  295 	ld	d, h
-                                    296 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    0000011B F8 00            [12]  297 	ldhl	sp,	#0
-    0000011D 2A               [ 8]  298 	ld	a, (hl+)
-    0000011E 12               [ 8]  299 	ld	(de), a
-    0000011F 13               [ 8]  300 	inc	de
-    00000120 7E               [ 8]  301 	ld	a, (hl)
-    00000121 12               [ 8]  302 	ld	(de), a
-                                    303 ;cat_animated.h:31: sprite_index++;
-    00000122 03               [ 8]  304 	inc	bc
-                                    305 ;cat_animated.h:32: if (sprite_index > 15)
-    00000123 58               [ 4]  306 	ld	e, b
-    00000124 16 00            [ 8]  307 	ld	d, #0x00
-    00000126 3E 0F            [ 8]  308 	ld	a, #0x0f
-    00000128 B9               [ 4]  309 	cp	a, c
-    00000129 3E 00            [ 8]  310 	ld	a, #0x00
-    0000012B 98               [ 4]  311 	sbc	a, b
-    0000012C CB 7B            [ 8]  312 	bit	7, e
-    0000012E 28 07            [12]  313 	jr	Z, 00171$
-    00000130 CB 7A            [ 8]  314 	bit	7, d
-    00000132 20 08            [12]  315 	jr	NZ, 00172$
-    00000134 BF               [ 4]  316 	cp	a, a
-    00000135 18 05            [12]  317 	jr	00172$
-    00000137                        318 00171$:
-    00000137 CB 7A            [ 8]  319 	bit	7, d
-    00000139 28 01            [12]  320 	jr	Z, 00172$
-    0000013B 37               [ 4]  321 	scf
-    0000013C                        322 00172$:
-    0000013C 38 05            [12]  323 	jr	C, 00127$
-                                    324 ;cat_animated.h:28: for (int col = 0; col < 4; col++)
-    0000013E F8 07            [12]  325 	ldhl	sp,	#7
-    00000140 34               [12]  326 	inc	(hl)
-    00000141 18 A6            [12]  327 	jr	00112$
-    00000143                        328 00127$:
-                                    329 ;cat_animated.h:26: for (int row = 0; row < 4; row++)
-    00000143 F8 06            [12]  330 	ldhl	sp,	#6
-    00000145 34               [12]  331 	inc	(hl)
-    00000146 18 97            [12]  332 	jr	00115$
-    00000148                        333 00105$:
-                                    334 ;cat_animated.h:37: SHOW_SPRITES; // Show the sprites on the screen
-    00000148 F0r00            [12]  335 	ldh	a, (_LCDC_REG + 0)
-    0000014A F6 02            [ 8]  336 	or	a, #0x02
-    0000014C E0r00            [12]  337 	ldh	(_LCDC_REG + 0), a
-                                    338 ;cat_animated.h:38: }
-    0000014E E8 08            [16]  339 	add	sp, #8
-    00000150 C9               [16]  340 	ret
-                                    341 ;cat_animated.h:40: void setup_cat_home()
-                                    342 ;	---------------------------------
-                                    343 ; Function setup_cat_home
-                                    344 ; ---------------------------------
-    00000151                        345 _setup_cat_home::
-                                    346 ;cat_animated.h:42: setup_cat(100, 100);
-    00000151 01 64 00         [12]  347 	ld	bc, #0x0064
-    00000154 50               [ 4]  348 	ld	d, b
-    00000155 59               [ 4]  349 	ld	e, c
-                                    350 ;cat_animated.h:43: }
-    00000156 C3r93r00         [16]  351 	jp	_setup_cat
-                                    352 ;jester.h:8: void setup_jester(int start_x, int start_y)
-                                    353 ;	---------------------------------
-                                    354 ; Function setup_jester
-                                    355 ; ---------------------------------
-    00000159                        356 _setup_jester::
-    00000159 E8 F8            [16]  357 	add	sp, #-8
-    0000015B F8 04            [12]  358 	ldhl	sp,	#4
-    0000015D 7B               [ 4]  359 	ld	a, e
-    0000015E 22               [ 8]  360 	ld	(hl+), a
-    0000015F 72               [ 8]  361 	ld	(hl), d
-    00000160 F8 02            [12]  362 	ldhl	sp,	#2
-    00000162 79               [ 4]  363 	ld	a, c
-    00000163 22               [ 8]  364 	ld	(hl+), a
-    00000164 70               [ 8]  365 	ld	(hl), b
-                                    366 ;jester.h:11: set_sprite_data(32, jester_size, jester);
-    00000165 11r00r00         [12]  367 	ld	de, #_jester
-    00000168 D5               [16]  368 	push	de
-    00000169 21 20 10         [12]  369 	ld	hl, #0x1020
-    0000016C E5               [16]  370 	push	hl
-    0000016D CDr00r00         [24]  371 	call	_set_sprite_data
-    00000170 E8 04            [16]  372 	add	sp, #4
-                                    373 ;jester.h:13: for (int i = 0; i < jester_size; i++)
-    00000172 F8 07            [12]  374 	ldhl	sp,	#7
-    00000174 36 00            [12]  375 	ld	(hl), #0x00
-    00000176                        376 00109$:
-    00000176 F8 07            [12]  377 	ldhl	sp,	#7
-    00000178 7E               [ 8]  378 	ld	a, (hl)
-    00000179 D6 10            [ 8]  379 	sub	a, #0x10
-    0000017B 30 27            [12]  380 	jr	NC, 00101$
-                                    381 ;jester.h:15: set_sprite_tile(i+16, jester_tilemap[i] + 32);
-    0000017D 11r00r00         [12]  382 	ld	de, #_jester_tilemap
-    00000180 6E               [ 8]  383 	ld	l, (hl)
-    00000181 26 00            [ 8]  384 	ld	h, #0x00
-    00000183 19               [ 8]  385 	add	hl, de
-    00000184 33               [ 8]  386 	inc	sp
-    00000185 33               [ 8]  387 	inc	sp
-    00000186 5D               [ 4]  388 	ld	e, l
-    00000187 54               [ 4]  389 	ld	d, h
-    00000188 D5               [16]  390 	push	de
-    00000189 1A               [ 8]  391 	ld	a, (de)
-    0000018A C6 20            [ 8]  392 	add	a, #0x20
-    0000018C 4F               [ 4]  393 	ld	c, a
-    0000018D F8 07            [12]  394 	ldhl	sp,	#7
-    0000018F 7E               [ 8]  395 	ld	a, (hl)
-    00000190 C6 10            [ 8]  396 	add	a, #0x10
-    00000192 5F               [ 4]  397 	ld	e, a
-                                    398 ;c:\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    00000193 AF               [ 4]  399 	xor	a, a
-    00000194 6B               [ 4]  400 	ld	l, e
-    00000195 67               [ 4]  401 	ld	h, a
-    00000196 29               [ 8]  402 	add	hl, hl
-    00000197 29               [ 8]  403 	add	hl, hl
-    00000198 11r00r00         [12]  404 	ld	de, #_shadow_OAM
-    0000019B 19               [ 8]  405 	add	hl, de
-    0000019C 23               [ 8]  406 	inc	hl
-    0000019D 23               [ 8]  407 	inc	hl
-    0000019E 71               [ 8]  408 	ld	(hl), c
-                                    409 ;jester.h:13: for (int i = 0; i < jester_size; i++)
-    0000019F F8 07            [12]  410 	ldhl	sp,	#7
-    000001A1 34               [12]  411 	inc	(hl)
-    000001A2 18 D2            [12]  412 	jr	00109$
-    000001A4                        413 00101$:
-                                    414 ;jester.h:20: int sprite_index = 16;
-    000001A4 01 10 00         [12]  415 	ld	bc, #0x0010
-                                    416 ;jester.h:22: for (int row = 0; row < 4; row++)
-    000001A7 F8 06            [12]  417 	ldhl	sp,	#6
-    000001A9 36 00            [12]  418 	ld	(hl), #0x00
-    000001AB                        419 00115$:
-    000001AB F8 06            [12]  420 	ldhl	sp,	#6
-    000001AD 7E               [ 8]  421 	ld	a, (hl)
-    000001AE D6 04            [ 8]  422 	sub	a, #0x04
-    000001B0 30 62            [12]  423 	jr	NC, 00105$
-                                    424 ;jester.h:24: for (int col = 0; col < 4; col++)
-    000001B2 23               [ 8]  425 	inc	hl
-    000001B3 36 00            [12]  426 	ld	(hl), #0x00
-    000001B5                        427 00112$:
-    000001B5 F8 07            [12]  428 	ldhl	sp,	#7
-    000001B7 7E               [ 8]  429 	ld	a, (hl)
-    000001B8 D6 04            [ 8]  430 	sub	a, #0x04
-    000001BA 30 53            [12]  431 	jr	NC, 00127$
-                                    432 ;jester.h:26: move_sprite(sprite_index, start_x + col * tile_width, start_y + row * tile_height);
-    000001BC F8 02            [12]  433 	ldhl	sp,	#2
-    000001BE 3A               [ 8]  434 	ld	a, (hl-)
-    000001BF 77               [ 8]  435 	ld	(hl), a
-    000001C0 F8 06            [12]  436 	ldhl	sp,	#6
-    000001C2 7E               [ 8]  437 	ld	a, (hl)
-    000001C3 87               [ 4]  438 	add	a, a
-    000001C4 87               [ 4]  439 	add	a, a
-    000001C5 87               [ 4]  440 	add	a, a
-    000001C6 F8 01            [12]  441 	ldhl	sp,	#1
-    000001C8 86               [ 8]  442 	add	a, (hl)
-    000001C9 2B               [ 8]  443 	dec	hl
-    000001CA 77               [ 8]  444 	ld	(hl), a
-    000001CB F8 04            [12]  445 	ldhl	sp,	#4
-    000001CD 7E               [ 8]  446 	ld	a, (hl)
-    000001CE F8 01            [12]  447 	ldhl	sp,	#1
-    000001D0 77               [ 8]  448 	ld	(hl), a
-    000001D1 F8 07            [12]  449 	ldhl	sp,	#7
-    000001D3 7E               [ 8]  450 	ld	a, (hl)
-    000001D4 87               [ 4]  451 	add	a, a
-    000001D5 87               [ 4]  452 	add	a, a
-    000001D6 87               [ 4]  453 	add	a, a
-    000001D7 F8 01            [12]  454 	ldhl	sp,	#1
-    000001D9 86               [ 8]  455 	add	a, (hl)
-    000001DA 77               [ 8]  456 	ld	(hl), a
-    000001DB 59               [ 4]  457 	ld	e, c
-                                    458 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    000001DC AF               [ 4]  459 	xor	a, a
-    000001DD 6B               [ 4]  460 	ld	l, e
-    000001DE 67               [ 4]  461 	ld	h, a
-    000001DF 29               [ 8]  462 	add	hl, hl
-    000001E0 29               [ 8]  463 	add	hl, hl
-    000001E1 11r00r00         [12]  464 	ld	de, #_shadow_OAM
-    000001E4 19               [ 8]  465 	add	hl, de
-    000001E5 5D               [ 4]  466 	ld	e, l
-    000001E6 54               [ 4]  467 	ld	d, h
-                                    468 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    000001E7 F8 00            [12]  469 	ldhl	sp,	#0
-    000001E9 2A               [ 8]  470 	ld	a, (hl+)
-    000001EA 12               [ 8]  471 	ld	(de), a
-    000001EB 13               [ 8]  472 	inc	de
-    000001EC 7E               [ 8]  473 	ld	a, (hl)
-    000001ED 12               [ 8]  474 	ld	(de), a
-                                    475 ;jester.h:27: sprite_index++;
-    000001EE 03               [ 8]  476 	inc	bc
-                                    477 ;jester.h:28: if (sprite_index > 31) // Adjusted to 31 since we have 16 sprites and start from 16
-    000001EF 58               [ 4]  478 	ld	e, b
-    000001F0 16 00            [ 8]  479 	ld	d, #0x00
-    000001F2 3E 1F            [ 8]  480 	ld	a, #0x1f
-    000001F4 B9               [ 4]  481 	cp	a, c
-    000001F5 3E 00            [ 8]  482 	ld	a, #0x00
-    000001F7 98               [ 4]  483 	sbc	a, b
-    000001F8 CB 7B            [ 8]  484 	bit	7, e
-    000001FA 28 07            [12]  485 	jr	Z, 00171$
-    000001FC CB 7A            [ 8]  486 	bit	7, d
-    000001FE 20 08            [12]  487 	jr	NZ, 00172$
-    00000200 BF               [ 4]  488 	cp	a, a
-    00000201 18 05            [12]  489 	jr	00172$
-    00000203                        490 00171$:
-    00000203 CB 7A            [ 8]  491 	bit	7, d
-    00000205 28 01            [12]  492 	jr	Z, 00172$
-    00000207 37               [ 4]  493 	scf
-    00000208                        494 00172$:
-    00000208 38 05            [12]  495 	jr	C, 00127$
-                                    496 ;jester.h:24: for (int col = 0; col < 4; col++)
-    0000020A F8 07            [12]  497 	ldhl	sp,	#7
-    0000020C 34               [12]  498 	inc	(hl)
-    0000020D 18 A6            [12]  499 	jr	00112$
-    0000020F                        500 00127$:
-                                    501 ;jester.h:22: for (int row = 0; row < 4; row++)
-    0000020F F8 06            [12]  502 	ldhl	sp,	#6
-    00000211 34               [12]  503 	inc	(hl)
-    00000212 18 97            [12]  504 	jr	00115$
-    00000214                        505 00105$:
-                                    506 ;jester.h:33: SHOW_SPRITES; // Show the sprites on the screen
-    00000214 F0r00            [12]  507 	ldh	a, (_LCDC_REG + 0)
-    00000216 F6 02            [ 8]  508 	or	a, #0x02
-    00000218 E0r00            [12]  509 	ldh	(_LCDC_REG + 0), a
-                                    510 ;jester.h:34: }
-    0000021A E8 08            [16]  511 	add	sp, #8
-    0000021C C9               [16]  512 	ret
-                                    513 ;jester.h:36: void setup_jester_home()
-                                    514 ;	---------------------------------
-                                    515 ; Function setup_jester_home
-                                    516 ; ---------------------------------
-    0000021D                        517 _setup_jester_home::
-                                    518 ;jester.h:38: setup_jester(100, 100);
-    0000021D 01 64 00         [12]  519 	ld	bc, #0x0064
-    00000220 50               [ 4]  520 	ld	d, b
-    00000221 59               [ 4]  521 	ld	e, c
-                                    522 ;jester.h:39: }
-    00000222 C3r59r01         [16]  523 	jp	_setup_jester
-                                    524 ;main.c:22: void main()
-                                    525 ;	---------------------------------
-                                    526 ; Function main
-                                    527 ; ---------------------------------
-    00000225                        528 _main::
-                                    529 ;main.c:24: DISPLAY_ON;
-    00000225 F0r00            [12]  530 	ldh	a, (_LCDC_REG + 0)
-    00000227 F6 80            [ 8]  531 	or	a, #0x80
-    00000229 E0r00            [12]  532 	ldh	(_LCDC_REG + 0), a
-                                    533 ;main.c:28: setup_cat(32, 80);     // Set up the cat sprite at position (32, 80)
-    0000022B 01 50 00         [12]  534 	ld	bc, #0x0050
-    0000022E 11 20 00         [12]  535 	ld	de, #0x0020
-    00000231 CDr93r00         [24]  536 	call	_setup_cat
-                                    537 ;main.c:29: setup_jester(110, 80); // Set up the jester sprite at position (110, 80)
-    00000234 01 50 00         [12]  538 	ld	bc, #0x0050
-    00000237 11 6E 00         [12]  539 	ld	de, #0x006e
-    0000023A CDr59r01         [24]  540 	call	_setup_jester
-                                    541 ;main.c:31: selected_pet = choose_pet();
-    0000023D CDr7Er00         [24]  542 	call	_choose_pet
-    00000240 EAr00r00         [16]  543 	ld	(#_selected_pet),a
-                                    544 ;main.c:32: clear_background();
-    00000243 CDr84r02         [24]  545 	call	_clear_background
-                                    546 ;main.c:33: clear_sprites();
-    00000246 CDr9Br02         [24]  547 	call	_clear_sprites
-                                    548 ;main.c:36: choose_name();
-    00000249 CDr00r00         [24]  549 	call	_choose_name
-                                    550 ;main.c:37: keyboard_input_loop(); // This replaces the while loop from the original code
-    0000024C CDr00r00         [24]  551 	call	_keyboard_input_loop
-                                    552 ;main.c:39: if (pet_has_name)
-    0000024F FAr00r00         [16]  553 	ld	a, (#_pet_has_name)
-    00000252 B7               [ 4]  554 	or	a, a
-    00000253 28 0C            [12]  555 	jr	Z, 00102$
-                                    556 ;c:\gbdk\include\gb\gb.h:1475: SCX_REG+=x, SCY_REG+=y;
-    00000255 F0r00            [12]  557 	ldh	a, (_SCX_REG + 0)
-    00000257 C6 04            [ 8]  558 	add	a, #0x04
-    00000259 E0r00            [12]  559 	ldh	(_SCX_REG + 0), a
-                                    560 ;main.c:42: clear_background();
-    0000025B CDr84r02         [24]  561 	call	_clear_background
-                                    562 ;main.c:43: clear_sprites();
-    0000025E CDr9Br02         [24]  563 	call	_clear_sprites
-    00000261                        564 00102$:
-                                    565 ;main.c:46: if (selected_pet == 0)
-    00000261 FAr00r00         [16]  566 	ld	a, (#_selected_pet)
-    00000264 B7               [ 4]  567 	or	a, a
-    00000265 20 0C            [12]  568 	jr	NZ, 00106$
-                                    569 ;main.c:48: clear_background();
-    00000267 CDr84r02         [24]  570 	call	_clear_background
-                                    571 ;main.c:49: clear_sprites();
-    0000026A CDr9Br02         [24]  572 	call	_clear_sprites
-                                    573 ;main.c:50: setup_home_background_cat();
-    0000026D CDr00r00         [24]  574 	call	_setup_home_background_cat
-                                    575 ;main.c:52: setup_cat_home();
-    00000270 C3r51r01         [16]  576 	jp	_setup_cat_home
-    00000273                        577 00106$:
-                                    578 ;main.c:54: else if (selected_pet == 1)
-    00000273 FAr00r00         [16]  579 	ld	a, (#_selected_pet)
-    00000276 3D               [ 4]  580 	dec	a
-    00000277 C0               [20]  581 	ret	NZ
-                                    582 ;main.c:56: clear_background();
-    00000278 CDr84r02         [24]  583 	call	_clear_background
-                                    584 ;main.c:57: clear_sprites();
-    0000027B CDr9Br02         [24]  585 	call	_clear_sprites
-                                    586 ;main.c:58: setup_home_background_dog();
-    0000027E CDr2Ar00         [24]  587 	call	_setup_home_background_dog
-                                    588 ;main.c:60: setup_jester_home();
-                                    589 ;main.c:62: }
-    00000281 C3r1Dr02         [16]  590 	jp	_setup_jester_home
-                                    591 ;main.c:64: void clear_background()
-                                    592 ;	---------------------------------
-                                    593 ; Function clear_background
-                                    594 ; ---------------------------------
-    00000284                        595 _clear_background::
-                                    596 ;main.c:66: set_bkg_tiles(0, 0, 20, 18, background_cat_tilemap);
-    00000284 11r00r00         [12]  597 	ld	de, #_background_cat_tilemap
-    00000287 D5               [16]  598 	push	de
-    00000288 21 14 12         [12]  599 	ld	hl, #0x1214
-    0000028B E5               [16]  600 	push	hl
-    0000028C AF               [ 4]  601 	xor	a, a
-    0000028D 0F               [ 4]  602 	rrca
-    0000028E F5               [16]  603 	push	af
-    0000028F CDr00r00         [24]  604 	call	_set_bkg_tiles
-    00000292 E8 06            [16]  605 	add	sp, #6
-                                    606 ;main.c:67: SHOW_BKG;
-    00000294 F0r00            [12]  607 	ldh	a, (_LCDC_REG + 0)
-    00000296 F6 01            [ 8]  608 	or	a, #0x01
-    00000298 E0r00            [12]  609 	ldh	(_LCDC_REG + 0), a
-                                    610 ;main.c:68: }
-    0000029A C9               [16]  611 	ret
-                                    612 ;main.c:70: void clear_sprites()
-                                    613 ;	---------------------------------
-                                    614 ; Function clear_sprites
-                                    615 ; ---------------------------------
-    0000029B                        616 _clear_sprites::
-                                    617 ;main.c:72: for (UBYTE i = 1; i < 32; i++)
-    0000029B 0E 01            [ 8]  618 	ld	c, #0x01
-    0000029D                        619 00105$:
-    0000029D 79               [ 4]  620 	ld	a, c
-    0000029E D6 20            [ 8]  621 	sub	a, #0x20
-    000002A0 30 18            [12]  622 	jr	NC, 00101$
-                                    623 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    000002A2 69               [ 4]  624 	ld	l, c
-    000002A3 26 00            [ 8]  625 	ld	h, #0x00
-    000002A5 29               [ 8]  626 	add	hl, hl
-    000002A6 29               [ 8]  627 	add	hl, hl
-    000002A7 5D               [ 4]  628 	ld	e, l
-    000002A8 54               [ 4]  629 	ld	d, h
-    000002A9 21r00r00         [12]  630 	ld	hl, #_shadow_OAM
-    000002AC 19               [ 8]  631 	add	hl, de
-                                    632 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    000002AD AF               [ 4]  633 	xor	a, a
-    000002AE 22               [ 8]  634 	ld	(hl+), a
-    000002AF 77               [ 8]  635 	ld	(hl), a
-                                    636 ;c:\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    000002B0 21r01r00         [12]  637 	ld	hl,#_shadow_OAM + 1
-    000002B3 19               [ 8]  638 	add	hl,de
-    000002B4 23               [ 8]  639 	inc	hl
-    000002B5 36 00            [12]  640 	ld	(hl), #0x00
-                                    641 ;main.c:72: for (UBYTE i = 1; i < 32; i++)
-    000002B7 0C               [ 4]  642 	inc	c
-    000002B8 18 E3            [12]  643 	jr	00105$
-    000002BA                        644 00101$:
-                                    645 ;main.c:77: HIDE_SPRITES;
-    000002BA F0r00            [12]  646 	ldh	a, (_LCDC_REG + 0)
-    000002BC E6 FD            [ 8]  647 	and	a, #0xfd
-    000002BE E0r00            [12]  648 	ldh	(_LCDC_REG + 0), a
-                                    649 ;main.c:78: }
-    000002C0 C9               [16]  650 	ret
-                                    651 	.area _CODE
-                                    652 	.area _INITIALIZER
-    00000000                        653 __xinit__selected_pet:
-    00000000 00                     654 	.db #0x00	; 0
-                                    655 	.area _CABS (ABS)
+                                     49 ; absolute external ram data
+                                     50 ;--------------------------------------------------------
+                                     51 	.area _DABS (ABS)
+                                     52 ;--------------------------------------------------------
+                                     53 ; global & static initialisations
+                                     54 ;--------------------------------------------------------
+                                     55 	.area _HOME
+                                     56 	.area _GSINIT
+                                     57 	.area _GSFINAL
+                                     58 	.area _GSINIT
+                                     59 ;--------------------------------------------------------
+                                     60 ; Home
+                                     61 ;--------------------------------------------------------
+                                     62 	.area _HOME
+                                     63 	.area _HOME
+                                     64 ;--------------------------------------------------------
+                                     65 ; code
+                                     66 ;--------------------------------------------------------
+                                     67 	.area _CODE
+                                     68 ;home.h:10: void setup_home_background_cat()
+                                     69 ;	---------------------------------
+                                     70 ; Function setup_home_background_cat
+                                     71 ; ---------------------------------
+    00000000                         72 _setup_home_background_cat::
+                                     73 ;home.h:12: set_bkg_data(0, 216, background_cat);
+    00000000 11r00r00         [12]   74 	ld	de, #_background_cat
+    00000003 D5               [16]   75 	push	de
+    00000004 21 00 D8         [12]   76 	ld	hl, #0xd800
+    00000007 E5               [16]   77 	push	hl
+    00000008 CDr00r00         [24]   78 	call	_set_bkg_data
+    0000000B E8 04            [16]   79 	add	sp, #4
+                                     80 ;home.h:13: set_bkg_tiles(0, 0, 20, 18, background_cat_tilemap);
+    0000000D 11r00r00         [12]   81 	ld	de, #_background_cat_tilemap
+    00000010 D5               [16]   82 	push	de
+    00000011 21 14 12         [12]   83 	ld	hl, #0x1214
+    00000014 E5               [16]   84 	push	hl
+    00000015 AF               [ 4]   85 	xor	a, a
+    00000016 0F               [ 4]   86 	rrca
+    00000017 F5               [16]   87 	push	af
+    00000018 CDr00r00         [24]   88 	call	_set_bkg_tiles
+    0000001B E8 06            [16]   89 	add	sp, #6
+                                     90 ;home.h:14: SCY_REG = 0;
+    0000001D AF               [ 4]   91 	xor	a, a
+    0000001E E0r00            [12]   92 	ldh	(_SCY_REG + 0), a
+                                     93 ;home.h:15: display_pet_name();
+    00000020 CDr5Cr00         [24]   94 	call	_display_pet_name
+                                     95 ;home.h:16: SHOW_BKG;
+    00000023 F0r00            [12]   96 	ldh	a, (_LCDC_REG + 0)
+    00000025 F6 01            [ 8]   97 	or	a, #0x01
+    00000027 E0r00            [12]   98 	ldh	(_LCDC_REG + 0), a
+                                     99 ;home.h:17: DISPLAY_ON;
+    00000029 F0r00            [12]  100 	ldh	a, (_LCDC_REG + 0)
+    0000002B F6 80            [ 8]  101 	or	a, #0x80
+    0000002D E0r00            [12]  102 	ldh	(_LCDC_REG + 0), a
+                                    103 ;home.h:19: }
+    0000002F C9               [16]  104 	ret
+                                    105 ;home.h:20: void setup_home_background_dog()
+                                    106 ;	---------------------------------
+                                    107 ; Function setup_home_background_dog
+                                    108 ; ---------------------------------
+    00000030                        109 _setup_home_background_dog::
+                                    110 ;home.h:23: set_bkg_data(0, 216, background_dog);
+    00000030 11r00r00         [12]  111 	ld	de, #_background_dog
+    00000033 D5               [16]  112 	push	de
+    00000034 21 00 D8         [12]  113 	ld	hl, #0xd800
+    00000037 E5               [16]  114 	push	hl
+    00000038 CDr00r00         [24]  115 	call	_set_bkg_data
+    0000003B E8 04            [16]  116 	add	sp, #4
+                                    117 ;home.h:24: set_bkg_tiles(0, 0, 20, 18, background_dog_tilemap);
+    0000003D 11r00r00         [12]  118 	ld	de, #_background_dog_tilemap
+    00000040 D5               [16]  119 	push	de
+    00000041 21 14 12         [12]  120 	ld	hl, #0x1214
+    00000044 E5               [16]  121 	push	hl
+    00000045 AF               [ 4]  122 	xor	a, a
+    00000046 0F               [ 4]  123 	rrca
+    00000047 F5               [16]  124 	push	af
+    00000048 CDr00r00         [24]  125 	call	_set_bkg_tiles
+    0000004B E8 06            [16]  126 	add	sp, #6
+                                    127 ;home.h:26: SHOW_BKG;
+    0000004D F0r00            [12]  128 	ldh	a, (_LCDC_REG + 0)
+    0000004F F6 01            [ 8]  129 	or	a, #0x01
+    00000051 E0r00            [12]  130 	ldh	(_LCDC_REG + 0), a
+                                    131 ;home.h:27: DISPLAY_ON;
+    00000053 F0r00            [12]  132 	ldh	a, (_LCDC_REG + 0)
+    00000055 F6 80            [ 8]  133 	or	a, #0x80
+    00000057 E0r00            [12]  134 	ldh	(_LCDC_REG + 0), a
+                                    135 ;home.h:28: display_pet_name();
+                                    136 ;home.h:29: }
+    00000059 C3r5Cr00         [16]  137 	jp	_display_pet_name
+                                    138 ;home.h:31: void display_pet_name()
+                                    139 ;	---------------------------------
+                                    140 ; Function display_pet_name
+                                    141 ; ---------------------------------
+    0000005C                        142 _display_pet_name::
+                                    143 ;home.h:34: vwf_load_font(0, font_ru, BANK(font_ru));
+    0000005C 06r00            [ 8]  144 	ld	b, #<(___bank_font_ru)
+    0000005E C5               [16]  145 	push	bc
+    0000005F 33               [ 8]  146 	inc	sp
+    00000060 11r00r00         [12]  147 	ld	de, #_font_ru
+    00000063 AF               [ 4]  148 	xor	a, a
+    00000064 CDr00r00         [24]  149 	call	_vwf_load_font
+                                    150 ;home.h:35: vwf_activate_font(0);
+    00000067 AF               [ 4]  151 	xor	a, a
+    00000068 CDr00r00         [24]  152 	call	_vwf_activate_font
+                                    153 ;home.h:36: vwf_set_destination(VWF_RENDER_BKG);
+    0000006B AF               [ 4]  154 	xor	a, a
+    0000006C CDr00r00         [24]  155 	call	_vwf_set_destination
+                                    156 ;home.h:37: vwf_draw_text(5, 0, 217, get_pet_name());
+    0000006F CDr00r00         [24]  157 	call	_get_pet_name
+    00000072 C5               [16]  158 	push	bc
+    00000073 3E D9            [ 8]  159 	ld	a, #0xd9
+    00000075 F5               [16]  160 	push	af
+    00000076 33               [ 8]  161 	inc	sp
+    00000077 1E 00            [ 8]  162 	ld	e, #0x00
+    00000079 3E 05            [ 8]  163 	ld	a, #0x05
+    0000007B CDr00r00         [24]  164 	call	_vwf_draw_text
+                                    165 ;home.h:38: }
+    0000007E C9               [16]  166 	ret
+                                    167 ;SelectMenu.h:13: void setup_select_menu_background()
+                                    168 ;	---------------------------------
+                                    169 ; Function setup_select_menu_background
+                                    170 ; ---------------------------------
+    0000007F                        171 _setup_select_menu_background::
+                                    172 ;SelectMenu.h:16: set_bkg_data(0, 216, SelectMenu_tileset);
+    0000007F 11r00r00         [12]  173 	ld	de, #_SelectMenu_tileset
+    00000082 D5               [16]  174 	push	de
+    00000083 21 00 D8         [12]  175 	ld	hl, #0xd800
+    00000086 E5               [16]  176 	push	hl
+    00000087 CDr00r00         [24]  177 	call	_set_bkg_data
+    0000008A E8 04            [16]  178 	add	sp, #4
+                                    179 ;SelectMenu.h:17: set_bkg_tiles(0, 0, 20, 18, SelectMenu_tilemap);
+    0000008C 11r00r00         [12]  180 	ld	de, #_SelectMenu_tilemap
+    0000008F D5               [16]  181 	push	de
+    00000090 21 14 12         [12]  182 	ld	hl, #0x1214
+    00000093 E5               [16]  183 	push	hl
+    00000094 AF               [ 4]  184 	xor	a, a
+    00000095 0F               [ 4]  185 	rrca
+    00000096 F5               [16]  186 	push	af
+    00000097 CDr00r00         [24]  187 	call	_set_bkg_tiles
+    0000009A E8 06            [16]  188 	add	sp, #6
+                                    189 ;SelectMenu.h:19: SHOW_BKG;
+    0000009C F0r00            [12]  190 	ldh	a, (_LCDC_REG + 0)
+    0000009E F6 01            [ 8]  191 	or	a, #0x01
+    000000A0 E0r00            [12]  192 	ldh	(_LCDC_REG + 0), a
+                                    193 ;SelectMenu.h:20: DISPLAY_ON;
+    000000A2 F0r00            [12]  194 	ldh	a, (_LCDC_REG + 0)
+    000000A4 F6 80            [ 8]  195 	or	a, #0x80
+    000000A6 E0r00            [12]  196 	ldh	(_LCDC_REG + 0), a
+                                    197 ;SelectMenu.h:21: }
+    000000A8 C9               [16]  198 	ret
+                                    199 ;SelectMenu.h:23: UBYTE choose_pet(void)
+                                    200 ;	---------------------------------
+                                    201 ; Function choose_pet
+                                    202 ; ---------------------------------
+    000000A9                        203 _choose_pet::
+                                    204 ;SelectMenu.h:25: while (1)
+    000000A9                        205 00107$:
+                                    206 ;SelectMenu.h:27: UBYTE mButtons = joypad();
+    000000A9 CDr00r00         [24]  207 	call	_joypad
+                                    208 ;SelectMenu.h:29: if (mButtons & J_A)
+    000000AC CB 67            [ 8]  209 	bit	4, a
+    000000AE 28 02            [12]  210 	jr	Z, 00104$
+                                    211 ;SelectMenu.h:31: return 0; // CAT selected
+    000000B0 AF               [ 4]  212 	xor	a, a
+    000000B1 C9               [16]  213 	ret
+    000000B2                        214 00104$:
+                                    215 ;SelectMenu.h:33: else if (mButtons & J_B)
+    000000B2 CB 6F            [ 8]  216 	bit	5, a
+    000000B4 28 03            [12]  217 	jr	Z, 00105$
+                                    218 ;SelectMenu.h:35: return 1; // JESTER selected
+    000000B6 3E 01            [ 8]  219 	ld	a, #0x01
+    000000B8 C9               [16]  220 	ret
+    000000B9                        221 00105$:
+                                    222 ;SelectMenu.h:37: wait_vbl_done();
+    000000B9 CDr00r00         [24]  223 	call	_wait_vbl_done
+                                    224 ;SelectMenu.h:39: }
+    000000BC 18 EB            [12]  225 	jr	00107$
+                                    226 ;cat_animated.h:12: void setup_cat(int start_x, int start_y)
+                                    227 ;	---------------------------------
+                                    228 ; Function setup_cat
+                                    229 ; ---------------------------------
+    000000BE                        230 _setup_cat::
+    000000BE E8 F8            [16]  231 	add	sp, #-8
+    000000C0 F8 04            [12]  232 	ldhl	sp,	#4
+    000000C2 7B               [ 4]  233 	ld	a, e
+    000000C3 22               [ 8]  234 	ld	(hl+), a
+    000000C4 72               [ 8]  235 	ld	(hl), d
+    000000C5 F8 02            [12]  236 	ldhl	sp,	#2
+    000000C7 79               [ 4]  237 	ld	a, c
+    000000C8 22               [ 8]  238 	ld	(hl+), a
+    000000C9 70               [ 8]  239 	ld	(hl), b
+                                    240 ;cat_animated.h:15: set_sprite_data(0, cat_size, cat);
+    000000CA 11r00r00         [12]  241 	ld	de, #_cat
+    000000CD D5               [16]  242 	push	de
+    000000CE 21 00 11         [12]  243 	ld	hl, #0x1100
+    000000D1 E5               [16]  244 	push	hl
+    000000D2 CDr00r00         [24]  245 	call	_set_sprite_data
+    000000D5 E8 04            [16]  246 	add	sp, #4
+                                    247 ;cat_animated.h:17: for (int i = 0; i < cat_size; i++)
+    000000D7 F8 07            [12]  248 	ldhl	sp,	#7
+    000000D9 36 00            [12]  249 	ld	(hl), #0x00
+    000000DB                        250 00109$:
+    000000DB F8 07            [12]  251 	ldhl	sp,	#7
+    000000DD 7E               [ 8]  252 	ld	a, (hl)
+    000000DE D6 11            [ 8]  253 	sub	a, #0x11
+    000000E0 30 21            [12]  254 	jr	NC, 00101$
+                                    255 ;cat_animated.h:19: set_sprite_tile(i, cat_tilemap[i]);
+    000000E2 11r00r00         [12]  256 	ld	de, #_cat_tilemap
+    000000E5 6E               [ 8]  257 	ld	l, (hl)
+    000000E6 26 00            [ 8]  258 	ld	h, #0x00
+    000000E8 19               [ 8]  259 	add	hl, de
+    000000E9 33               [ 8]  260 	inc	sp
+    000000EA 33               [ 8]  261 	inc	sp
+    000000EB 5D               [ 4]  262 	ld	e, l
+    000000EC 54               [ 4]  263 	ld	d, h
+    000000ED D5               [16]  264 	push	de
+    000000EE 1A               [ 8]  265 	ld	a, (de)
+    000000EF 4F               [ 4]  266 	ld	c, a
+    000000F0 F8 07            [12]  267 	ldhl	sp,	#7
+                                    268 ;c:\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    000000F2 6E               [ 8]  269 	ld	l, (hl)
+    000000F3 11r00r00         [12]  270 	ld	de, #_shadow_OAM+0
+    000000F6 26 00            [ 8]  271 	ld	h, #0x00
+    000000F8 29               [ 8]  272 	add	hl, hl
+    000000F9 29               [ 8]  273 	add	hl, hl
+    000000FA 19               [ 8]  274 	add	hl, de
+    000000FB 23               [ 8]  275 	inc	hl
+    000000FC 23               [ 8]  276 	inc	hl
+    000000FD 71               [ 8]  277 	ld	(hl), c
+                                    278 ;cat_animated.h:17: for (int i = 0; i < cat_size; i++)
+    000000FE F8 07            [12]  279 	ldhl	sp,	#7
+    00000100 34               [12]  280 	inc	(hl)
+    00000101 18 D8            [12]  281 	jr	00109$
+    00000103                        282 00101$:
+                                    283 ;cat_animated.h:24: int sprite_index = 0;
+    00000103 01 00 00         [12]  284 	ld	bc, #0x0000
+                                    285 ;cat_animated.h:26: for (int row = 0; row < 4; row++)
+    00000106 F8 06            [12]  286 	ldhl	sp,	#6
+    00000108 36 00            [12]  287 	ld	(hl), #0x00
+    0000010A                        288 00115$:
+    0000010A F8 06            [12]  289 	ldhl	sp,	#6
+    0000010C 7E               [ 8]  290 	ld	a, (hl)
+    0000010D D6 04            [ 8]  291 	sub	a, #0x04
+    0000010F 30 62            [12]  292 	jr	NC, 00105$
+                                    293 ;cat_animated.h:28: for (int col = 0; col < 4; col++)
+    00000111 23               [ 8]  294 	inc	hl
+    00000112 36 00            [12]  295 	ld	(hl), #0x00
+    00000114                        296 00112$:
+    00000114 F8 07            [12]  297 	ldhl	sp,	#7
+    00000116 7E               [ 8]  298 	ld	a, (hl)
+    00000117 D6 04            [ 8]  299 	sub	a, #0x04
+    00000119 30 53            [12]  300 	jr	NC, 00127$
+                                    301 ;cat_animated.h:30: move_sprite(sprite_index, start_x + col * tile_width, start_y + row * tile_height);
+    0000011B F8 02            [12]  302 	ldhl	sp,	#2
+    0000011D 3A               [ 8]  303 	ld	a, (hl-)
+    0000011E 77               [ 8]  304 	ld	(hl), a
+    0000011F F8 06            [12]  305 	ldhl	sp,	#6
+    00000121 7E               [ 8]  306 	ld	a, (hl)
+    00000122 87               [ 4]  307 	add	a, a
+    00000123 87               [ 4]  308 	add	a, a
+    00000124 87               [ 4]  309 	add	a, a
+    00000125 F8 01            [12]  310 	ldhl	sp,	#1
+    00000127 86               [ 8]  311 	add	a, (hl)
+    00000128 2B               [ 8]  312 	dec	hl
+    00000129 77               [ 8]  313 	ld	(hl), a
+    0000012A F8 04            [12]  314 	ldhl	sp,	#4
+    0000012C 7E               [ 8]  315 	ld	a, (hl)
+    0000012D F8 01            [12]  316 	ldhl	sp,	#1
+    0000012F 77               [ 8]  317 	ld	(hl), a
+    00000130 F8 07            [12]  318 	ldhl	sp,	#7
+    00000132 7E               [ 8]  319 	ld	a, (hl)
+    00000133 87               [ 4]  320 	add	a, a
+    00000134 87               [ 4]  321 	add	a, a
+    00000135 87               [ 4]  322 	add	a, a
+    00000136 F8 01            [12]  323 	ldhl	sp,	#1
+    00000138 86               [ 8]  324 	add	a, (hl)
+    00000139 77               [ 8]  325 	ld	(hl), a
+    0000013A 59               [ 4]  326 	ld	e, c
+                                    327 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000013B AF               [ 4]  328 	xor	a, a
+    0000013C 6B               [ 4]  329 	ld	l, e
+    0000013D 67               [ 4]  330 	ld	h, a
+    0000013E 29               [ 8]  331 	add	hl, hl
+    0000013F 29               [ 8]  332 	add	hl, hl
+    00000140 11r00r00         [12]  333 	ld	de, #_shadow_OAM
+    00000143 19               [ 8]  334 	add	hl, de
+    00000144 5D               [ 4]  335 	ld	e, l
+    00000145 54               [ 4]  336 	ld	d, h
+                                    337 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000146 F8 00            [12]  338 	ldhl	sp,	#0
+    00000148 2A               [ 8]  339 	ld	a, (hl+)
+    00000149 12               [ 8]  340 	ld	(de), a
+    0000014A 13               [ 8]  341 	inc	de
+    0000014B 7E               [ 8]  342 	ld	a, (hl)
+    0000014C 12               [ 8]  343 	ld	(de), a
+                                    344 ;cat_animated.h:31: sprite_index++;
+    0000014D 03               [ 8]  345 	inc	bc
+                                    346 ;cat_animated.h:32: if (sprite_index > 15)
+    0000014E 58               [ 4]  347 	ld	e, b
+    0000014F 16 00            [ 8]  348 	ld	d, #0x00
+    00000151 3E 0F            [ 8]  349 	ld	a, #0x0f
+    00000153 B9               [ 4]  350 	cp	a, c
+    00000154 3E 00            [ 8]  351 	ld	a, #0x00
+    00000156 98               [ 4]  352 	sbc	a, b
+    00000157 CB 7B            [ 8]  353 	bit	7, e
+    00000159 28 07            [12]  354 	jr	Z, 00171$
+    0000015B CB 7A            [ 8]  355 	bit	7, d
+    0000015D 20 08            [12]  356 	jr	NZ, 00172$
+    0000015F BF               [ 4]  357 	cp	a, a
+    00000160 18 05            [12]  358 	jr	00172$
+    00000162                        359 00171$:
+    00000162 CB 7A            [ 8]  360 	bit	7, d
+    00000164 28 01            [12]  361 	jr	Z, 00172$
+    00000166 37               [ 4]  362 	scf
+    00000167                        363 00172$:
+    00000167 38 05            [12]  364 	jr	C, 00127$
+                                    365 ;cat_animated.h:28: for (int col = 0; col < 4; col++)
+    00000169 F8 07            [12]  366 	ldhl	sp,	#7
+    0000016B 34               [12]  367 	inc	(hl)
+    0000016C 18 A6            [12]  368 	jr	00112$
+    0000016E                        369 00127$:
+                                    370 ;cat_animated.h:26: for (int row = 0; row < 4; row++)
+    0000016E F8 06            [12]  371 	ldhl	sp,	#6
+    00000170 34               [12]  372 	inc	(hl)
+    00000171 18 97            [12]  373 	jr	00115$
+    00000173                        374 00105$:
+                                    375 ;cat_animated.h:37: SHOW_SPRITES; // Show the sprites on the screen
+    00000173 F0r00            [12]  376 	ldh	a, (_LCDC_REG + 0)
+    00000175 F6 02            [ 8]  377 	or	a, #0x02
+    00000177 E0r00            [12]  378 	ldh	(_LCDC_REG + 0), a
+                                    379 ;cat_animated.h:38: }
+    00000179 E8 08            [16]  380 	add	sp, #8
+    0000017B C9               [16]  381 	ret
+                                    382 ;cat_animated.h:40: void setup_cat_home()
+                                    383 ;	---------------------------------
+                                    384 ; Function setup_cat_home
+                                    385 ; ---------------------------------
+    0000017C                        386 _setup_cat_home::
+                                    387 ;cat_animated.h:42: setup_cat(100, 100);
+    0000017C 01 64 00         [12]  388 	ld	bc, #0x0064
+    0000017F 50               [ 4]  389 	ld	d, b
+    00000180 59               [ 4]  390 	ld	e, c
+                                    391 ;cat_animated.h:43: }
+    00000181 C3rBEr00         [16]  392 	jp	_setup_cat
+                                    393 ;jester.h:8: void setup_jester(int start_x, int start_y)
+                                    394 ;	---------------------------------
+                                    395 ; Function setup_jester
+                                    396 ; ---------------------------------
+    00000184                        397 _setup_jester::
+    00000184 E8 F8            [16]  398 	add	sp, #-8
+    00000186 F8 04            [12]  399 	ldhl	sp,	#4
+    00000188 7B               [ 4]  400 	ld	a, e
+    00000189 22               [ 8]  401 	ld	(hl+), a
+    0000018A 72               [ 8]  402 	ld	(hl), d
+    0000018B F8 02            [12]  403 	ldhl	sp,	#2
+    0000018D 79               [ 4]  404 	ld	a, c
+    0000018E 22               [ 8]  405 	ld	(hl+), a
+    0000018F 70               [ 8]  406 	ld	(hl), b
+                                    407 ;jester.h:11: set_sprite_data(32, jester_size, jester);
+    00000190 11r00r00         [12]  408 	ld	de, #_jester
+    00000193 D5               [16]  409 	push	de
+    00000194 21 20 10         [12]  410 	ld	hl, #0x1020
+    00000197 E5               [16]  411 	push	hl
+    00000198 CDr00r00         [24]  412 	call	_set_sprite_data
+    0000019B E8 04            [16]  413 	add	sp, #4
+                                    414 ;jester.h:13: for (int i = 0; i < jester_size; i++)
+    0000019D F8 07            [12]  415 	ldhl	sp,	#7
+    0000019F 36 00            [12]  416 	ld	(hl), #0x00
+    000001A1                        417 00109$:
+    000001A1 F8 07            [12]  418 	ldhl	sp,	#7
+    000001A3 7E               [ 8]  419 	ld	a, (hl)
+    000001A4 D6 10            [ 8]  420 	sub	a, #0x10
+    000001A6 30 27            [12]  421 	jr	NC, 00101$
+                                    422 ;jester.h:15: set_sprite_tile(i+16, jester_tilemap[i] + 32);
+    000001A8 11r00r00         [12]  423 	ld	de, #_jester_tilemap
+    000001AB 6E               [ 8]  424 	ld	l, (hl)
+    000001AC 26 00            [ 8]  425 	ld	h, #0x00
+    000001AE 19               [ 8]  426 	add	hl, de
+    000001AF 33               [ 8]  427 	inc	sp
+    000001B0 33               [ 8]  428 	inc	sp
+    000001B1 5D               [ 4]  429 	ld	e, l
+    000001B2 54               [ 4]  430 	ld	d, h
+    000001B3 D5               [16]  431 	push	de
+    000001B4 1A               [ 8]  432 	ld	a, (de)
+    000001B5 C6 20            [ 8]  433 	add	a, #0x20
+    000001B7 4F               [ 4]  434 	ld	c, a
+    000001B8 F8 07            [12]  435 	ldhl	sp,	#7
+    000001BA 7E               [ 8]  436 	ld	a, (hl)
+    000001BB C6 10            [ 8]  437 	add	a, #0x10
+    000001BD 5F               [ 4]  438 	ld	e, a
+                                    439 ;c:\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    000001BE AF               [ 4]  440 	xor	a, a
+    000001BF 6B               [ 4]  441 	ld	l, e
+    000001C0 67               [ 4]  442 	ld	h, a
+    000001C1 29               [ 8]  443 	add	hl, hl
+    000001C2 29               [ 8]  444 	add	hl, hl
+    000001C3 11r00r00         [12]  445 	ld	de, #_shadow_OAM
+    000001C6 19               [ 8]  446 	add	hl, de
+    000001C7 23               [ 8]  447 	inc	hl
+    000001C8 23               [ 8]  448 	inc	hl
+    000001C9 71               [ 8]  449 	ld	(hl), c
+                                    450 ;jester.h:13: for (int i = 0; i < jester_size; i++)
+    000001CA F8 07            [12]  451 	ldhl	sp,	#7
+    000001CC 34               [12]  452 	inc	(hl)
+    000001CD 18 D2            [12]  453 	jr	00109$
+    000001CF                        454 00101$:
+                                    455 ;jester.h:20: int sprite_index = 16;
+    000001CF 01 10 00         [12]  456 	ld	bc, #0x0010
+                                    457 ;jester.h:22: for (int row = 0; row < 4; row++)
+    000001D2 F8 06            [12]  458 	ldhl	sp,	#6
+    000001D4 36 00            [12]  459 	ld	(hl), #0x00
+    000001D6                        460 00115$:
+    000001D6 F8 06            [12]  461 	ldhl	sp,	#6
+    000001D8 7E               [ 8]  462 	ld	a, (hl)
+    000001D9 D6 04            [ 8]  463 	sub	a, #0x04
+    000001DB 30 62            [12]  464 	jr	NC, 00105$
+                                    465 ;jester.h:24: for (int col = 0; col < 4; col++)
+    000001DD 23               [ 8]  466 	inc	hl
+    000001DE 36 00            [12]  467 	ld	(hl), #0x00
+    000001E0                        468 00112$:
+    000001E0 F8 07            [12]  469 	ldhl	sp,	#7
+    000001E2 7E               [ 8]  470 	ld	a, (hl)
+    000001E3 D6 04            [ 8]  471 	sub	a, #0x04
+    000001E5 30 53            [12]  472 	jr	NC, 00127$
+                                    473 ;jester.h:26: move_sprite(sprite_index, start_x + col * tile_width, start_y + row * tile_height);
+    000001E7 F8 02            [12]  474 	ldhl	sp,	#2
+    000001E9 3A               [ 8]  475 	ld	a, (hl-)
+    000001EA 77               [ 8]  476 	ld	(hl), a
+    000001EB F8 06            [12]  477 	ldhl	sp,	#6
+    000001ED 7E               [ 8]  478 	ld	a, (hl)
+    000001EE 87               [ 4]  479 	add	a, a
+    000001EF 87               [ 4]  480 	add	a, a
+    000001F0 87               [ 4]  481 	add	a, a
+    000001F1 F8 01            [12]  482 	ldhl	sp,	#1
+    000001F3 86               [ 8]  483 	add	a, (hl)
+    000001F4 2B               [ 8]  484 	dec	hl
+    000001F5 77               [ 8]  485 	ld	(hl), a
+    000001F6 F8 04            [12]  486 	ldhl	sp,	#4
+    000001F8 7E               [ 8]  487 	ld	a, (hl)
+    000001F9 F8 01            [12]  488 	ldhl	sp,	#1
+    000001FB 77               [ 8]  489 	ld	(hl), a
+    000001FC F8 07            [12]  490 	ldhl	sp,	#7
+    000001FE 7E               [ 8]  491 	ld	a, (hl)
+    000001FF 87               [ 4]  492 	add	a, a
+    00000200 87               [ 4]  493 	add	a, a
+    00000201 87               [ 4]  494 	add	a, a
+    00000202 F8 01            [12]  495 	ldhl	sp,	#1
+    00000204 86               [ 8]  496 	add	a, (hl)
+    00000205 77               [ 8]  497 	ld	(hl), a
+    00000206 59               [ 4]  498 	ld	e, c
+                                    499 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000207 AF               [ 4]  500 	xor	a, a
+    00000208 6B               [ 4]  501 	ld	l, e
+    00000209 67               [ 4]  502 	ld	h, a
+    0000020A 29               [ 8]  503 	add	hl, hl
+    0000020B 29               [ 8]  504 	add	hl, hl
+    0000020C 11r00r00         [12]  505 	ld	de, #_shadow_OAM
+    0000020F 19               [ 8]  506 	add	hl, de
+    00000210 5D               [ 4]  507 	ld	e, l
+    00000211 54               [ 4]  508 	ld	d, h
+                                    509 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000212 F8 00            [12]  510 	ldhl	sp,	#0
+    00000214 2A               [ 8]  511 	ld	a, (hl+)
+    00000215 12               [ 8]  512 	ld	(de), a
+    00000216 13               [ 8]  513 	inc	de
+    00000217 7E               [ 8]  514 	ld	a, (hl)
+    00000218 12               [ 8]  515 	ld	(de), a
+                                    516 ;jester.h:27: sprite_index++;
+    00000219 03               [ 8]  517 	inc	bc
+                                    518 ;jester.h:28: if (sprite_index > 31) // Adjusted to 31 since we have 16 sprites and start from 16
+    0000021A 58               [ 4]  519 	ld	e, b
+    0000021B 16 00            [ 8]  520 	ld	d, #0x00
+    0000021D 3E 1F            [ 8]  521 	ld	a, #0x1f
+    0000021F B9               [ 4]  522 	cp	a, c
+    00000220 3E 00            [ 8]  523 	ld	a, #0x00
+    00000222 98               [ 4]  524 	sbc	a, b
+    00000223 CB 7B            [ 8]  525 	bit	7, e
+    00000225 28 07            [12]  526 	jr	Z, 00171$
+    00000227 CB 7A            [ 8]  527 	bit	7, d
+    00000229 20 08            [12]  528 	jr	NZ, 00172$
+    0000022B BF               [ 4]  529 	cp	a, a
+    0000022C 18 05            [12]  530 	jr	00172$
+    0000022E                        531 00171$:
+    0000022E CB 7A            [ 8]  532 	bit	7, d
+    00000230 28 01            [12]  533 	jr	Z, 00172$
+    00000232 37               [ 4]  534 	scf
+    00000233                        535 00172$:
+    00000233 38 05            [12]  536 	jr	C, 00127$
+                                    537 ;jester.h:24: for (int col = 0; col < 4; col++)
+    00000235 F8 07            [12]  538 	ldhl	sp,	#7
+    00000237 34               [12]  539 	inc	(hl)
+    00000238 18 A6            [12]  540 	jr	00112$
+    0000023A                        541 00127$:
+                                    542 ;jester.h:22: for (int row = 0; row < 4; row++)
+    0000023A F8 06            [12]  543 	ldhl	sp,	#6
+    0000023C 34               [12]  544 	inc	(hl)
+    0000023D 18 97            [12]  545 	jr	00115$
+    0000023F                        546 00105$:
+                                    547 ;jester.h:33: SHOW_SPRITES; // Show the sprites on the screen
+    0000023F F0r00            [12]  548 	ldh	a, (_LCDC_REG + 0)
+    00000241 F6 02            [ 8]  549 	or	a, #0x02
+    00000243 E0r00            [12]  550 	ldh	(_LCDC_REG + 0), a
+                                    551 ;jester.h:34: }
+    00000245 E8 08            [16]  552 	add	sp, #8
+    00000247 C9               [16]  553 	ret
+                                    554 ;jester.h:36: void setup_jester_home()
+                                    555 ;	---------------------------------
+                                    556 ; Function setup_jester_home
+                                    557 ; ---------------------------------
+    00000248                        558 _setup_jester_home::
+                                    559 ;jester.h:38: setup_jester(100, 100);
+    00000248 01 64 00         [12]  560 	ld	bc, #0x0064
+    0000024B 50               [ 4]  561 	ld	d, b
+    0000024C 59               [ 4]  562 	ld	e, c
+                                    563 ;jester.h:39: }
+    0000024D C3r84r01         [16]  564 	jp	_setup_jester
+                                    565 ;main.c:28: void main()
+                                    566 ;	---------------------------------
+                                    567 ; Function main
+                                    568 ; ---------------------------------
+    00000250                        569 _main::
+                                    570 ;main.c:30: DISPLAY_ON;
+    00000250 F0r00            [12]  571 	ldh	a, (_LCDC_REG + 0)
+    00000252 F6 80            [ 8]  572 	or	a, #0x80
+    00000254 E0r00            [12]  573 	ldh	(_LCDC_REG + 0), a
+                                    574 ;main.c:32: setup_select_menu_background();
+    00000256 CDr7Fr00         [24]  575 	call	_setup_select_menu_background
+                                    576 ;main.c:34: setup_cat(32, 80);     // Set up the cat sprite at position (32, 80)
+    00000259 01 50 00         [12]  577 	ld	bc, #0x0050
+    0000025C 11 20 00         [12]  578 	ld	de, #0x0020
+    0000025F CDrBEr00         [24]  579 	call	_setup_cat
+                                    580 ;main.c:35: setup_jester(110, 80); // Set up the jester sprite at position (110, 80)
+    00000262 01 50 00         [12]  581 	ld	bc, #0x0050
+    00000265 11 6E 00         [12]  582 	ld	de, #0x006e
+    00000268 CDr84r01         [24]  583 	call	_setup_jester
+                                    584 ;main.c:37: selected_pet = choose_pet();
+    0000026B CDrA9r00         [24]  585 	call	_choose_pet
+    0000026E EAr00r00         [16]  586 	ld	(#_selected_pet),a
+                                    587 ;main.c:38: clear_background();
+    00000271 CDrB2r02         [24]  588 	call	_clear_background
+                                    589 ;main.c:39: clear_sprites();
+    00000274 CDrD6r02         [24]  590 	call	_clear_sprites
+                                    591 ;main.c:42: choose_name();
+    00000277 CDr00r00         [24]  592 	call	_choose_name
+                                    593 ;main.c:43: keyboard_input_loop(); // This replaces the while loop from the original code
+    0000027A CDr00r00         [24]  594 	call	_keyboard_input_loop
+                                    595 ;main.c:45: if (pet_has_name)
+    0000027D FAr00r00         [16]  596 	ld	a, (#_pet_has_name)
+    00000280 B7               [ 4]  597 	or	a, a
+    00000281 28 0C            [12]  598 	jr	Z, 00102$
+                                    599 ;c:\gbdk\include\gb\gb.h:1475: SCX_REG+=x, SCY_REG+=y;
+    00000283 F0r00            [12]  600 	ldh	a, (_SCX_REG + 0)
+    00000285 C6 04            [ 8]  601 	add	a, #0x04
+    00000287 E0r00            [12]  602 	ldh	(_SCX_REG + 0), a
+                                    603 ;main.c:48: clear_background();
+    00000289 CDrB2r02         [24]  604 	call	_clear_background
+                                    605 ;main.c:49: clear_sprites();
+    0000028C CDrD6r02         [24]  606 	call	_clear_sprites
+    0000028F                        607 00102$:
+                                    608 ;main.c:52: if (selected_pet == 0)
+    0000028F FAr00r00         [16]  609 	ld	a, (#_selected_pet)
+    00000292 B7               [ 4]  610 	or	a, a
+    00000293 20 0C            [12]  611 	jr	NZ, 00106$
+                                    612 ;main.c:54: clear_background();
+    00000295 CDrB2r02         [24]  613 	call	_clear_background
+                                    614 ;main.c:55: clear_sprites();
+    00000298 CDrD6r02         [24]  615 	call	_clear_sprites
+                                    616 ;main.c:56: setup_home_background_cat();
+    0000029B CDr00r00         [24]  617 	call	_setup_home_background_cat
+                                    618 ;main.c:57: setup_cat_home();
+    0000029E C3r7Cr01         [16]  619 	jp	_setup_cat_home
+    000002A1                        620 00106$:
+                                    621 ;main.c:59: else if (selected_pet == 1)
+    000002A1 FAr00r00         [16]  622 	ld	a, (#_selected_pet)
+    000002A4 3D               [ 4]  623 	dec	a
+    000002A5 C0               [20]  624 	ret	NZ
+                                    625 ;main.c:61: clear_background();
+    000002A6 CDrB2r02         [24]  626 	call	_clear_background
+                                    627 ;main.c:62: clear_sprites();
+    000002A9 CDrD6r02         [24]  628 	call	_clear_sprites
+                                    629 ;main.c:63: setup_home_background_dog();
+    000002AC CDr30r00         [24]  630 	call	_setup_home_background_dog
+                                    631 ;main.c:65: setup_jester_home();
+                                    632 ;main.c:67: }
+    000002AF C3r48r02         [16]  633 	jp	_setup_jester_home
+                                    634 ;main.c:69: void clear_background()
+                                    635 ;	---------------------------------
+                                    636 ; Function clear_background
+                                    637 ; ---------------------------------
+    000002B2                        638 _clear_background::
+                                    639 ;main.c:71: for (UBYTE x = 0; x < 20; x++) {
+    000002B2 16 00            [ 8]  640 	ld	d, #0x00
+    000002B4                        641 00107$:
+    000002B4 7A               [ 4]  642 	ld	a, d
+    000002B5 D6 14            [ 8]  643 	sub	a, #0x14
+    000002B7 30 16            [12]  644 	jr	NC, 00102$
+                                    645 ;main.c:72: for (UBYTE y = 0; y < 18; y++) {
+    000002B9 1E 00            [ 8]  646 	ld	e, #0x00
+    000002BB                        647 00104$:
+    000002BB 7B               [ 4]  648 	ld	a, e
+    000002BC D6 12            [ 8]  649 	sub	a, #0x12
+    000002BE 30 0C            [12]  650 	jr	NC, 00108$
+                                    651 ;main.c:73: set_bkg_tile_xy(x, y, 0);
+    000002C0 D5               [16]  652 	push	de
+    000002C1 AF               [ 4]  653 	xor	a, a
+    000002C2 F5               [16]  654 	push	af
+    000002C3 33               [ 8]  655 	inc	sp
+    000002C4 7A               [ 4]  656 	ld	a, d
+    000002C5 CDr00r00         [24]  657 	call	_set_bkg_tile_xy
+    000002C8 D1               [12]  658 	pop	de
+                                    659 ;main.c:72: for (UBYTE y = 0; y < 18; y++) {
+    000002C9 1C               [ 4]  660 	inc	e
+    000002CA 18 EF            [12]  661 	jr	00104$
+    000002CC                        662 00108$:
+                                    663 ;main.c:71: for (UBYTE x = 0; x < 20; x++) {
+    000002CC 14               [ 4]  664 	inc	d
+    000002CD 18 E5            [12]  665 	jr	00107$
+    000002CF                        666 00102$:
+                                    667 ;main.c:76: HIDE_BKG;
+    000002CF F0r00            [12]  668 	ldh	a, (_LCDC_REG + 0)
+    000002D1 E6 FE            [ 8]  669 	and	a, #0xfe
+    000002D3 E0r00            [12]  670 	ldh	(_LCDC_REG + 0), a
+                                    671 ;main.c:77: }
+    000002D5 C9               [16]  672 	ret
+                                    673 ;main.c:79: void clear_sprites()
+                                    674 ;	---------------------------------
+                                    675 ; Function clear_sprites
+                                    676 ; ---------------------------------
+    000002D6                        677 _clear_sprites::
+                                    678 ;main.c:81: for (UBYTE i = 1; i < 32; i++)
+    000002D6 0E 01            [ 8]  679 	ld	c, #0x01
+    000002D8                        680 00105$:
+    000002D8 79               [ 4]  681 	ld	a, c
+    000002D9 D6 20            [ 8]  682 	sub	a, #0x20
+    000002DB 30 18            [12]  683 	jr	NC, 00101$
+                                    684 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000002DD 69               [ 4]  685 	ld	l, c
+    000002DE 26 00            [ 8]  686 	ld	h, #0x00
+    000002E0 29               [ 8]  687 	add	hl, hl
+    000002E1 29               [ 8]  688 	add	hl, hl
+    000002E2 5D               [ 4]  689 	ld	e, l
+    000002E3 54               [ 4]  690 	ld	d, h
+    000002E4 21r00r00         [12]  691 	ld	hl, #_shadow_OAM
+    000002E7 19               [ 8]  692 	add	hl, de
+                                    693 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000002E8 AF               [ 4]  694 	xor	a, a
+    000002E9 22               [ 8]  695 	ld	(hl+), a
+    000002EA 77               [ 8]  696 	ld	(hl), a
+                                    697 ;c:\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    000002EB 21r01r00         [12]  698 	ld	hl,#_shadow_OAM + 1
+    000002EE 19               [ 8]  699 	add	hl,de
+    000002EF 23               [ 8]  700 	inc	hl
+    000002F0 36 00            [12]  701 	ld	(hl), #0x00
+                                    702 ;main.c:81: for (UBYTE i = 1; i < 32; i++)
+    000002F2 0C               [ 4]  703 	inc	c
+    000002F3 18 E3            [12]  704 	jr	00105$
+    000002F5                        705 00101$:
+                                    706 ;main.c:86: HIDE_SPRITES;
+    000002F5 F0r00            [12]  707 	ldh	a, (_LCDC_REG + 0)
+    000002F7 E6 FD            [ 8]  708 	and	a, #0xfd
+    000002F9 E0r00            [12]  709 	ldh	(_LCDC_REG + 0), a
+                                    710 ;main.c:87: }
+    000002FB C9               [16]  711 	ret
+                                    712 	.area _CODE
+                                    713 	.area _INITIALIZER
+    00000000                        714 __xinit__selected_pet:
+    00000000 00                     715 	.db #0x00	; 0
+                                    716 	.area _CABS (ABS)
