@@ -31,8 +31,8 @@ void main()
 
     setup_select_menu_background();
 
-    setup_cat(32, 80);     // Set up the cat sprite at position (32, 80)
-    setup_jester(110, 80); // Set up the jester sprite at position (110, 80)
+    setup_cat(32, 80);
+    setup_jester(110, 80);
 
     selected_pet = choose_pet();
     clear_background();
@@ -40,7 +40,7 @@ void main()
 
     // Initialize keyboard and name selection
     choose_name();
-    keyboard_input_loop(); // This replaces the while loop from the original code
+    keyboard_input_loop();
 
     if (pet_has_name)
     {

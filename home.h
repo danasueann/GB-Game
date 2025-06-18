@@ -19,7 +19,6 @@ void setup_home_background_cat()
 }
 void setup_home_background_dog()
 {
-    // Lade Hintergrund-Tiles ab Index 0
     set_bkg_data(0, 216, background_dog);
     set_bkg_tiles(0, 0, 20, 18, background_dog_tilemap);
 

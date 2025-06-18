@@ -3,7 +3,6 @@
 #include "keyboard/keyboardmap.h"
 #include "sprites/cursor.h"
 
-// Constants for cursor movement boundaries
 const UINT8 mincursor_x = 12;
 const UINT8 maxcursor_x = 156;
 const UINT8 mincursor_y = 80;
@@ -138,7 +137,6 @@ void move_cursor_right(void)
 
 UBYTE is_within_keyboard(UINT8 x, UINT8 y)
 {
-    // Häckchen und Abbrechen (checkmark and cancel buttons)
     if ((x == 140 && y == 144) || (x == 156 && y == 144))
     {
         return 1;
@@ -151,7 +149,7 @@ void add_character_to_name(struct Cursor *cursor)
     UINT8 character_index = cursor->row * 10 + cursor->col + 1;
 
     if (name_character_index == 6)
-        return; // Maximum length reached
+        return;
 
     pet_name[name_character_index] = character_index;
     name_character_index++;
@@ -166,7 +164,7 @@ void update_pet_name(struct Cursor *cursor)
     }
     else if (cursor->col == 9 && cursor->row == 4)
     {
-        pet_has_name = 1; // Indicate that the player has chosen a name
+        pet_has_name = 1;
         draw_pet_name();
     }
     else
@@ -200,8 +198,6 @@ void performantdelay(UINT8 numloops)
     }
 }
 
-// Character-Lookup-Tabelle basierend auf deinem Keyboard-Layout
-// Du musst diese Tabelle an dein tatsächliches Keyboard-Layout anpassen
 const char keyboard_chars[] = {
     ' ',                                              // Index 0 (leer)
     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', // Row 0 (Index 1-10)
@@ -229,7 +225,6 @@ void array_to_string(char *output_string)
         }
     }
 
-    // String terminieren
     output_string[i] = '\0';
 }
 
